@@ -117,7 +117,8 @@ void MainWindow::creatDockWindows()
 
     // oprDock
     oprDock = new QDockWidget(tr("operate"), this);
-    oprDock->setFeatures(QDockWidget::DockWidgetMovable);
+    oprDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     // addOprPage();
     // oprDock->setWidget();
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
@@ -154,18 +155,20 @@ void MainWindow::creatPage(QDockWidget* dock)
     }
 
     cadOpr = new RibbonPage();
-    button1 = new QToolButton();
+    button1 = new RibbonButton();
     button1->setText(QString("button1"));
-    QToolButton* button2 = new QToolButton();
+    button1->setStyleSheet("background-color:blue;");
+    QToolButton* button2 = new RibbonButton();
     button2->setText(QString("button2"));
-    QToolButton* button3 = new QToolButton();
+    QToolButton* button3 = new RibbonButton();
     button3->setText(QString("button3"));
-    QToolButton* button4 = new QToolButton();
+    QToolButton* button4 = new RibbonButton();
     button4->setText(QString("button4"));
 
-    //cadOpr->addGroup(QString("111"));
     QWidget* wid = new QWidget();
-    QHBoxLayout* Hlayout = new QHBoxLayout(wid);
+    QGridLayout* Hlayout = new QGridLayout(wid);
+    //wid->setMaximumWidth(300);
+    //wid->setMinimumWidth(300);
     Hlayout->addWidget(button1);
     Hlayout->addWidget(button2);
     Hlayout->addWidget(button3);
