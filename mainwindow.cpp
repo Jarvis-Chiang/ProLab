@@ -40,8 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
     creatCamButton(camPage);
 
     creatDockWindows();
-    creatAction();
-    creatPage(oprDock);
+    creatConnect();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     const int factor = 5;
     const QRect availableGeometry = screen()->availableGeometry();
@@ -56,7 +55,7 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::creatAction()
+void MainWindow::creatConnect()
 {
     QObject::connect(m_newFile, &QAction::triggered, this, &MainWindow::openFile);
     //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
@@ -113,6 +112,8 @@ void MainWindow::creatDockWindows()
     logDock->setFeatures(QDockWidget::DockWidgetVerticalTitleBar);
     resizeDocks({ logDock }, { 400 }, Qt::Vertical);
     LogText = new QPlainTextEdit();
+    QPalette palette = LogText->palette();
+    palette.setColor(QPalette::Base, QColor(Qt::blue));
     LogText->setReadOnly(true);
     addLog(LogText, "hellow ProLab", MainWindow::INFO);
     addLog(LogText, "hellow ProLab", MainWindow::WARNNING);
@@ -127,6 +128,7 @@ void MainWindow::creatDockWindows()
     oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     // addOprPage();
     // oprDock->setWidget();
+    creatOprPage(oprDock);
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // graphWidget
@@ -175,13 +177,13 @@ void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVA
     }
 }
 
-void MainWindow::creatPage(QDockWidget* dock)
+void MainWindow::creatOprPage(QDockWidget* dock)
 {
     QLayout* Lay = dock->layout();
     if (Lay) {
         // Çå¿Õ×é¼þ
     }
-
+    
     cadOpr = new RibbonPage();
     button1 = new RibbonButton();
     button1->setText(QString("button1"));

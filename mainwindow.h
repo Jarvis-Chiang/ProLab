@@ -18,7 +18,7 @@ public:
     explicit MainWindow(QWidget* parent = Q_NULL);
     virtual ~MainWindow();
 private:
-    void creatAction();
+    void creatConnect();
     void creatHomeButton(RibbonPage* page);
     void creatCadButton(RibbonPage* page);
     void creatCaeButton(RibbonPage* page);
@@ -31,7 +31,7 @@ private:
 private slots:
     void openFile();
     // add page
-    void creatPage(QDockWidget* dock);
+    void creatOprPage(QDockWidget* dock);
 
 protected:
 
