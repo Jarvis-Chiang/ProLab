@@ -25,8 +25,6 @@ public:
     }
 };
 
-
-
 /* MainWindow */
 class MainWindow : public DemoRibbonWindow
 {
@@ -69,7 +67,7 @@ protected:
     QDockWidget* treeDock;
     QDockWidget* logDock;
     QDockWidget* oprDock;
-    QWidget* graphWidget;       // 在cpp文件中将new一个OSGwidget
+    QWidget* graphWidget;      
     QWidget* treeItem;
 
     // log textbrowser 

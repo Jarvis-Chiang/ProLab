@@ -70,22 +70,22 @@ void MainWindow::creatHomeButton(RibbonPage* page)
     RibbonGroup* groupHome = page->addGroup(QStringLiteral("文件操作"));
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupHome);
     m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), QStringLiteral("new"), Qt::ToolButtonTextUnderIcon);
-    m_addDock = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建文件"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建文件"), Qt::ToolButtonTextUnderIcon);
+    m_addDock = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
     toolBar->addSeparator();
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建文件"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral("C:/Users/49769/Desktop/plIcon.png")), QStringLiteral("新建文件2"), Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral("C:/Users/49769/Desktop/plIcon.png")), QStringLiteral("新建\n文件2"), Qt::ToolButtonTextUnderIcon);
     groupHome->addControl(toolBar);
 }
 
 
 void MainWindow::creatCadButton(RibbonPage* page)
 {
-    RibbonGroup* groupCad = page->addGroup(QStringLiteral("文件操作"));
+    RibbonGroup* groupCad = page->addGroup(QStringLiteral("文件\n操作"));
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
     m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), QStringLiteral("new"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建文件"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建文件"), Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
     groupCad->addControl(toolBar);
 }
 
@@ -133,7 +133,6 @@ void MainWindow::creatDockWindows()
     // addOprPage();
     // oprDock->setWidget();
     creatOprPage(oprDock);
-    oprDock->setWidget(oprWidget);
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // creat graphWidget
@@ -165,13 +164,13 @@ void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVA
     QString log;
     // set text format
     QTextCharFormat fmt;
-    fmt.setFontPointSize(12);
+    fmt.setFontPointSize(9);
     logtext->mergeCurrentCharFormat(fmt);
 
     switch (level)
     {
     case MainWindow::INFO:
-        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [INFO\t\t") + QString("]\t") + message;
+        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [INFO\t") + QString("]\t") + message;
         logtext->appendPlainText(log);
         break;
     case MainWindow::WARNNING:
