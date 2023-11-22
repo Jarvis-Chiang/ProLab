@@ -6,6 +6,7 @@
 #include <QGroupBox>
 #include <QBoxLayout>
 #include <QTreeWidget>
+#include <QTime>
 
 #include "aboutdialog.h"
 #include "mainwindow.h"
@@ -111,8 +112,13 @@ void MainWindow::creatDockWindows()
     logDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     logDock->setFeatures(QDockWidget::DockWidgetVerticalTitleBar);
     resizeDocks({ logDock }, { 400 }, Qt::Vertical);
-    QLabel* Log = new QLabel(QString("1231221"));
-    logDock->setWidget(Log);
+    LogText = new QPlainTextEdit();
+    LogText->setReadOnly(true);
+    addLog(LogText, "hellow ProLab", MainWindow::INFO);
+    addLog(LogText, "hellow ProLab", MainWindow::WARNNING);
+    addLog(LogText, "hellow ProLab", MainWindow::ERROR);
+    logDock->setWidget(LogText);
+
     addDockWidget(Qt::BottomDockWidgetArea, logDock);
 
     // oprDock
@@ -145,6 +151,28 @@ void MainWindow::creatTreeItem(QDockWidget* treeDock)
     styleGroup->autoFillBackground();
     treeItem->setLayout(mainLayout);
     treeDock->setWidget(treeItem);
+}
+
+void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level)
+{
+    QString log;
+    //QString time = QTime::currentTime().toString("hh:mm:ss");
+
+    switch (level)
+    {
+    case MainWindow::INFO:
+        log = QTime::currentTime().toString("hh:mm:ss") + QString(" [ INFO ] ") + message;
+        logtext->appendPlainText(log);
+        break;
+    case MainWindow::WARNNING:
+        log = QTime::currentTime().toString("hh:mm:ss") + QString(" [ WARNNING ] ") + message;
+        logtext->appendPlainText(log);
+        break;
+    case MainWindow::ERROR:
+        log = QTime::currentTime().toString("hh:mm:ss") + QString(" [ ERROR ] ") + message;
+        logtext->appendPlainText(log);
+        break;
+    }
 }
 
 void MainWindow::creatPage(QDockWidget* dock)
