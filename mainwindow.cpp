@@ -99,39 +99,44 @@ void MainWindow::creatCamButton(RibbonPage* page)
 
 void MainWindow::creatDockWindows()
 {
-    // tree dock
+    // creat tree dock
     treeDock = new QDockWidget(tr("Project Tree View"), this);
     treeDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     treeDock->setFeatures(QDockWidget::DockWidgetMovable);
     creatTreeItem(treeDock);
     addDockWidget(Qt::LeftDockWidgetArea, treeDock);
-    
-   // log dock
-    logDock = new QDockWidget(tr("Log Message"), this);
+   // creat log dock
+    myLogWidget* logWidget = new myLogWidget;
+    logDock = new QDockWidget(tr("Log Message"));
     logDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     logDock->setFeatures(QDockWidget::DockWidgetVerticalTitleBar);
-    resizeDocks({ logDock }, { 400 }, Qt::Vertical);
+    //resizeDocks({ logDock }, { 400 }, Qt::Vertical);
+    logDock->setWidget(logWidget);
     LogText = new QPlainTextEdit();
-    QPalette palette = LogText->palette();
-    palette.setColor(QPalette::Base, QColor(Qt::blue));
+    //LogText->setStyleSheet(QString("background-color: #E7EEF6;"));
     LogText->setReadOnly(true);
-    addLog(LogText, "hellow ProLab", MainWindow::INFO);
-    addLog(LogText, "hellow ProLab", MainWindow::WARNNING);
-    addLog(LogText, "hellow ProLab", MainWindow::ERROR);
-    logDock->setWidget(LogText);
+    for (int i = 0; i < 100; i++) {
+        addLog(LogText, "hello ProLab", MainWindow::INFO);
+        addLog(LogText, "hello ProLab", MainWindow::WARNNING);
+        addLog(LogText, "hello ProLab", MainWindow::ERROR);
+    }
 
+    logDock->setWidget(LogText);
     addDockWidget(Qt::BottomDockWidgetArea, logDock);
 
-    // oprDock
+    // creat operate Dock
+    myOprWidget* oprWidget = new myOprWidget;
     oprDock = new QDockWidget(tr("operate"), this);
     oprDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
     // addOprPage();
     // oprDock->setWidget();
     creatOprPage(oprDock);
+    oprDock->setWidget(oprWidget);
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
-    // graphWidget
+    // creat graphWidget
     graphWidget = new QWidget();
     graphWidget->setStyleSheet("background-color:black;");
     setCentralWidget(graphWidget);
@@ -158,21 +163,28 @@ void MainWindow::creatTreeItem(QDockWidget* treeDock)
 void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level)
 {
     QString log;
-    //QString time = QTime::currentTime().toString("hh:mm:ss");
+    // set text format
+    QTextCharFormat fmt;
+    fmt.setFontPointSize(12);
+    logtext->mergeCurrentCharFormat(fmt);
 
     switch (level)
     {
     case MainWindow::INFO:
-        log = QTime::currentTime().toString("hh:mm:ss") + QString(" [ INFO ] ") + message;
+        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [INFO\t\t") + QString("]\t") + message;
         logtext->appendPlainText(log);
         break;
     case MainWindow::WARNNING:
-        log = QTime::currentTime().toString("hh:mm:ss") + QString(" [ WARNNING ] ") + message;
+        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [WARNNING\t") + QString("]\t") + message;
         logtext->appendPlainText(log);
         break;
     case MainWindow::ERROR:
-        log = QTime::currentTime().toString("hh:mm:ss") + QString(" [ ERROR ] ") + message;
+        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [ERROR\t") + QString("]\t") + message;
+        fmt.setForeground(QColor("red"));
+        logtext->mergeCurrentCharFormat(fmt);
         logtext->appendPlainText(log);
+        fmt.setForeground(QColor("black"));
+        logtext->mergeCurrentCharFormat(fmt);
         break;
     }
 }

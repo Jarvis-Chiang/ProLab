@@ -4,6 +4,29 @@
 #include "DemoRibbonWindow.h"
 #include <QPlainTextEdit>
 
+class myLogWidget : public QWidget
+{
+public:
+    inline QSize sizeHint() const
+    {
+        QSize qsize;
+        qsize.setHeight(50);
+        return qsize;         // 定义dock的大小
+    }
+};
+class myOprWidget : public QWidget
+{
+public:
+    inline QSize sizeHint() const
+    {
+        QSize qsize;
+        qsize.setWidth(300);
+        return qsize;         // 定义dock的大小
+    }
+};
+
+
+
 /* MainWindow */
 class MainWindow : public DemoRibbonWindow
 {
