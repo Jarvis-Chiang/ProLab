@@ -25,8 +25,6 @@ public:
     }
 };
 
-
-
 /* MainWindow */
 class MainWindow : public DemoRibbonWindow
 {
