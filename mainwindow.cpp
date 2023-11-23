@@ -166,8 +166,7 @@ void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVA
     // set text format
     QTextCharFormat fmt;
     fmt.setFontPointSize(9);
-    logtext->mergeCurrentCharFormat(fmt);
-    logtext->document()->setMaximumBlockCount(50);              // set maximum display rows 
+    logtext->document()->setMaximumBlockCount(200);              // set maximum display rows 
 
     switch (level)
     {
@@ -200,7 +199,6 @@ void MainWindow::creatOprPage(QDockWidget* dock)
     cadOpr = new RibbonPage();
     button1 = new RibbonButton();
     button1->setText(QString("button1"));
-    button1->setStyleSheet("background-color:blue;");
     QToolButton* button2 = new RibbonButton();
     button2->setText(QString("button2"));
     QToolButton* button3 = new RibbonButton();
