@@ -167,6 +167,7 @@ void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVA
     QTextCharFormat fmt;
     fmt.setFontPointSize(9);
     logtext->mergeCurrentCharFormat(fmt);
+    logtext->document()->setMaximumBlockCount(50);              // set maximum display rows 
 
     switch (level)
     {
