@@ -29,10 +29,10 @@ MainWindow::MainWindow(QWidget* parent)
     ribbonBar()->setFont(defautFont);
 
 
-    RibbonPage* homePage = ribbonBar()->addPage(QStringLiteral("&开始"));
-    RibbonPage* cadPage = ribbonBar()->addPage(QStringLiteral("&CAD"));
-    RibbonPage* caePage = ribbonBar()->addPage(QStringLiteral("&CAE"));
-    RibbonPage* camPage = ribbonBar()->addPage(QStringLiteral("&CAM"));
+    RibbonPage* homePage = ribbonBar()->addPage("&开始");
+    RibbonPage* cadPage = ribbonBar()->addPage("&CAD");
+    RibbonPage* caePage = ribbonBar()->addPage("&CAE");
+    RibbonPage* camPage = ribbonBar()->addPage("&CAM");
     
     creatHomeButton(homePage);
     creatCadButton(cadPage);
@@ -41,6 +41,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     creatDockWindows();
     creatConnect();
+
+    selectedIndex = treeView->currentIndex();                       // selected row
+
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     const int factor = 5;
     const QRect availableGeometry = screen()->availableGeometry();
@@ -67,21 +71,21 @@ void MainWindow::creatConnect()
 
 void MainWindow::creatHomeButton(RibbonPage* page)
 {
-    RibbonGroup* groupHome = page->addGroup(QStringLiteral("文件操作"));
+    RibbonGroup* groupHome = page->addGroup("文件操作");
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupHome);
-    m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), QStringLiteral("new"), Qt::ToolButtonTextUnderIcon);
-    m_addDock = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
+    m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "new", Qt::ToolButtonTextUnderIcon);
+    m_addDock = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "新建\n文件", Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "新建\n文件", Qt::ToolButtonTextUnderIcon);
     toolBar->addSeparator();
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral("C:/Users/49769/Desktop/plIcon.png")), QStringLiteral("新建\n文件2"), Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "新建\n文件", Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral("C:/Users/49769/Desktop/plIcon.png")), "新建\n文件2", Qt::ToolButtonTextUnderIcon);
     groupHome->addControl(toolBar);
 }
 
 
 void MainWindow::creatCadButton(RibbonPage* page)
 {
-    RibbonGroup* groupCad = page->addGroup(QStringLiteral("文件操作"));
+    RibbonGroup* groupCad = page->addGroup("文件操作");
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
     m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), QStringLiteral("new"), Qt::ToolButtonTextUnderIcon);
     toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
@@ -114,7 +118,7 @@ void MainWindow::creatDockWindows()
     logDock->setWidget(logWidget);
     LogText = new QPlainTextEdit();
     //LogText->setStyleSheet(QString("background-color: #E7EEF6;"));
-    LogText->setReadOnly(true);
+    LogText->setReadOnly(true);                                             // set read only
     for (int i = 0; i < 100; i++) {
         addLog(LogText, "hello ProLab", MainWindow::INFO);
         addLog(LogText, "hello ProLab", MainWindow::WARNNING);
@@ -145,19 +149,55 @@ void MainWindow::creatDockWindows()
 
 void MainWindow::creatTreeItem(QDockWidget* treeDock)
 {
-    treeItem = new QWidget();
-    QWidget* styleGroup = new QWidget();
-    QVBoxLayout* listLayout = new QVBoxLayout();
-    QListWidget* customerList = new QListWidget();
-    for (int i = 0; 10 > i; i++)
-        customerList->addItems(QStringList(QObject::tr("Item %1").arg(i + 1)));
-    listLayout->addWidget(customerList);
-    styleGroup->setLayout(listLayout);
-    QVBoxLayout* mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(styleGroup);
-    styleGroup->autoFillBackground();
-    treeItem->setLayout(mainLayout);
-    treeDock->setWidget(treeItem);
+    //treeItem = new QWidget();
+    //QWidget* styleGroup = new QWidget();
+    //QVBoxLayout* listLayout = new QVBoxLayout();
+    //QListWidget* customerList = new QListWidget();
+    //for (int i = 0; 10 > i; i++)
+    //    customerList->addItems(QStringList(QObject::tr("Item %1").arg(i + 1)));
+    //listLayout->addWidget(customerList);
+    //styleGroup->setLayout(listLayout);
+    //QVBoxLayout* mainLayout = new QVBoxLayout;
+    //mainLayout->addWidget(styleGroup);
+    //styleGroup->autoFillBackground();
+    //treeItem->setLayout(mainLayout);
+    //treeDock->setWidget(treeItem);
+    treeView = new QTreeView;
+    treeView->setHeaderHidden(true);                            // hide header, otherwise display a ugly header
+    QList<QStandardItem*> list_domain;
+    auto item_domain = new QStandardItem("设计域");
+    list_domain.push_back(item_domain);
+
+    QList<QStandardItem*> list_material;
+    auto item_material = new QStandardItem("材料属性");
+    list_material.push_back(item_material);
+
+
+    QList<QStandardItem*> list_boundary;
+    auto item_boundary = new QStandardItem("边界条件");
+    list_boundary.push_back(item_boundary);
+
+    QList<QStandardItem*> list_load;
+    auto item_load = new QStandardItem("载荷设置");
+    list_load.push_back(item_load);
+
+    QList<QStandardItem*> list_optimization;
+    auto item_optimization = new QStandardItem("优化参数");
+    list_optimization.push_back(item_optimization);
+
+    QList<QStandardItem*> list_result;
+    auto item_result = new QStandardItem("结果查看");
+    list_result.push_back(item_result);
+    
+    model.appendRow(list_domain);
+    model.appendRow(list_material);
+    model.appendRow(list_boundary);
+    model.appendRow(list_load);
+    model.appendRow(list_optimization);
+    model.appendRow(list_result);
+
+    treeView->setModel(&model);
+    treeDock->setWidget(treeView);
 }
 
 void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level)

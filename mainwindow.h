@@ -1,8 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#pragma execution_character_set("utf-8")
 
 #include "DemoRibbonWindow.h"
+#include <QTreeView>
 #include <QPlainTextEdit>
+#include <QStandardItemModel>
 
 class myLogWidget : public QWidget
 {
@@ -65,10 +68,14 @@ protected:
 
     // Widget
     QDockWidget* treeDock;
+    QTreeView* treeView;
+    QStandardItemModel model;
+    QModelIndex selectedIndex;
+
     QDockWidget* logDock;
     QDockWidget* oprDock;
     QWidget* graphWidget;       // 在cpp文件中将new一个OSGwidget
-    QWidget* treeItem;
+    //QWidget* treeItem;
 
     // log textbrowser 
     QPlainTextEdit* LogText;
