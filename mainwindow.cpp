@@ -135,8 +135,8 @@ void MainWindow::creatDockWindows()
     oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     // addOprPage();
-    // oprDock->setWidget();
-    creatOprPage(oprDock);
+    oprDock->setWidget(oprWidget);
+    //creatOprPage(oprDock);
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // creat graphWidget
@@ -234,8 +234,6 @@ void MainWindow::creatOprPage(QDockWidget* dock)
 
     QWidget* wid = new QWidget();
     QGridLayout* Hlayout = new QGridLayout(wid);
-    //wid->setMaximumWidth(300);
-    //wid->setMinimumWidth(300);
     Hlayout->addWidget(button1);
     Hlayout->addWidget(button2);
     Hlayout->addWidget(button3);
