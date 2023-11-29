@@ -148,19 +148,6 @@ void MainWindow::creatDockWindows()
 
 void MainWindow::creatTreeItem(QDockWidget* treeDock)
 {
-    //treeItem = new QWidget();
-    //QWidget* styleGroup = new QWidget();
-    //QVBoxLayout* listLayout = new QVBoxLayout();
-    //QListWidget* customerList = new QListWidget();
-    //for (int i = 0; 10 > i; i++)
-    //    customerList->addItems(QStringList(QObject::tr("Item %1").arg(i + 1)));
-    //listLayout->addWidget(customerList);
-    //styleGroup->setLayout(listLayout);
-    //QVBoxLayout* mainLayout = new QVBoxLayout;
-    //mainLayout->addWidget(styleGroup);
-    //styleGroup->autoFillBackground();
-    //treeItem->setLayout(mainLayout);
-    //treeDock->setWidget(treeItem);
     treeView = new QTreeView;
     treeView->setHeaderHidden(true);                            // hide header, otherwise display a ugly header
     QList<QStandardItem*> list_domain;
@@ -205,7 +192,7 @@ void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVA
     // set text format
     QTextCharFormat fmt;
     fmt.setFontPointSize(9);
-    logtext->document()->setMaximumBlockCount(200);              // set maximum display rows 
+    logtext->document()->setMaximumBlockCount(200);                     // set maximum display rows 
 
     switch (level)
     {
@@ -232,7 +219,7 @@ void MainWindow::creatOprPage(QDockWidget* dock)
 {
     QLayout* Lay = dock->layout();
     if (Lay) {
-        // Çå¿Õ×é¼þ
+        // clear components
     }
     
     cadOpr = new RibbonPage();
