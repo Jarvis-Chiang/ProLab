@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget* parent)
     RibbonPage* cadPage = ribbonBar()->addPage("&CAD");
     RibbonPage* caePage = ribbonBar()->addPage("&CAE");
     RibbonPage* camPage = ribbonBar()->addPage("&CAM");
-    
+
     creatHomeButton(homePage);
     creatCadButton(cadPage);
     creatCaeButton(caePage);
@@ -64,7 +64,7 @@ void MainWindow::creatConnect()
     QObject::connect(m_newFile, &QAction::triggered, this, &MainWindow::openFile);
     //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
     //QObject::connect(m_addDock, SIGNAL(button1->triggered()), this, SLOT(creatPage(oprDock)));
-    
+
     // ????
     connect(m_addDock, SIGNAL(m_addDock->triggered()), this, SLOT(openFile()));
 }
@@ -109,7 +109,7 @@ void MainWindow::creatDockWindows()
     treeDock->setFeatures(QDockWidget::DockWidgetMovable);
     creatTreeItem(treeDock);
     addDockWidget(Qt::LeftDockWidgetArea, treeDock);
-   // creat log dock
+    // creat log dock
     myLogWidget* logWidget = new myLogWidget;
     logDock = new QDockWidget(tr("Log Message"));
     logDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -174,7 +174,7 @@ void MainWindow::creatTreeItem(QDockWidget* treeDock)
     QList<QStandardItem*> list_result;
     auto item_result = new QStandardItem("结果查看");
     list_result.push_back(item_result);
-    
+
     model.appendRow(list_domain);
     model.appendRow(list_material);
     model.appendRow(list_boundary);
@@ -221,7 +221,7 @@ void MainWindow::creatOprPage(QDockWidget* dock)
     if (Lay) {
         // clear components
     }
-    
+
     cadOpr = new RibbonPage();
     button1 = new RibbonButton();
     button1->setText(QString("button1"));

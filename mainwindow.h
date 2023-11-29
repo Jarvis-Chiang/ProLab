@@ -74,7 +74,7 @@ protected:
 
     QDockWidget* logDock;
     QDockWidget* oprDock;
-    QWidget* graphWidget;       // new an OSGwidget widget in mianwidow.cpp
+    QWidget* graphWidget;       // 在cpp文件中将new一个OSGwidget
     //QWidget* treeItem;
 
     // log textbrowser 
