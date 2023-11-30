@@ -23,7 +23,7 @@ public:
     inline QSize sizeHint() const
     {
         QSize qsize;
-        qsize.setWidth(300);
+        qsize.setWidth(200);
         return qsize;         // 定义dock的大小
     }
 };
