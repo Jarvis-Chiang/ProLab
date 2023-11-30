@@ -4,6 +4,9 @@
 
 #include "DemoRibbonWindow.h"
 #include "OsgWidget.h"
+#include "TopoOptimizeWidget.h"
+
+
 #include <QTreeView>
 #include <QPlainTextEdit>
 #include <QStandardItemModel>
@@ -52,11 +55,16 @@ private:
     void creatTreeItem(QDockWidget* treeDock);
 
     void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level);
+    //TopoOptimizeWidget* topoOptimizeWidget;
+    DesignZoneWidget* designZoneWidget;
+
+
 
 private slots:
     void openFile();
     // add page
     void creatOprPage(QDockWidget* dock);
+    
 
 protected:
 
