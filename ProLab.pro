@@ -37,7 +37,8 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui \
-    DesignZoneWidget.ui
+    DesignZoneWidget.ui \
+    MaterialSetWidget.ui
 
 
 #RESOURCES += res.qrc
