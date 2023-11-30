@@ -50,6 +50,9 @@
     <ClCompile Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OsgWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="third_part\ribbon\aboutdialog\aboutdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,6 +67,9 @@
     <QtMoc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="OsgWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <QtMoc Include="third_part\ribbon\aboutdialog\aboutdialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -169,8 +175,5 @@
     <None Include="third_part\ribbon\DemoRibbonWindow\res\your_company_logo.png">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
