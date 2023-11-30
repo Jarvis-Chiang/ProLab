@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 # QTITANDIR路径
-QTITANDIR = D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0
+QTITANDIR = E:\Qt\Developer Machines\QtitanRibbon6.5.0
 
 include($$QTITANDIR\src\shared\qtitanstyle.pri)
 include($$QTITANDIR\src\shared\qtitanfastinfoset.pri)
