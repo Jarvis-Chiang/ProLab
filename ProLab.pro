@@ -36,7 +36,9 @@ HEADERS += \
     TopoOptimizeWidget.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    DesignZoneWidget.ui
+
 
 #RESOURCES += res.qrc
 

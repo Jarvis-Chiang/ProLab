@@ -98,6 +98,9 @@
     <QtUic Include="DesignZoneWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="MaterialSetWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">

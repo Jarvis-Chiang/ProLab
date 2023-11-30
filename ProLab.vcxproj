@@ -231,6 +231,7 @@
   <ItemGroup>
     <QtUic Include="DesignZoneWidget.ui" />
     <QtUic Include="mainwindow.ui" />
+    <QtUic Include="MaterialSetWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">

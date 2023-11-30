@@ -130,13 +130,13 @@ void MainWindow::creatDockWindows()
     addDockWidget(Qt::BottomDockWidgetArea, logDock);
 
     // creat operate Dock
-    designZoneWidget = new DesignZoneWidget();
+    TopoOptimizeWidget* topoOptimizeWidget = new TopoOptimizeWidget();
     oprDock = new QDockWidget(tr("operate"), this);
     oprDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     // addOprPage();
-    oprDock->setWidget(designZoneWidget);
+    oprDock->setWidget(topoOptimizeWidget);
     //creatOprPage(oprDock);
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 

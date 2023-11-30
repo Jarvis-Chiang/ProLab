@@ -55,8 +55,8 @@ private:
     void creatTreeItem(QDockWidget* treeDock);
 
     void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level);
-    //TopoOptimizeWidget* topoOptimizeWidget;
-    DesignZoneWidget* designZoneWidget;
+    TopoOptimizeWidget* topoOptimizeWidget;
+    //DesignZoneWidget* designZoneWidget;
 
 
 

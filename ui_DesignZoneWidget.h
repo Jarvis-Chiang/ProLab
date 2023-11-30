@@ -215,7 +215,7 @@ public:
 
 };
 
-namespace Ui {
+namespace Ui_DesignZone {
     class DesignZoneWidget: public Ui_DesignZoneWidget {};
 } // namespace Ui
 
