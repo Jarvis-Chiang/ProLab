@@ -3,6 +3,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "DemoRibbonWindow.h"
+#include "OsgWidget.h"
 #include <QTreeView>
 #include <QPlainTextEdit>
 #include <QStandardItemModel>
@@ -36,7 +37,7 @@ public:
     enum LOGLEVAL {
         INFO = 01,
         WARNNING,
-        ERROR
+        WRONG
     };
 
     explicit MainWindow(QWidget* parent = Q_NULL);

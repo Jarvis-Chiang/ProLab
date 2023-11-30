@@ -15,6 +15,7 @@
 #include "QtnRibbonButton.h"
 
 
+
 /* MainWindow */
 MainWindow::MainWindow(QWidget* parent)
     : DemoRibbonWindow(parent)
@@ -122,7 +123,7 @@ void MainWindow::creatDockWindows()
     for (int i = 0; i < 100; i++) {
         addLog(LogText, "hello ProLab", MainWindow::INFO);
         addLog(LogText, "hello ProLab", MainWindow::WARNNING);
-        addLog(LogText, "hello ProLab", MainWindow::ERROR);
+        addLog(LogText, "hello ProLab", MainWindow::WRONG);
     }
 
     logDock->setWidget(LogText);
@@ -140,9 +141,9 @@ void MainWindow::creatDockWindows()
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // creat graphWidget
-    graphWidget = new QWidget();
-    graphWidget->setStyleSheet("background-color:black;");
-    setCentralWidget(graphWidget);
+    osg::Node* displaynode = osgDB::readNodeFile("D:/osgLIB_and_openLIB/osgLIB/build/data/cow.osg");
+    OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded, displaynode);
+    setCentralWidget(osgWidget);
 
 }
 
@@ -204,7 +205,7 @@ void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVA
         log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [  WARNNING\t") + QString("]\t") + message;
         logtext->appendPlainText(log);
         break;
-    case MainWindow::ERROR:
+    case MainWindow::WRONG:
         log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [   ERROR\t") + QString("]\t") + message;
         fmt.setForeground(QColor("red"));
         logtext->mergeCurrentCharFormat(fmt);
