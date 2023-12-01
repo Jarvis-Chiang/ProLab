@@ -6,7 +6,8 @@
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#pragma once
+#ifndef UI_DESIGNZONEWIDGET_H
+#define UI_DESIGNZONEWIDGET_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -49,9 +50,9 @@ public:
     QWidget *widget_4;
     QHBoxLayout *horizontalLayout_4;
     QSpacerItem *horizontalSpacer_7;
-    QPushButton *pushButton;
+    QPushButton *generateButton;
     QSpacerItem *horizontalSpacer_9;
-    QPushButton *pushButton_2;
+    QPushButton *importDesignGridButton;
     QSpacerItem *horizontalSpacer_8;
     QSpacerItem *verticalSpacer_2;
 
@@ -168,19 +169,20 @@ public:
 
         horizontalLayout_4->addItem(horizontalSpacer_7);
 
-        pushButton = new QPushButton(widget_4);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        generateButton = new QPushButton(widget_4);
+        generateButton->setObjectName(QString::fromUtf8("generateButton"));
 
-        horizontalLayout_4->addWidget(pushButton);
+        horizontalLayout_4->addWidget(generateButton);
 
         horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_4->addItem(horizontalSpacer_9);
 
-        pushButton_2 = new QPushButton(widget_4);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        importDesignGridButton = new QPushButton(widget_4);
+        importDesignGridButton->setObjectName(QString::fromUtf8("importDesignGridButton"));
+        importDesignGridButton->setCheckable(false);
 
-        horizontalLayout_4->addWidget(pushButton_2);
+        horizontalLayout_4->addWidget(importDesignGridButton);
 
         horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -209,8 +211,8 @@ public:
         label->setText(QApplication::translate("DesignZoneWidget", "\351\225\277\357\274\232", nullptr));
         label_2->setText(QApplication::translate("DesignZoneWidget", "\345\256\275\357\274\232", nullptr));
         label_3->setText(QApplication::translate("DesignZoneWidget", "\350\276\271\351\225\277\357\274\232", nullptr));
-        pushButton->setText(QApplication::translate("DesignZoneWidget", "\347\224\237\346\210\220", nullptr));
-        pushButton_2->setText(QApplication::translate("DesignZoneWidget", "\345\257\274\345\205\245\350\256\276\350\256\241\345\237\237\347\275\221\346\240\274", nullptr));
+        generateButton->setText(QApplication::translate("DesignZoneWidget", "\347\224\237\346\210\220", nullptr));
+        importDesignGridButton->setText(QApplication::translate("DesignZoneWidget", "\345\257\274\345\205\245\350\256\276\350\256\241\345\237\237\347\275\221\346\240\274", nullptr));
     } // retranslateUi
 
 };
@@ -221,3 +223,4 @@ namespace Ui_DesignZone {
 
 QT_END_NAMESPACE
 
+#endif // UI_DESIGNZONEWIDGET_H

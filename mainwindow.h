@@ -52,11 +52,10 @@ private:
     void creatCaeButton(RibbonPage* page);
     void creatCamButton(RibbonPage* page);
     void creatDockWindows();
-    void creatTreeItem(QDockWidget* treeDock);
+    //void creatTreeItem(QDockWidget* treeDock);
 
     void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level);
     TopoOptimizeWidget* topoOptimizeWidget;
-    //DesignZoneWidget* designZoneWidget;
 
 
 

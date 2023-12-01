@@ -206,7 +206,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="generateButton">
            <property name="text">
             <string>生成</string>
            </property>
@@ -229,9 +229,12 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="importDesignGridButton">
            <property name="text">
             <string>导入设计域网格</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
            </property>
           </widget>
          </item>

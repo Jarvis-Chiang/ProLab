@@ -49,6 +49,11 @@ public:
     QSpacerItem *horizontalSpacer_5;
     QLineEdit *lineEdit_2;
     QSpacerItem *horizontalSpacer_4;
+    QWidget *widget_6;
+    QHBoxLayout *horizontalLayout_3;
+    QSpacerItem *horizontalSpacer_7;
+    QPushButton *ok;
+    QSpacerItem *horizontalSpacer_8;
     QSpacerItem *verticalSpacer_2;
     QWidget *tab_2;
     QVBoxLayout *verticalLayout_5;
@@ -149,6 +154,26 @@ public:
 
         verticalLayout_2->addWidget(widget_2);
 
+        widget_6 = new QWidget(widget_3);
+        widget_6->setObjectName(QString::fromUtf8("widget_6"));
+        horizontalLayout_3 = new QHBoxLayout(widget_6);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_7);
+
+        ok = new QPushButton(widget_6);
+        ok->setObjectName(QString::fromUtf8("ok"));
+
+        horizontalLayout_3->addWidget(ok);
+
+        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_8);
+
+
+        verticalLayout_2->addWidget(widget_6);
+
 
         verticalLayout_3->addWidget(widget_3);
 
@@ -211,6 +236,7 @@ public:
         groupBox->setTitle(QApplication::translate("MeterialSetWidget", "\346\235\220\346\226\231\350\256\276\347\275\256", nullptr));
         label->setText(QApplication::translate("MeterialSetWidget", "\346\235\250\346\260\217\346\250\241\351\207\217\357\274\232", nullptr));
         label_2->setText(QApplication::translate("MeterialSetWidget", "\346\263\212\346\235\276\346\257\224\357\274\232", nullptr));
+        ok->setText(QApplication::translate("MeterialSetWidget", "\347\241\256\345\256\232", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MeterialSetWidget", "\345\220\204\345\220\221\345\220\214\346\200\247\346\235\220\346\226\231", nullptr));
         pushButton->setText(QApplication::translate("MeterialSetWidget", "\345\257\274\345\205\245\345\274\271\346\200\247\347\237\251\351\230\265", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MeterialSetWidget", "\345\220\204\351\241\271\345\274\202\346\200\247\346\235\220\346\226\231", nullptr));
