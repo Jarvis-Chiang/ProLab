@@ -33,12 +33,20 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     OsgWidget.h \
-    TopoOptimizeWidget.h
+    TopoOptimizeWidget.h \
+    ui_BoundaryCasesWidget.h \
+    ui_DesignZoneWidget.h \
+    ui_LoadSetWidget.h \
+    ui_MaterialSetWidget.h \
+    ui_OptimizeParaWidget.h \
+    ui_ResultCheckWidget.h
 
 FORMS += \
-    mainwindow.ui \
-    DesignZoneWidget.ui \
-    MaterialSetWidget.ui
+    mainwindow.ui
+
+
+
+
 
 
 #RESOURCES += res.qrc

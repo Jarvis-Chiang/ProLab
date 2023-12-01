@@ -29,11 +29,11 @@ class Ui_MeterialSetWidget
 public:
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
-    QVBoxLayout *verticalLayout_6;
+    QHBoxLayout *horizontalLayout_5;
+    QSpacerItem *horizontalSpacer_9;
     QTabWidget *tabWidget;
     QWidget *tab;
     QVBoxLayout *verticalLayout_3;
-    QSpacerItem *verticalSpacer;
     QWidget *widget_3;
     QVBoxLayout *verticalLayout_2;
     QWidget *widget;
@@ -64,26 +64,31 @@ public:
     QPushButton *pushButton;
     QSpacerItem *horizontalSpacer_6;
     QTextEdit *textEdit;
+    QSpacerItem *horizontalSpacer_10;
 
     void setupUi(QWidget *MeterialSetWidget)
     {
         if (MeterialSetWidget->objectName().isEmpty())
             MeterialSetWidget->setObjectName(QString::fromUtf8("MeterialSetWidget"));
-        MeterialSetWidget->resize(388, 351);
+        MeterialSetWidget->resize(400, 351);
         verticalLayout = new QVBoxLayout(MeterialSetWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         groupBox = new QGroupBox(MeterialSetWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
         groupBox->setSizePolicy(sizePolicy);
-        verticalLayout_6 = new QVBoxLayout(groupBox);
-        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        horizontalLayout_5 = new QHBoxLayout(groupBox);
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_9);
+
         tabWidget = new QTabWidget(groupBox);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
@@ -92,10 +97,6 @@ public:
         tab->setObjectName(QString::fromUtf8("tab"));
         verticalLayout_3 = new QVBoxLayout(tab);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_3->addItem(verticalSpacer);
-
         widget_3 = new QWidget(tab);
         widget_3->setObjectName(QString::fromUtf8("widget_3"));
         verticalLayout_2 = new QVBoxLayout(widget_3);
@@ -216,7 +217,11 @@ public:
 
         tabWidget->addTab(tab_2, QString());
 
-        verticalLayout_6->addWidget(tabWidget);
+        horizontalLayout_5->addWidget(tabWidget);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_10);
 
 
         verticalLayout->addWidget(groupBox);

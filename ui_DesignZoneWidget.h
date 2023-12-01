@@ -26,7 +26,6 @@ class Ui_DesignZoneWidget
 {
 public:
     QVBoxLayout *verticalLayout_2;
-    QSpacerItem *verticalSpacer;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout;
     QWidget *widget;
@@ -60,17 +59,13 @@ public:
     {
         if (DesignZoneWidget->objectName().isEmpty())
             DesignZoneWidget->setObjectName(QString::fromUtf8("DesignZoneWidget"));
-        DesignZoneWidget->resize(287, 235);
+        DesignZoneWidget->resize(287, 269);
         verticalLayout_2 = new QVBoxLayout(DesignZoneWidget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_2->addItem(verticalSpacer);
-
         groupBox = new QGroupBox(DesignZoneWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setEnabled(true);
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
@@ -191,12 +186,12 @@ public:
 
         verticalLayout->addWidget(widget_4);
 
-
-        verticalLayout_2->addWidget(groupBox);
-
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout_2->addItem(verticalSpacer_2);
+        verticalLayout->addItem(verticalSpacer_2);
+
+
+        verticalLayout_2->addWidget(groupBox);
 
 
         retranslateUi(DesignZoneWidget);

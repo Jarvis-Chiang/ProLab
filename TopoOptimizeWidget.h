@@ -3,6 +3,10 @@
 
 #include "ui_DesignZoneWidget.h"
 #include "ui_MaterialSetWidget.h"
+#include "ui_OptimizeParaWidget.h"
+#include "ui_ResultCheckWidget.h"
+#include "ui_BoundaryCasesWidget.h"
+#include "ui_LoadSetWidget.h"
 
 #include <QWidget>
 #include <QStackedWidget>
@@ -20,7 +24,7 @@ class DesignZoneWidget : public QWidget
 	Q_OBJECT
 
 public:
-	DesignZoneWidget(QWidget* parent = 0);
+	DesignZoneWidget();
 	~DesignZoneWidget();
 	Ui_DesignZone::DesignZoneWidget* uiDesignZone;
 
@@ -39,9 +43,61 @@ class MaterialSetWidget : public QWidget
 	Q_OBJECT
 
 public:
-	MaterialSetWidget(QWidget* parent = 0);
+	MaterialSetWidget();
 	~MaterialSetWidget();
 	Ui_Material::MeterialSetWidget* uiMaterialSet;
+};
+
+//边界条件设置
+class BoundaryCasesWidget : public QWidget
+{
+
+	Q_OBJECT
+
+public:
+	BoundaryCasesWidget();
+	~BoundaryCasesWidget();
+	Ui_BoundaryCases::BoundaryCasesWidget* uiBoundaryCases;
+};
+
+//载荷设置
+class LoadSetWidget : public QWidget
+{
+
+	Q_OBJECT
+
+public:
+	LoadSetWidget();
+	~LoadSetWidget();
+	Ui_LoadSet::LoadSetWidget* uiLoadSet;
+
+};
+
+
+
+
+//优化参数设置
+class OptimizeParaWidget : public QWidget
+{
+	Q_OBJECT
+
+public:
+	OptimizeParaWidget();
+	~OptimizeParaWidget();
+	Ui_OptimizePara::OptimizeParaWidget* uiOptimizePara;
+};
+
+//结果查看
+class ResultCheckWidget : public QWidget
+{
+
+	Q_OBJECT
+
+public:
+	ResultCheckWidget();
+	~ResultCheckWidget();
+	Ui_Result::ResultCheckWidget* uiRecultCheck;
+
 };
 
 class TopoOptimizeWidget : public QWidget
@@ -63,7 +119,10 @@ public:
 private:
 	DesignZoneWidget* designZoneWidget;
 	MaterialSetWidget* materialSetWidget;
-	QSharedPointer<QGridLayout> gridLayout;
+	OptimizeParaWidget* optimizeParaWidget;
+	ResultCheckWidget* resultCheckWidget;
+	BoundaryCasesWidget* boundaryCasesWidget;
+	LoadSetWidget* loadSetWidget;
 
 
 public slots:
