@@ -53,6 +53,9 @@
     <ClCompile Include="OsgWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TopoOptimizeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="third_part\ribbon\aboutdialog\aboutdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,12 +73,33 @@
     <ClInclude Include="OsgWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="TopoOptimizeWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="third_part\ribbon\aboutdialog\aboutdialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="ui_BoundaryCasesWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_DesignZoneWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_LoadSetWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_MaterialSetWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_OptimizeParaWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_ResultCheckWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">

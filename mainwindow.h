@@ -4,6 +4,9 @@
 
 #include "DemoRibbonWindow.h"
 #include "OsgWidget.h"
+#include "TopoOptimizeWidget.h"
+
+
 #include <QTreeView>
 #include <QPlainTextEdit>
 #include <QStandardItemModel>
@@ -45,18 +48,22 @@ public:
 private:
     void creatConnect();
     void creatHomeButton(RibbonPage* page);
+    void creatStructureOptiButton(RibbonPage* page);
     void creatCadButton(RibbonPage* page);
     void creatCaeButton(RibbonPage* page);
     void creatCamButton(RibbonPage* page);
     void creatDockWindows();
-    void creatTreeItem(QDockWidget* treeDock);
 
     void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level);
+    TopoOptimizeWidget* topoOptimizeWidget;
+
+
 
 private slots:
     void openFile();
     // add page
     void creatOprPage(QDockWidget* dock);
+    
 
 protected:
 
@@ -76,7 +83,6 @@ protected:
     QDockWidget* logDock;
     QDockWidget* oprDock;
     QWidget* graphWidget;       // 在cpp文件中将new一个OSGwidget
-    //QWidget* treeItem;
 
     // log textbrowser 
     QPlainTextEdit* LogText;

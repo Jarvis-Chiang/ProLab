@@ -196,6 +196,7 @@
   <ItemGroup>
     <ClCompile Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.cpp" />
     <ClCompile Include="OsgWidget.cpp" />
+    <ClCompile Include="TopoOptimizeWidget.cpp" />
     <ClCompile Include="third_part\ribbon\aboutdialog\aboutdialog.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -203,8 +204,15 @@
   <ItemGroup>
     <QtMoc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h" />
     <ClInclude Include="OsgWidget.h" />
+    <QtMoc Include="TopoOptimizeWidget.h" />
     <QtMoc Include="third_part\ribbon\aboutdialog\aboutdialog.h" />
     <QtMoc Include="mainwindow.h" />
+    <ClInclude Include="ui_BoundaryCasesWidget.h" />
+    <ClInclude Include="ui_DesignZoneWidget.h" />
+    <ClInclude Include="ui_LoadSetWidget.h" />
+    <ClInclude Include="ui_MaterialSetWidget.h" />
+    <ClInclude Include="ui_OptimizeParaWidget.h" />
+    <ClInclude Include="ui_ResultCheckWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">

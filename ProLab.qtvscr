@@ -1,14 +1,14 @@
 <FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" FontFamily="Segoe UI" FontSize="12">
   <FlowDocument.Tag><![CDATA[{
-  "timestamp": "2023-11-30 20:30:07",
+  "timestamp": "2023-12-02 11:07:29",
   "files": {
     "E:\\DEV\\ProLab_beta1.0\\ProLab\\ProLab.vcxproj": {
-      "before": "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",
-      "after": "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"
+      "before": "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",
+      "after": "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"
     },
     "E:\\DEV\\ProLab_beta1.0\\ProLab\\ProLab.vcxproj.filters": {
-      "before": "5Vpbj+I2GN3nSv0PlMdKISEJkDTMrAgk23nprraq9gUJmcQQrxI7azszjKr+9zow4IBRyVxItNvRgMAKPt/5znfL5eMv796N32+ytHMPKUME33T7PaPbgTgiMcLrm27BV5rTfX/780/jT5R8hRHviMMxu+kmnOe/6TqLEpgB1stQRAkjK96LSKbH8B6mJIdUz9iyQGmsm4ZhdcU2nc74jsPsAyVFvv0qFkKUckg7dzhKixjedENCs45YhGz3i474G/+F0bcC3sUQc7RCkN7+7bqW7TqGqw0G/kSzl26s+eHI1Zxw5vuG6QwD3/pnrCs/LI3YbhlsOMQlbXZboLFe+Xo45BOgDG5NuV2BlMGxXlnZHTXWd/b/P9h8gBhSwGFcQ6BRP5g54l+bTH1Xs6eBq/l+0NcCw/Ato2/bQb9fV6Aoz73IizYbLyORl3gxXHkkTj0kXhQy74x8l4T5gaj8DkEsMqhGzliuO7AcQ3NcfyZyxrA1xwl8bWgOQj8YmIEf+nUlSbxEiJIISZLMQ1hogSNvw+IXSPG92/8ZMlLQCNZQYObOhoFpm1roTELNHga25rvhTHOMYOpPTcOfWEFdBb7RyPv1jLtFuayUqZcWrh+S1J91dbLD6cgahX1tOpoMNNsaDbWJMRxq5sQyZ6OBOTHDsK5OsnhVy1aSf/WWgHuAZeVrc0bISyXsO2Yz1o/nAHUsmKZTkuViDJCTAU8QjRc5oHxO0XJJ8HwGM/J5+/ELwjF5UBZ6wvmVMeKpV1cdd+pk/QC8b+mHBWnJR7b+guI1FPPOVfZXmYIlKXiMQErW88rnK+FnAOErbv2wFevVADWCqGCcZH45g0rxVOdeDqNEDaJq11KDSALLMHoacaUlMoyevX/6tNlhdwko91eZVkLnKIyejS/h/tOCMpCe1H4tRA211ZIRw2WxnouhcXGq8fnoO5kKVV33EAfW+wXpdQpTCBhsGFUyrWjcDMlGACW/Skydrb5vreHb48nkkVEj+eUUikGB9ZJetORq3blIT+5+CFK5JAGrYXoFSDUvdgzF1NpCLjaLKpk2khp7JUuS1wBU+laBFpWkOFPYL8boUfuqUdnPBXDFhAKpeSKvI6lVXG63TZEXGqC219Mmo86jQiPV1ONzrYvmihO8qWQgM1q1pxINR+3+jaz4g+DnjefiWs0cFLzIcEZI3Mvx+tnOKDH3de1F+BFIU7SmIE8eWzIgRfmSABr3h5v+sGUbLHNjmW3ZQBhs1QcCv13+Rcxa8n3Bm/F8tQKV2b8C9ygiuCfemk/9NYUQrwDmgLWU++L0HeHFCkSwHd0xfGhGd6UTluIL9BbzTdyRwi2SL+FbZJ9ThBvK+bPab/Gb4X9ac8SdQ8bFjb52Uk6czZEWw46B+zabbAnfjOpno66EB2wlLiO3LMHOiBY9wUXvEyVg3dLAUYjL8y1K8Chu/CzEswk5wI8L0YTJ62rB8QmjeCxg93TE7b8=",
-      "after": "5VlRb+I4EN7nk+4f3APi8SSTkISQXCgrEpLdPtzdtqfVviAh4xjiVWJnbaelOt1/PwdKExpOUKoS7V5VEFhhvvnmmxlPHP2Xd+9G79dZ2rnDXBBGr7r9nt7tYIpYTOjqqlvIJXC678c//zT6xNlXjGRHXU7FVTeRMv9N0wRKcAZFLyOIM8GWsodYpsX4Dqcsx1zLxKIgaawZum52lZlOZ3QtcfaBsyLffFULEUkl5p1ritIixlfdiPGsoxax2P6io/5Gnyn5VuDrGFNJlgTz8d+ua1quo7tgMPAnwFq4MfCjoQucaOr7uuHYoW/+M9IaPyyd2JgM1xLTkrYYF2Sk1b4+XfIJcoE3royXMBV4pNVWtleNtK3//w82HzDFHEocnyDQsB9OHfUPJoHvAisIXeD7YR+Euu6bet+ywn7/VIFQnnvIQ+u1lzHkJV6Mlx6LU4+oF8fCOyDfMWF+ICofMYxVBZ1QM6brDkxHB47rT1XN6BZwnNAHtjGI/HBghH7knypJ4iVKlERJkmQeoUoLiry1iM+Q4nv3/xYLVnCET1Bg6k7t0LAMEDmTCFh2aAHfjabA0cPADwzdn5jhqQp848j79UC4VbustalzG9cPSeqvU3WyomBoDqM+CIaTAbDMoQ0mum0DY2Ia0+HAmBhRdKpOVfOqt60k/+otoPSgyMrX+oCQx1rYd8xmpO3PAc2xIEgDluVqDKgmA5kQHs9zyOWMk8WC0dkUZ+x28/ELoTG7byz0VPBrY8TjXl0P3PMga0/Auy39aaHy5E+x+kLiFVbzzpvYbzKFC1bImMCUrWa1z2+En0FC39D0/UasVwMcT6Ib+TtDlWzNsB5PoKSZPvX9qpE+G8gqdR7H2sqHKnVeajlIH43trB9lV0uUvaR5KfIep2eoZao86nm+2eNKBoWQLPPLu4kqljFeFKuZGgnnOcequYpe0kML2VTs2bDXEK1mfRfc2lIFyHGKocBvAXk8BDfyM6klcy3wBWlSrm6jGmw3hjY8TwG9RTXQcypIzSlN9/bHiwMuKtidFDfyiA//leevRv6D0ZftP+pmZAYLWWQ0Yyzu5XT1Yuol5o75WfgIpilZcZgnDy05kJJ8wSCP+/a6b7fsg2msTaMtH5jArcZA4bfLv4hFS7Ev5GUiX+89ZfUv4R1BjPbU2+VLf8UxpktIJRQt1b6aTwmdLyHC7ehO8f1ldG9MjqX4Cr3FelNHrrRF8iV8i+xzTuiFav6g9hv8y/B/3nPU0biQ6iS7nZJTozdrMe0EvGtzky3hL6P6wawr4aFYqnOSliXYOtFiJKTa+1QLWLU0cBTq/KlFCR7UyeZcPXzLIX2Yq02Yva4X7N8Yqude28d/438B"
+      "before": "5Vrvb5tGGO7nSfsfLEv7MgmDAdswnFQGQxtpW6t2U6UpknWGs7kO7ujdkTib9nH/9w479uGAapLGoHZRbNkn/D7vz+d97+DfH168mL7cpEnvBlKGCL7oDwdavwdxSCKE1xf9nK8Uq//y8vvvpm8p+QhD3hOXY3bRjznPflJVFsYwBWyQopASRlZ8EJJUjeANTEgGqZqyZY6SSNU1zegLMb3e9IrD9BUlebb9KhYClHBIe1c4TPIIXvQDQtOeWIRs94ue+Jv+jtGnHF5FEHO0QpBe/m3bhmlbmq2MRu5MMZd2pLjBxFasYO66mm6Nfdf4Z6pWflgosRXpbzjEhdnsMkdTtfT1cMlbQBncqnK5AgmDU7W0srtqqu70/39Y8wpiSAGHUYMATYb+3BL/ysxzbcX0fFtxXX+o+JrmGtrQNP3hsGmAwixzQifcbJyUhE7sRHDlkChxkHhRyJya8J0KzDdkymsIIlFBDWrGsO2RYWmKZbtzUTOaqViW7ypjfRS4/kj33cBtGpLYiUVQYhGSOHUQFrHAobNh0RNC8bXr/w4yktMQNojA3J6Pfd3UlcCaBYo59k3FtYO5Ymm+53q65s4Mv2kEPtHQ+bHG3YIuSzT1VOL6Jo163zROZuBNjEkwVLzJbKSYxmSszLTxWNFnhj6fjPSZHgRN4yTJq0xbcfbRWQLuAJYWr01NIE9R2FdszVQ9ngOqY4GXeCTNxBggJwMeIxotMkD5NUXLJcHXc5iSd9uPHxCOyG1lYSCcXxoj7nt12XEPnawegPct/bAgNXnD1h9QtIZi3jmL/N9IRt5kHKXoL3hWoKpLwZLkPEIgIevr0uczGZoChM8o+nabFV8M0CBbc8ZJ6hbDrsySqnNP52tczdZye6xmqwSW+Xo/S0tNZL4+Wn5yL+wgXQJK+TX5+mggKfezUFWnlrL0KGPPpUGRs/eJ9RwQewdLb+Zo4ZIcR4DeeYBBds8AjwbbSz74c79wBDWHDK3xHwTvmeZMOD8TEL2H/LzG/CI2J1SQ19mB9uwsJi1wXpPEIJYn3Ith+OezADUgs2rrjeAyX1+LzdfiIYXVk+uD3VWVtvYQMjcr7Z7CBIr0bxlVWlpDarXd/rltbRNXWlti0XZC2gqgtK/E2q1E8fnxZIOU/C3tyygU2ws2iAfhkleHiJNJKqUfSlIuScByUZ4Bck8LEnBnodjrdsA87aJKS1spjX0kCyPPAVgZQsVYUyqKminjZI7u55dthjboY3UJXFIhR9U6kafP1Z4lxX2JAtUB9mFLre5iRYyqqh6f0JxUVxwLedICWWBVfUrZcDRQP5MWv4pR83PwFXdQyK5BzvMUp4REgwyvH+2MAnPPa0/CD0GSoDUFWXzXkQIJypYE0Gg43gzHHetg6BtD70oHwmCnPhD43dqfR6wj3+e8Hc+XGaio/hW4QSHBA/HWfumvKYR4BTAHrKPaF2dxCC9WIITdxB3D23biXkv9Ar3DehP3sXGHxhfwHVqfUYRbqvna2G/x27H/IeeI5w0YF48HdFNyYjdHOkw7Bm66bLIFfDtRr826Ah6wlbj51HEIdkp06Akuep+ggHVHA4c4BO+yCu7E7eKFeKIpA/huIZow+TIuON6xioeJds9UXf4H",
+      "after": "5Vlhb9pIEO3nk+43HOLjScbGNmCfSSps7DbS9dqkV1U6RUKLveDt2bvu7johV/W/3xgCNjEnSFKw2osCAsvMm5k383bWm/zy4sXw5SJNWjeYC8LoWbvb0dotTEMWETo/a+dypljtl+c//zR8x9knHMoW3E7FWTuWMvtNVUUY4xSJTkpCzgSbyU7IUjXCNzhhGeZqKqY5SSJV1zSjDWZareGFxOkrzvJs+RUuBCSRmLcuaJjkET5rB4ynLbiIxeoXLfgbfqDkc44vIkwlmRHMz7/YtmHalmYrvZ47UsypHSluMLAVKxi7rqZbfd81vg7V2g8LJ5Ym/YXEtAhbnOdkqFa+bm55h7jAS1fOZygReKhWrqzuGqor//8f0bzCFHMkcXQAQYOuP7bgXxl5rq2Ynm8rrut3FV/TXEPrmqbf7R5KUJhlTuiEi4WTstCJnQjPHBYlDoEXx8LZQd8+Yn6gUF5jFEEHHdAzhm33DEtTLNsdQ89opmJZvqv09V7g+j3ddwP3UEpiJwZSYqAkTh1CgQsaOgsRPYGK793/KyxYzkN8AANje9z3dVNXAmsUKGbfNxXXDsaKpfme6+maOzL8Qxn4zEPn1x3pBrmsyNRTheuHDOr9oTyZgTcwBkFX8QajnmIag74y0vp9RR8Z+njQ00d6EBzKUyleVdmKs0/OFEkHibR4LXYQuU/CvuNohur2HFAfC7zEY2kGY0A5GciY8GiSIS6vOZlOGb0e45RdLT9+JDRit7ULHUh+ZYy4X6uriXuYZHUDvF7SNxdKT96K+UcSzTHMO0ex/yfL2NtMkpT8g48KVE8pmrJcRgQlbH5d+XykQFNE6BFN3y6r4tkA+6v1Ur5hYVkf9bTur9S4XqfVhbFWp0vIskbv5+fSh7JGH2vZS+6Nra0/iG5HdT4WYsv5B+bryavU4VZNfkvUohLvy+VZZjfJK5nIycRlOY0Qv/OQwOK+ox8Ls7G8pmVzYQtqjAWZ078YXSvHkXB+Zyh6j+Vxg3kDmw0OYnR0oLXawuSEjhsSDFZ5Ir0Yh39/E6D94uTlQrLULXbiZaVEeJrPr2E7Nck4hsFEdOJOOJV1EXqwUarpUMX6pjB3AXKcYKj+Y0DuT8Gl/EAq+lxp9pzUQy4fQdSiXRpaxnkI6FVYAa3r2v5FAWb8unvbo/kOFwF2TcWl3OPDf2nrs5H/AAUqy+2A4DkW1yiXeUpTxqJORuePDr3AXEf+JPwQJQmZc5TFdw05kJBsyhCPuv1Ft9+wD4a+MPSmfGACN5oDwG82/jwSDeU+l6fJfFV7iu6foRsSMtqBt9O3/pxjTGeISiQa6n3YchE6maEQN8M7xben4b227hXkA3qD/QbHFbTB4Av4BqPPOKEn6vmd3C/xTxP/Q82BYyUh4RSomZaD0Zs1WHYC3TS5yBbwp2F9Z9UV8EjM4BljwxSsnGgwExLWPpCAeUMDBzwbabIL7uBUYAIH1xmidxNYhNnztGB7Ywhnxquj8/N/AQ=="
     }
   }
 }]]></FlowDocument.Tag>
@@ -21,7 +21,7 @@
       <Span TextDecorations="Underline">Project Format Conversion</Span>
     </Paragraph>
     <Paragraph Margin="12,8" FontSize="18">
-      <Span>Report generated on 2023-11-30 20:30:07</Span>
+      <Span>Report generated on 2023-12-02 11:07:29</Span>
     </Paragraph>
   </Section>
   <Section>
@@ -192,6 +192,60 @@
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
               <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)]]></Span><Span Background="LightGreen"><![CDATA['=='Debug|x64'">$(QTDIR)\bin\moc]]></Span><Span><![CDATA[.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include E:/DEV/ProLab_beta1.0/ProLab/debug/moc_predefs.h ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/mkspecs/win32-msvc]]></Span><Span><![CDATA[ -IE:/DEV/ProLab_beta1.0/ProLab -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -IE:/DEV/ProLab_beta1.0/ProLab/third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/aboutdialog -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/DemoRibbonWindow ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtOpenGL]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtWidgets]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtGui]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtANGLE]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtCore]]></Span><Span><![CDATA[ -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h -o debug\moc_DemoRibbonWindow.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TopoOptimizeWidget.h;release\moc_predefs.h;]]></Span><Span Background="LightCoral"><![CDATA[E:\QT5.15\5.15.2\MSVC2019_64\bin\moc]]></Span><Span><![CDATA[.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TopoOptimizeWidget.h;release\moc_predefs.h;]]></Span><Span Background="LightGreen"><![CDATA[$(QTDIR)\bin\moc]]></Span><Span><![CDATA[.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)]]></Span><Span Background="LightCoral"><![CDATA['=='Release|x64'">E:\QT5.15\5.15.2\MSVC2019_64\bin\moc]]></Span><Span><![CDATA[.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DNDEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include E:/DEV/ProLab_beta1.0/ProLab/release/moc_predefs.h ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/mkspecs/win32-msvc]]></Span><Span><![CDATA[ -IE:/DEV/ProLab_beta1.0/ProLab -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -IE:/DEV/ProLab_beta1.0/ProLab/third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/aboutdialog -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/DemoRibbonWindow ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtOpenGL]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtWidgets]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtGui]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtANGLE]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtCore]]></Span><Span><![CDATA[ -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o release\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)]]></Span><Span Background="LightGreen"><![CDATA['=='Release|x64'">$(QTDIR)\bin\moc]]></Span><Span><![CDATA[.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DNDEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include E:/DEV/ProLab_beta1.0/ProLab/release/moc_predefs.h ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/mkspecs/win32-msvc]]></Span><Span><![CDATA[ -IE:/DEV/ProLab_beta1.0/ProLab -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -IE:/DEV/ProLab_beta1.0/ProLab/third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/aboutdialog -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/DemoRibbonWindow ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtOpenGL]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtWidgets]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtGui]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtANGLE]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtCore]]></Span><Span><![CDATA[ -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o release\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TopoOptimizeWidget.h;debug\moc_predefs.h;]]></Span><Span Background="LightCoral"><![CDATA[E:\QT5.15\5.15.2\MSVC2019_64\bin\moc]]></Span><Span><![CDATA[.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TopoOptimizeWidget.h;debug\moc_predefs.h;]]></Span><Span Background="LightGreen"><![CDATA[$(QTDIR)\bin\moc]]></Span><Span><![CDATA[.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)]]></Span><Span Background="LightCoral"><![CDATA['=='Debug|x64'">E:\QT5.15\5.15.2\MSVC2019_64\bin\moc]]></Span><Span><![CDATA[.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include E:/DEV/ProLab_beta1.0/ProLab/debug/moc_predefs.h ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/mkspecs/win32-msvc]]></Span><Span><![CDATA[ -IE:/DEV/ProLab_beta1.0/ProLab -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -IE:/DEV/ProLab_beta1.0/ProLab/third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/aboutdialog -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/DemoRibbonWindow ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtOpenGL]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtWidgets]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtGui]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtANGLE]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/QT5.15/5.15.2/MSVC2019_64/include/QtCore]]></Span><Span><![CDATA[ -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o debug\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)]]></Span><Span Background="LightGreen"><![CDATA['=='Debug|x64'">$(QTDIR)\bin\moc]]></Span><Span><![CDATA[.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include E:/DEV/ProLab_beta1.0/ProLab/debug/moc_predefs.h ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/mkspecs/win32-msvc]]></Span><Span><![CDATA[ -IE:/DEV/ProLab_beta1.0/ProLab -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -IE:/DEV/ProLab_beta1.0/ProLab/third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/aboutdialog -IE:/DEV/ProLab_beta1.0/ProLab/third_part/ribbon/DemoRibbonWindow ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtOpenGL]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtWidgets]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtGui]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtANGLE]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I$(QTDIR)/include/QtCore]]></Span><Span><![CDATA[ -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o debug\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
             </Paragraph>
           </TableCell>
         </TableRow>
@@ -627,6 +681,36 @@
         <TableRow>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DNDEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include]]></Span><Span Background="LightCoral"><![CDATA[ E:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/release/moc_predefs]]></Span><Span><![CDATA[.h -I$(QTDIR)/mkspecs/win32-msvc ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab ]]></Span><Span><![CDATA[-I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/OpenSceneGraph-3]]></Span><Span><![CDATA[.6.5-VC2019-64-Debug/include ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/ribbon/aboutdialog]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/ribbon/DemoRibbonWindow]]></Span><Span><![CDATA[ -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o release\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DNDEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include]]></Span><Span><![CDATA[ .]]></Span><Span Background="LightGreen"><![CDATA[/release/moc_predefs]]></Span><Span><![CDATA[.h -I$(QTDIR)/mkspecs/win32-msvc ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[. ]]></Span><Span><![CDATA[-I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[/third_part/OpenSceneGraph-3]]></Span><Span><![CDATA[.6.5-VC2019-64-Debug/include ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[/third_part/ribbon/aboutdialog]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[/third_part/ribbon/DemoRibbonWindow]]></Span><Span><![CDATA[ -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o release\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include]]></Span><Span Background="LightCoral"><![CDATA[ E:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/debug/moc_predefs]]></Span><Span><![CDATA[.h -I$(QTDIR)/mkspecs/win32-msvc ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab ]]></Span><Span><![CDATA[-I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/OpenSceneGraph-3]]></Span><Span><![CDATA[.6.5-VC2019-64-Debug/include ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/ribbon/aboutdialog]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/ribbon/DemoRibbonWindow]]></Span><Span><![CDATA[ -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o debug\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include]]></Span><Span><![CDATA[ .]]></Span><Span Background="LightGreen"><![CDATA[/debug/moc_predefs]]></Span><Span><![CDATA[.h -I$(QTDIR)/mkspecs/win32-msvc ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[. ]]></Span><Span><![CDATA[-I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[/third_part/OpenSceneGraph-3]]></Span><Span><![CDATA[.6.5-VC2019-64-Debug/include ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[/third_part/ribbon/aboutdialog]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[-I]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[/third_part/ribbon/DemoRibbonWindow]]></Span><Span><![CDATA[ -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o debug\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
               <Span><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DNDEBUG -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include]]></Span><Span Background="LightCoral"><![CDATA[ E:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/release/moc_predefs]]></Span><Span><![CDATA[.h -I$(QTDIR)/mkspecs/win32-msvc ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab ]]></Span><Span><![CDATA[-I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/OpenSceneGraph-3]]></Span><Span><![CDATA[.6.5-VC2019-64-Debug/include ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/ribbon/aboutdialog]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-IE:/DEV/ProLab_beta1]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[0/ProLab/third_part/ribbon/DemoRibbonWindow]]></Span><Span><![CDATA[ -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" third_part\ribbon\aboutdialog\aboutdialog.h -o release\moc_aboutdialog.cpp</Command>]]></Span>
             </Paragraph>
           </TableCell>
@@ -863,7 +947,7 @@
           </TableCell>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
-              <Span Background="LightGreen"><![CDATA[      <Compression>default</Compression>]]></Span>
+              <Span Background="LightGreen"><![CDATA[      <InputFile>%(FullPath)</InputFile>]]></Span>
             </Paragraph>
           </TableCell>
         </TableRow>
@@ -873,7 +957,7 @@
           </TableCell>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
-              <Span Background="LightGreen"><![CDATA[      <InputFile>%(FullPath)</InputFile>]]></Span>
+              <Span Background="LightGreen"><![CDATA[      <Compression>default</Compression>]]></Span>
             </Paragraph>
           </TableCell>
         </TableRow>
@@ -1326,25 +1410,127 @@
         <TableRow>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
-              <Span><![CDATA[    ]]></Span><Span Background="LightCoral"><![CDATA[<CustomBuild]]></Span><Span><![CDATA[ Include="third_part\ribbon\aboutdialog\aboutdialog.]]></Span><Span Background="LightCoral"><![CDATA[h">]]></Span>
+              <Span><![CDATA[    ]]></Span><Span Background="LightCoral"><![CDATA[<CustomBuild]]></Span><Span><![CDATA[ Include="TopoOptimizeWidget.]]></Span><Span Background="LightCoral"><![CDATA[h">]]></Span>
             </Paragraph>
           </TableCell>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
-              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[<QtMoc]]></Span><Span><![CDATA[ Include="third_part\ribbon\aboutdialog\aboutdialog.]]></Span><Span Background="LightGreen"><![CDATA[h" />]]></Span>
+              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[<QtMoc]]></Span><Span><![CDATA[ Include="TopoOptimizeWidget.]]></Span><Span Background="LightGreen"><![CDATA[h" />]]></Span>
             </Paragraph>
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
-              <Span><![CDATA[      ]]></Span><Span Background="LightCoral"><![CDATA[<AdditionalInputs]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[Condition="'$(Configuration)|$(Platform)'=='Release|x64'">third_part\ribbon\aboutdialog\aboutdialog]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[h;release\moc_predefs.h;$(QTDIR)\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+              <Span><![CDATA[      ]]></Span><Span Background="LightCoral"><![CDATA[<AdditionalInputs]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TopoOptimizeWidget]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[h;release\moc_predefs.h;$(QTDIR)\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
             </Paragraph>
           </TableCell>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
-              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[<QtMoc]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[Include="mainwindow]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[h" />]]></Span>
+              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[<QtMoc]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[Include="third_part\ribbon\aboutdialog\aboutdialog]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[h" />]]></Span>
             </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      ]]></Span><Span Background="LightCoral"><![CDATA[<Command]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc]]></Span><Span><![CDATA[.]]></Span><Span Background="LightCoral"><![CDATA[exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DNDEBUG -DQT_NO_DEBUG]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightCoral"><![CDATA[-DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include ./release/moc_predefs.h -I$(QTDIR)/mkspecs/win32-msvc -I. -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -I./third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -I./third_part/ribbon/aboutdialog -I./third_part/ribbon/DemoRibbonWindow -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o release\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[<QtMoc]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[Include="mainwindow]]></Span><Span><![CDATA[.]]></Span><Span Background="LightGreen"><![CDATA[h"]]></Span><Span><![CDATA[ ]]></Span><Span Background="LightGreen"><![CDATA[/>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MOC TopoOptimizeWidget.h</Message>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\moc_TopoOptimizeWidget.cpp;%(Outputs)</Outputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TopoOptimizeWidget.h;debug\moc_predefs.h;$(QTDIR)\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe  -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DWIN64 -DQTN_PRIVATE_HEADERS -D_WINDOWS -DQTN_NAMESPACE -DQTN_VERSION_STYLE=2.6.0 -DQTN_VERSION_FASTINFOSET=2.6.0 -DQTN_VERSION_RIBBON=6.5.0 -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include ./debug/moc_predefs.h -I$(QTDIR)/mkspecs/win32-msvc -I. -I"E:/Qt/Developer Machines/QtitanRibbon6.5.0/include" -I./third_part/OpenSceneGraph-3.6.5-VC2019-64-Debug/include -I./third_part/ribbon/aboutdialog -I./third_part/ribbon/DemoRibbonWindow -I$(QTDIR)/include -I$(QTDIR)/include/QtOpenGL -I$(QTDIR)/include/QtWidgets -I$(QTDIR)/include/QtGui -I$(QTDIR)/include/QtANGLE -I$(QTDIR)/include/QtCore -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\include -ID:\application\VS2022\VC\Tools\MSVC\14.36.32532\ATLMFC\include -ID:\application\VS2022\VC\Auxiliary\VS\include -I"D:\Windows Kits\10\include\10.0.22621.0\ucrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\um" -I"D:\Windows Kits\10\\include\10.0.22621.0\\shared" -I"D:\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"D:\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" TopoOptimizeWidget.h -o debug\moc_TopoOptimizeWidget.cpp</Command>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MOC TopoOptimizeWidget.h</Message>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\moc_TopoOptimizeWidget.cpp;%(Outputs)</Outputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    </CustomBuild>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    <CustomBuild Include="third_part\ribbon\aboutdialog\aboutdialog.h">]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">third_part\ribbon\aboutdialog\aboutdialog.h;release\moc_predefs.h;$(QTDIR)\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
           </TableCell>
         </TableRow>
         <TableRow>
@@ -1564,6 +1750,66 @@
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
               <Span Background="LightCoral"><![CDATA[    <ClCompile Include="release\moc_DemoRibbonWindow.cpp">]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    </ClCompile>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    <ClCompile Include="debug\moc_TopoOptimizeWidget.cpp">]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    </ClCompile>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    <ClCompile Include="release\moc_TopoOptimizeWidget.cpp">]]></Span>
             </Paragraph>
           </TableCell>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
@@ -2248,6 +2494,33 @@
         <TableRow>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[    ]]></Span><Span Background="LightCoral"><![CDATA[<CustomBuild]]></Span><Span><![CDATA[ Include="TopoOptimizeWidget.h">]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[<QtMoc]]></Span><Span><![CDATA[ Include="TopoOptimizeWidget.h">]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[    ]]></Span><Span Background="LightCoral"><![CDATA[</CustomBuild>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[    ]]></Span><Span Background="LightGreen"><![CDATA[</QtMoc>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
               <Span><![CDATA[    ]]></Span><Span Background="LightCoral"><![CDATA[<CustomBuild]]></Span><Span><![CDATA[ Include="third_part\ribbon\aboutdialog\aboutdialog.h">]]></Span>
             </Paragraph>
           </TableCell>
@@ -2336,6 +2609,66 @@
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
               <Span Background="LightCoral"><![CDATA[    <ClCompile Include="release\moc_DemoRibbonWindow.cpp">]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Filter>Generated Files</Filter>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    </ClCompile>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    <ClCompile Include="debug\moc_TopoOptimizeWidget.cpp">]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[      <Filter>Generated Files</Filter>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    </ClCompile>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightCoral"><![CDATA[    <ClCompile Include="release\moc_TopoOptimizeWidget.cpp">]]></Span>
             </Paragraph>
           </TableCell>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
@@ -3638,9 +3971,6 @@
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
-        </TableRow>
-        <TableRow>
           <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
             <Paragraph FontFamily="Consolas" Margin="4, 0">
               <Span Background="LightCoral"><![CDATA[      <InputFile>%(FullPath)</InputFile>]]></Span>
@@ -3812,4 +4142,4 @@
     <Paragraph />
   </Section>
 </FlowDocument>
-<!--CwczaBVV8DjW591Q6WxKhD7Ym/xNfcAYtZp/9bIBUU4=-->
+<!--+NxXT/qXj3oWOI+pnS27fWxJ4W91qUyhezzuqUmB3Jw=-->

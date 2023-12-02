@@ -27,14 +27,27 @@ DESTDIR = $$quote($$PWD\build\Debug)
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    OsgWidget.cpp
+    OsgWidget.cpp \
+    TopoOptimizeWidget.cpp
 
 HEADERS += \
     mainwindow.h \
-    OsgWidget.h
+    OsgWidget.h \
+    TopoOptimizeWidget.h \
+    ui_BoundaryCasesWidget.h \
+    ui_DesignZoneWidget.h \
+    ui_LoadSetWidget.h \
+    ui_MaterialSetWidget.h \
+    ui_OptimizeParaWidget.h \
+    ui_ResultCheckWidget.h
 
 FORMS += \
     mainwindow.ui
+
+
+
+
+
 
 #RESOURCES += res.qrc
 
