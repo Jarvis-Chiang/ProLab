@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget* parent)
     // init
     setWindowTitle(QObject::tr("ProLab"));
     setWindowIcon(QIcon(":/res/MainWindow/companyLogo.png"));
-    setStyleByName(QStringLiteral("Office2007Blue"));
+    setStyleByName(QStringLiteral("Office2016Colorful"));
     ribbonBar()->setFrameThemeEnabled();
     QFont defautFont = QApplication::font();
-    defautFont.setPointSize(defautFont.pointSize() + 2);
+    defautFont.setPointSize(defautFont.pointSize() + 1);
     ribbonBar()->setFont(defautFont);
 
 
@@ -66,8 +66,6 @@ MainWindow::~MainWindow()
 void MainWindow::creatConnect()
 {
     QObject::connect(m_newFile, &QAction::triggered, this, &MainWindow::openFile);
-    //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
-    //QObject::connect(m_addDock, SIGNAL(button1->triggered()), this, SLOT(creatPage(oprDock)));
 
     // ????
     connect(m_addDock, SIGNAL(m_addDock->triggered()), this, SLOT(openFile()));
