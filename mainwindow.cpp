@@ -118,6 +118,8 @@ void MainWindow::creatDockWindows()
 {
     // creat tree dock
     treeDock = new QDockWidget(tr("Project Tree View"), this);
+    treeDock->setMaximumWidth(600);
+    treeDock->setMinimumWidth(200);
     treeDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     treeDock->setFeatures(QDockWidget::DockWidgetMovable);
     treeDock->setWidget(topoOptimizeWidget->treeWidget);
@@ -143,6 +145,7 @@ void MainWindow::creatDockWindows()
 
     // creat operate Dock
     oprDock = new QDockWidget(tr("operate"), this);
+    oprDock->setMaximumWidth(600);
     oprDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
