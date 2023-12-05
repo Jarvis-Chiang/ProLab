@@ -39,7 +39,14 @@ HEADERS += \
     ui_LoadSetWidget.h \
     ui_MaterialSetWidget.h \
     ui_OptimizeParaWidget.h \
-    ui_ResultCheckWidget.h
+    ui_ResultCheckWidget.h \
+    ui_DesignZoneWidget_3D \
+    ui_BoundaryCasesWidget_3D.h \
+    ui_LoadSetWidget_3D.h \
+    ui_OptimizeParaWidget_3D.h
+
+
+
 
 FORMS += \
     mainwindow.ui

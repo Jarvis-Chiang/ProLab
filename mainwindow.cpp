@@ -66,11 +66,15 @@ MainWindow::~MainWindow()
 void MainWindow::creatConnect()
 {
     QObject::connect(m_newFile, &QAction::triggered, this, &MainWindow::openFile);
+    QObject::connect(m_Topo2D, &QAction::triggered, this, &MainWindow::topo2D);
+    QObject::connect(m_Topo3D, &QAction::triggered, this, &MainWindow::topo3D);
     //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
     //QObject::connect(m_addDock, SIGNAL(button1->triggered()), this, SLOT(creatPage(oprDock)));
 
     // ????
     connect(m_addDock, SIGNAL(m_addDock->triggered()), this, SLOT(openFile()));
+    //connect(m_Topo2D, SIGNAL(m_Topo2D->triggered()), this, SLOT(topo2D));
+    //connect(m_Topo3D, SIGNAL(m_Topo3D->triggered()), this, SLOT(topo3D));
 }
 
 void MainWindow::creatHomeButton(RibbonPage* page)
@@ -90,8 +94,10 @@ void MainWindow::creatStructureOptiButton(RibbonPage* page)
 {
     RibbonGroup* groupCad = page->addGroup("优化选择");
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
-    m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D拓扑优化", Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "3D拓扑优化", Qt::ToolButtonTextUnderIcon);
+    m_Topo2D =  toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D拓扑优化", Qt::ToolButtonTextUnderIcon);
+    m_Topo3D = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "3D拓扑优化", Qt::ToolButtonTextUnderIcon);
+    //m_Topo2D->setCheckable(true);
+    //m_Topo3D->setCheckable(true);//设置按下样式
     groupCad->addControl(toolBar);
 }
 
@@ -120,7 +126,7 @@ void MainWindow::creatDockWindows()
     treeDock = new QDockWidget(tr("Project Tree View"), this);
     treeDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     treeDock->setFeatures(QDockWidget::DockWidgetMovable);
-    treeDock->setWidget(topoOptimizeWidget->treeWidget);
+    treeDock->setWidget(topoOptimizeWidget->treeStackWidget);
     addDockWidget(Qt::LeftDockWidgetArea, treeDock);
     // creat log dock
     myLogWidget* logWidget = new myLogWidget;
@@ -215,9 +221,31 @@ void MainWindow::creatOprPage(QDockWidget* dock)
     dock->setWidget(wid);
 }
 
+
+
+
+
+
+//**************以下为槽函数**********************//
 void MainWindow::openFile()
 {
     QMessageBox::information(NULL, QString("openFile"), QString("prolab->now open file"));
     return;
 }
 
+
+void MainWindow::topo2D()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至2D拓扑优化模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(0);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(0);
+    return;
+}
+
+void MainWindow::topo3D()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至3D拓扑优化模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(6);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(1);
+    return;
+}

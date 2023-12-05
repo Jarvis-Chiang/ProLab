@@ -9,7 +9,13 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	resultCheckWidget(new ResultCheckWidget),
 	boundaryCasesWidget(new BoundaryCasesWidget),
 	loadSetWidget(new LoadSetWidget),
-	treeWidget(new QTreeWidget(this))
+	treeWidget1(new QTreeWidget(this)),
+	treeWidget2(new QTreeWidget(this)),
+	designZone_3D(new DesignZone_3D),
+	treeStackWidget(new QStackedWidget),
+	boundaryCases_3D(new BoundaryCases_3D),
+	loadSet_3D(new LoadSet_3D),
+	optimizePara_3D(new OptimizePara_3D)
 {
 	init();
 	creatAction();
@@ -29,25 +35,45 @@ void TopoOptimizeWidget :: init()
 	oprStackWidget->addWidget(loadSetWidget);
 	oprStackWidget->addWidget(optimizeParaWidget);
 	oprStackWidget->addWidget(resultCheckWidget);
+	oprStackWidget->addWidget(designZone_3D);
+	oprStackWidget->addWidget(boundaryCases_3D);
+	oprStackWidget->addWidget(loadSet_3D);
+	oprStackWidget->addWidget(optimizePara_3D);
 
-	//左侧树状结构窗口
-	treeWidget->setColumnCount(1); //设置列数
-	treeWidget->setHeaderHidden(true);
+	//左侧树状结构窗口1
+	treeWidget1->setColumnCount(1); //设置列数
+	treeWidget1->setHeaderLabel(QString("2D拓扑结构树"));
 
-	QTreeWidgetItem* tree0 = new QTreeWidgetItem(treeWidget, QStringList(QString("设计域")));
-	QTreeWidgetItem* tree1 = new QTreeWidgetItem(treeWidget, QStringList(QString("材料属性")));
-	QTreeWidgetItem* tree2 = new QTreeWidgetItem(treeWidget, QStringList(QString("边界条件")));
-	QTreeWidgetItem* tree3 = new QTreeWidgetItem(treeWidget, QStringList(QString("载荷设置")));
-	QTreeWidgetItem* tree4 = new QTreeWidgetItem(treeWidget, QStringList(QString("优化参数")));
-	QTreeWidgetItem* tree5 = new QTreeWidgetItem(treeWidget, QStringList(QString("结果查看")));
+	QTreeWidgetItem* tree1_0 = new QTreeWidgetItem(treeWidget1, QStringList(QString("2D设计域")));
+	QTreeWidgetItem* tree1_1 = new QTreeWidgetItem(treeWidget1, QStringList(QString("材料属性")));
+	QTreeWidgetItem* tree1_2 = new QTreeWidgetItem(treeWidget1, QStringList(QString("2D边界条件")));
+	QTreeWidgetItem* tree1_3 = new QTreeWidgetItem(treeWidget1, QStringList(QString("2D载荷设置")));
+	QTreeWidgetItem* tree1_4 = new QTreeWidgetItem(treeWidget1, QStringList(QString("2D优化参数")));
+	QTreeWidgetItem* tree1_5 = new QTreeWidgetItem(treeWidget1, QStringList(QString("结果查看")));
+	treeWidget1->expandAll();
 
-	treeWidget->expandAll();
+	//左侧树状结构窗口2
+	treeWidget2->setColumnCount(1); //设置列数
+	treeWidget2->setHeaderLabel(QString("3D拓扑结构树"));
+
+	QTreeWidgetItem* tree2_0 = new QTreeWidgetItem(treeWidget2, QStringList(QString("3D设计域")));
+	QTreeWidgetItem* tree2_1 = new QTreeWidgetItem(treeWidget2, QStringList(QString("材料属性")));
+	QTreeWidgetItem* tree2_2 = new QTreeWidgetItem(treeWidget2, QStringList(QString("3D边界条件")));
+	QTreeWidgetItem* tree2_3 = new QTreeWidgetItem(treeWidget2, QStringList(QString("3D载荷设置")));
+	QTreeWidgetItem* tree2_4 = new QTreeWidgetItem(treeWidget2, QStringList(QString("3D优化参数")));
+	QTreeWidgetItem* tree2_5 = new QTreeWidgetItem(treeWidget2, QStringList(QString("结果查看")));
+	treeWidget2->expandAll();
+
+	//左侧树状结构堆栈窗口
+	treeStackWidget->addWidget(treeWidget1);
+	treeStackWidget->addWidget(treeWidget2);
 }
 
 void TopoOptimizeWidget::creatAction()
 {
 	//树结构和堆栈窗口关联
-	connect(treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget1, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget2, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
 
 	//文件读取对话框
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
@@ -65,6 +91,18 @@ DesignZoneWidget::DesignZoneWidget() :
 DesignZoneWidget :: ~DesignZoneWidget()
 {
 	delete uiDesignZone;
+}
+
+//加载3D设计域
+DesignZone_3D::DesignZone_3D():
+	uiDesignZone_3d(new Ui_DesignZone_3D::DesignZoneWidget)
+{
+	uiDesignZone_3d->setupUi(this);
+}
+
+DesignZone_3D::~DesignZone_3D()
+{
+	delete uiDesignZone_3d;
 }
 
 //加载材料属性设置ui
@@ -92,6 +130,18 @@ BoundaryCasesWidget::~BoundaryCasesWidget()
 	delete uiBoundaryCases;
 }
 
+//加载3D边界条件ui
+BoundaryCases_3D::BoundaryCases_3D() :
+	uiBoundaryCases_3D(new Ui_BoundaryCases_3D::BoundaryCasesWidget_3D)
+{
+	uiBoundaryCases_3D->setupUi(this);
+}
+
+BoundaryCases_3D::~BoundaryCases_3D()
+{
+	delete uiBoundaryCases_3D;
+}
+
 //加载载荷设置ui
 LoadSetWidget::LoadSetWidget():
 	uiLoadSet(new Ui_LoadSet::LoadSetWidget)
@@ -104,6 +154,18 @@ LoadSetWidget::~LoadSetWidget()
 	delete uiLoadSet;
 }
 
+//加载3D载荷设置ui
+LoadSet_3D::LoadSet_3D() :
+	uiLoadSet_3D(new Ui_LoadSet_3D::LoadSetWidget_3D)
+{
+	uiLoadSet_3D->setupUi(this);
+}
+
+LoadSet_3D::~LoadSet_3D()
+{
+	delete uiLoadSet_3D;
+}
+
 //加载参数优化ui
 OptimizeParaWidget::OptimizeParaWidget():
 	uiOptimizePara(new Ui_OptimizePara::OptimizeParaWidget)
@@ -114,6 +176,18 @@ OptimizeParaWidget::OptimizeParaWidget():
 OptimizeParaWidget::~OptimizeParaWidget()
 {
 	delete uiOptimizePara;
+}
+
+//加载3D参数优化ui
+OptimizePara_3D::OptimizePara_3D() :
+	uiOptimizePara_3D(new Ui_OptimizePara_3D::OptimizeParaWidget_3D)
+{
+	uiOptimizePara_3D->setupUi(this);
+}
+
+OptimizePara_3D::~OptimizePara_3D()
+{
+	delete uiOptimizePara_3D;
 }
 
 //加载结果查看ui
@@ -135,7 +209,7 @@ ResultCheckWidget::~ResultCheckWidget()
 
 void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int column)
 {
-	if (item->text(column) == "设计域")//?????????????
+	if (item->text(column) == "2D设计域")//?????????????
 	{
 		oprStackWidget->setCurrentIndex(0);
 	}
@@ -145,17 +219,17 @@ void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int colu
 		oprStackWidget->setCurrentIndex(1);
 	}
 
-	if (item->text(column) == "边界条件")
+	if (item->text(column) == "2D边界条件")
 	{
 		oprStackWidget->setCurrentIndex(2);
 	}
 
-	if (item->text(column) == "载荷设置")
+	if (item->text(column) == "2D载荷设置")
 	{
 		oprStackWidget->setCurrentIndex(3);
 	}
 
-	if (item->text(column) == "优化参数")
+	if (item->text(column) == "2D优化参数")
 	{
 		oprStackWidget->setCurrentIndex(4);
 	}
@@ -163,6 +237,26 @@ void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int colu
 	if (item->text(column) == "结果查看")
 	{
 		oprStackWidget->setCurrentIndex(5);
+	}
+
+	if (item->text(column) == "3D设计域")
+	{
+		oprStackWidget->setCurrentIndex(6);
+	}
+
+	if (item->text(column) == "3D边界条件")
+	{
+		oprStackWidget->setCurrentIndex(7);
+	}
+
+	if (item->text(column) == "3D载荷设置")
+	{
+		oprStackWidget->setCurrentIndex(8);
+	}
+
+	if (item->text(column) == "3D优化参数")
+	{
+		oprStackWidget->setCurrentIndex(9);
 	}
 }
 

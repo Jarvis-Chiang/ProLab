@@ -63,6 +63,8 @@ private slots:
     void openFile();
     // add page
     void creatOprPage(QDockWidget* dock);
+    void topo2D();
+    void topo3D();
     
 
 protected:
@@ -70,6 +72,8 @@ protected:
     // action
     QAction* m_newFile;
     QAction* m_addDock;
+    QAction* m_Topo2D;
+    QAction* m_Topo3D;
 
     // button
     QToolButton* button1;
