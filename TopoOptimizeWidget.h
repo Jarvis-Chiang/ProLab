@@ -19,6 +19,7 @@
 #include <QSharedPointer>
 #include <QGridLayout>
 #include <QFileDialog>
+#include <QButtonGroup>
 
 
 //设计域
@@ -61,6 +62,12 @@ public:
 	MaterialSetWidget();
 	~MaterialSetWidget();
 	Ui_Material::MeterialSetWidget* uiMaterialSet;
+private:
+	QButtonGroup* radioButtons;
+
+private slots:
+	void sameButton(int state);
+	void diffButton(int state);
 };
 
 //边界条件设置

@@ -77,7 +77,8 @@ void TopoOptimizeWidget::creatAction()
 
 	//文件读取对话框
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
-	connect(materialSetWidget->uiMaterialSet->pushButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
+	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
+
 }
 
 
@@ -107,9 +108,21 @@ DesignZone_3D::~DesignZone_3D()
 
 //加载材料属性设置ui
 MaterialSetWidget::MaterialSetWidget():
-	uiMaterialSet(new Ui_Material::MeterialSetWidget)
+	uiMaterialSet(new Ui_Material::MeterialSetWidget),
+	radioButtons(new QButtonGroup)
 {
 	uiMaterialSet->setupUi(this);
+
+	//设置各向同性/各项异性按钮互斥
+	radioButtons->addButton(uiMaterialSet->sameButton);
+	radioButtons->addButton(uiMaterialSet->differentButton);
+	radioButtons->setExclusive(true);
+
+	//设置链接
+	//材料各向同性/各向异性选择
+	connect(uiMaterialSet->sameButton, SIGNAL(stateChanged(int)), this, SLOT(sameButton(int)));
+	connect(uiMaterialSet->differentButton, SIGNAL(stateChanged(int)), this, SLOT(diffButton(int)));
+	
 }
 
 MaterialSetWidget::~MaterialSetWidget()
@@ -264,4 +277,32 @@ void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int colu
 void TopoOptimizeWidget::importDesignGridFile()
 {
 	fileRoute = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "F:", QStringLiteral("textfile(*txt)"));
+}
+
+void MaterialSetWidget::sameButton(int state)
+{
+	if (state == Qt::Checked)
+	{
+		uiMaterialSet->lineEdit->setEnabled(true);
+		uiMaterialSet->lineEdit_2->setEnabled(true);
+		uiMaterialSet->addMaterial_1->setEnabled(true);
+	}
+	if (state == Qt::Unchecked)
+	{
+		uiMaterialSet->lineEdit->setEnabled(false);
+		uiMaterialSet->lineEdit_2->setEnabled(false);
+		uiMaterialSet->addMaterial_1->setEnabled(false);
+	}
+}
+
+void MaterialSetWidget::diffButton(int state)
+{
+	if (state == Qt::Checked)
+	{
+		uiMaterialSet->importElasticityMatrixButton->setEnabled(true);
+	}
+	if (state == Qt::Unchecked)
+	{
+		uiMaterialSet->importElasticityMatrixButton->setEnabled(false);
+	}
 }

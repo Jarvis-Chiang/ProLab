@@ -91,9 +91,6 @@
     <ClInclude Include="ui_LoadSetWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ui_MaterialSetWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ui_OptimizeParaWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -211,6 +208,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ui_OptimizeParaWidget_3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_MaterialSetWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
