@@ -117,6 +117,8 @@ MaterialSetWidget::MaterialSetWidget():
 	radioButtons->addButton(uiMaterialSet->sameButton);
 	radioButtons->addButton(uiMaterialSet->differentButton);
 	radioButtons->setExclusive(true);
+	//设置默认
+	uiMaterialSet->sameButton->setChecked(true);
 
 	//设置链接
 	//材料各向同性/各向异性选择
@@ -300,9 +302,11 @@ void MaterialSetWidget::diffButton(int state)
 	if (state == Qt::Checked)
 	{
 		uiMaterialSet->importElasticityMatrixButton->setEnabled(true);
+		uiMaterialSet->addMaterial_2->setEnabled(true);
 	}
 	if (state == Qt::Unchecked)
 	{
 		uiMaterialSet->importElasticityMatrixButton->setEnabled(false);
+		uiMaterialSet->addMaterial_2->setEnabled(false);
 	}
 }

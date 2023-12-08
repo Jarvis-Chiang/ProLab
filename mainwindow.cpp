@@ -158,7 +158,7 @@ void MainWindow::creatDockWindows()
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // creat graphWidget
-    osg::Node* displaynode = osgDB::readNodeFile("D:/osgLIB_and_openLIB/osgLIB/build/data/cow.osg");
+    osg::Node* displaynode = osgDB::readNodeFile("D:/Project_3D_Slice/ProLab/cow.osg");
     OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded, displaynode);
     setCentralWidget(osgWidget);
 
