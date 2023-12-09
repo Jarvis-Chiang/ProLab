@@ -3,7 +3,7 @@
 #pragma execution_character_set("utf-8")
 
 #include "DemoRibbonWindow.h"
-#include "OsgWidget.h"
+//#include "OsgWidget.h"
 #include "TopoOptimizeWidget.h"
 
 

@@ -24,6 +24,8 @@ public:
 
 	virtual void paintEvent(QPaintEvent* event);
 
+	osgViewer::View* view;
+
 protected:
 	QTimer _timer;
 };

@@ -15,7 +15,10 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	treeStackWidget(new QStackedWidget),
 	boundaryCases_3D(new BoundaryCases_3D),
 	loadSet_3D(new LoadSet_3D),
-	optimizePara_3D(new OptimizePara_3D)
+	optimizePara_3D(new OptimizePara_3D),
+	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded)),
+	group(new osg::Group)
+
 {
 	init();
 	creatAction();
@@ -78,6 +81,7 @@ void TopoOptimizeWidget::creatAction()
 	//文件读取对话框
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
+	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 
 }
 
@@ -92,6 +96,45 @@ DesignZoneWidget::DesignZoneWidget() :
 DesignZoneWidget :: ~DesignZoneWidget()
 {
 	delete uiDesignZone;
+}
+
+void DesignZoneWidget::aabbSplit2D(const Point2D& left, const Point2D& right, double resolution, V& vers, C& cells)
+{
+	Eigen::Vector2d bound = right - left;
+	double aabbLength = bound.row(0).norm();
+	double aabbWidth = bound.row(1).norm();
+
+	auto Xnums = int((aabbLength - 1e-10) / resolution) + 1;
+	auto Ynums = int((aabbWidth - 1e-10) / resolution) + 1;
+
+	// Eigen::matrixXd Vertexes;
+	vers.resize((Xnums + 1) * (Ynums + 1), 2);
+	double startX = left.row(0).norm();
+	double startY = left.row(1).norm();
+	for (int i = 0; i < Ynums + 1; i++)
+	{
+		for (int j = 0; j < Xnums + 1; j++)
+		{
+			vers.row(i * (Xnums + 1) + j) << startX + resolution * j,
+				startY + resolution * i;
+		}
+	}
+	int crows = 0;
+	cells.resize((Xnums) * (Ynums), 4);
+	cells.setZero();
+	for (int i = 0; i < Ynums; i++)
+	{
+		for (int j = 0; j < Xnums; j++)
+		{
+			int start = i * (Xnums + 1) + j;
+			cells.row(crows) << start,
+				start + 1,
+				start + Xnums + 2,
+				start + 1 + (Xnums + 1),
+				start + Xnums + 1;
+			crows++;
+		}
+	}
 }
 
 //加载3D设计域
@@ -218,6 +261,58 @@ ResultCheckWidget::~ResultCheckWidget()
 }
 
 
+//3D设计域生成函数
+void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells)
+{
+	Eigen::Vector3d bound = right - left;
+	double aabbLength = bound.row(0).norm();
+	double aabbWidth = bound.row(1).norm();
+	double aabbHeight = bound.row(2).norm();
+
+	auto Xnums = int((aabbLength - 1e-10) / resolution) + 1;
+	auto Ynums = int((aabbWidth - 1e-10) / resolution) + 1;
+	auto Znums = int((aabbHeight - 1e-10) / resolution) + 1;
+
+	// Eigen::MatrixXd Vertexes;
+	vers.resize((Xnums + 1) * (Ynums + 1) * (Znums + 1), 3);
+	double startX = left.row(0).norm();
+	double startY = left.row(1).norm();
+	double startZ = left.row(2).norm();
+	for (int i = 0; i < Znums + 1; i++)
+	{
+		for (int j = 0; j < Ynums + 1; j++)
+		{
+			for (int k = 0; k < Xnums + 1; k++)
+			{
+				vers.row(i * (Xnums + 1) * (Ynums + 1) + j * (Xnums + 1) + k) << startX + resolution * k,
+					startY + resolution * j,
+					startZ + resolution * i;
+			}
+		}
+	}
+	int crows = 0;
+	cells.resize((Xnums) * (Ynums) * (Znums), 8);
+	cells.setZero();
+	for (int i = 0; i < Znums; i++)
+	{
+		for (int j = 0; j < Ynums; j++)
+		{
+			for (int k = 0; k < Xnums; k++)
+			{
+				int start = i * (Xnums + 1) * (Ynums + 1) + j * (Xnums + 1) + k;
+				cells.row(crows) << start,
+					start + 1,
+					start + 1 + Xnums + 1,
+					start + Xnums + 1,
+					start + (Xnums + 1) * (Ynums + 1),
+					start + 1 + (Xnums + 1) * (Ynums + 1),
+					start + 1 + Xnums + 1 + (Xnums + 1) * (Ynums + 1),
+					start + Xnums + 1 + (Xnums + 1) * (Ynums + 1);
+				crows++;
+			}
+		}
+	}
+}
 
 
 //****************以下为槽函数*********************//
@@ -308,5 +403,86 @@ void MaterialSetWidget::diffButton(int state)
 	{
 		uiMaterialSet->importElasticityMatrixButton->setEnabled(false);
 		uiMaterialSet->addMaterial_2->setEnabled(false);
+	}
+}
+
+void TopoOptimizeWidget::generate3dDesignZone()
+//多次点击的覆盖问题？？？？？？？？？？？？？？？？？？？？？？？？？？？？
+{
+	//未考虑数据输入类型错误的bug？？？？？？？？？？？？？？？？？？？？？？
+	//获取QLineEdit中的数据
+	QString len = designZone_3D->uiDesignZone_3d->lineEdit->text();//长
+	QString wid = designZone_3D->uiDesignZone_3d->lineEdit_4->text();//宽
+	QString hei = designZone_3D->uiDesignZone_3d->lineEdit_5->text();//高
+	QString re = designZone_3D->uiDesignZone_3d->lineEdit_3->text();//边长
+
+	if (len != nullptr && wid != nullptr && hei != nullptr && re != nullptr)
+	{
+		float length = len.toFloat();
+		float width = wid.toFloat();
+		float height = hei.toFloat();
+		float resolution = re.toFloat();
+
+		Point3D left(0, 0, 0);
+		Point3D right(length, width, height);
+		V v;
+		C c;
+
+		aabbSplit3D(left, right, resolution, v, c);
+
+		//osg::Vec3f point1()
+
+		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(8);
+		(*vertices)[0].set(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2));
+		(*vertices)[1].set(v(int(c(0, 1)), 0), v(int(c(0, 1)), 1), v(int(c(0, 1)), 2));
+		(*vertices)[2].set(v(int(c(0, 2)), 0), v(int(c(0, 2)), 1), v(int(c(0, 2)), 2));
+		(*vertices)[3].set(v(int(c(0, 3)), 0), v(int(c(0, 3)), 1), v(int(c(0, 3)), 2));
+		(*vertices)[4].set(v(int(c(0, 4)), 0), v(int(c(0, 4)), 1), v(int(c(0, 4)), 2));
+		(*vertices)[5].set(v(int(c(0, 5)), 0), v(int(c(0, 5)), 1), v(int(c(0, 5)), 2));
+		(*vertices)[6].set(v(int(c(0, 6)), 0), v(int(c(0, 6)), 1), v(int(c(0, 6)), 2));
+		(*vertices)[7].set(v(int(c(0, 7)), 0), v(int(c(0, 7)), 1), v(int(c(0, 7)), 2));
+
+		osg::ref_ptr<osg::DrawElementsUInt> indices = new osg::DrawElementsUInt(GL_TRIANGLES, 36);
+		(*indices)[0] = 0; (*indices)[1] = 1; (*indices)[2] = 2;
+		(*indices)[3] = 0; (*indices)[4] = 2; (*indices)[5] = 3;
+		(*indices)[6] = 0; (*indices)[7] = 3; (*indices)[8] = 4;
+		(*indices)[9] = 3; (*indices)[10] = 4; (*indices)[11] = 7;
+		(*indices)[12] = 4; (*indices)[13] = 5; (*indices)[14] = 7;
+		(*indices)[15] = 5; (*indices)[16] = 6; (*indices)[17] = 7;
+		(*indices)[18] = 1; (*indices)[19] = 2; (*indices)[20] = 5;
+		(*indices)[21] = 2; (*indices)[22] = 5; (*indices)[23] = 6;
+		(*indices)[24] = 2; (*indices)[25] = 3; (*indices)[26] = 7;
+		(*indices)[27] = 2; (*indices)[28] = 6; (*indices)[29] = 7;
+		(*indices)[30] = 0; (*indices)[31] = 1; (*indices)[32] = 4;
+		(*indices)[33] = 1; (*indices)[34] = 4; (*indices)[35] = 5;
+
+
+		osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
+		geom->setVertexArray(vertices.get());
+		geom->addPrimitiveSet(indices.get());
+
+		osgUtil::SmoothingVisitor::smooth(*geom);
+
+		osg::ref_ptr<osg::Geode> root = new osg::Geode;
+		root->addDrawable(geom.get());
+		
+
+		group->addChild(root);
+
+		for (int i = 1; i < c.rows(); i++)
+		{
+			osg::MatrixTransform* translateMT = new osg::MatrixTransform;
+			float x = v(int(c(i, 0)), 0) - v(int(c(0, 0)), 0);
+			float y = v(int(c(i, 0)), 1) - v(int(c(0, 0)), 1);
+			float z = v(int(c(i, 0)), 2) - v(int(c(0, 0)), 2);
+			translateMT->setMatrix(osg::Matrix::translate(x, y, z));
+			translateMT->addChild(root);
+			group->addChild(translateMT);
+		}
+		osgWidget->view->setSceneData(group);
+	}
+	else
+	{
+		QMessageBox::information(NULL, QString("警告"), QString("数据不足"));
 	}
 }

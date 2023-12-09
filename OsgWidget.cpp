@@ -1,5 +1,6 @@
 #include "OsgWidget.h"
-OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::ThreadingModel threadingModel, osg::Node* node)
+OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::ThreadingModel threadingModel, osg::Node* node):
+	view(new osgViewer::View)
 {
 	setThreadingModel(threadingModel);
 
@@ -12,12 +13,11 @@ OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::
 	setLayout(grid);
 
 	connect(&_timer, SIGNAL(timeout()), this, SLOT(update()));
-	_timer.start(10);
+	_timer.start(5);
 }
 
 QWidget* OsgWidget::addViewWidget(osgQt::GraphicsWindowQt* gw, osg::Node* scene)
 {
-	osgViewer::View* view = new osgViewer::View;
 	addView(view);
 
 	osg::Camera* camera = view->getCamera();

@@ -11,6 +11,7 @@
 #include "ui_BoundaryCasesWidget_3D.h"
 #include "ui_LoadSetWidget_3D.h"
 #include "ui_OptimizeParaWidget_3D.h"
+#include "OsgWidget.h"
 
 #include <QWidget>
 #include <QStackedWidget>
@@ -20,7 +21,20 @@
 #include <QGridLayout>
 #include <QFileDialog>
 #include <QButtonGroup>
+#include <Eigen/Dense>
+#include <QMessageBox>
 
+#include <osg/Geometry>
+#include <osg/Geode>
+#include <osgUtil/SmoothingVisitor>
+#include <osgViewer/Viewer>
+#include <osg/Group>
+#include <osg/MatrixTransform>
+
+typedef Eigen::Vector2d Point2D;
+typedef Eigen::Vector3d Point3D;
+typedef Eigen::MatrixXd V;
+typedef Eigen::MatrixXi C;
 
 //设计域
 class DesignZoneWidget : public QWidget
@@ -32,6 +46,8 @@ public:
 	DesignZoneWidget();
 	~DesignZoneWidget();
 	Ui_DesignZone::DesignZoneWidget* uiDesignZone;
+private:
+	void aabbSplit2D(const Point2D& left, const Point2D& right, double resolution, V& vers, C& cells);
 
 	//	//元对象系统自动生成的信号：条件是保持同名
 	//public slots:
@@ -44,12 +60,11 @@ public:
 //3D设计域
 class DesignZone_3D : public QWidget
 {
+	Q_OBJECT
 public:
 	DesignZone_3D();
 	~DesignZone_3D();
 	Ui_DesignZone_3D::DesignZoneWidget* uiDesignZone_3d;
-
-
 };
 
 //材料设置
@@ -166,6 +181,8 @@ public:
 	QStackedWidget* oprStackWidget; //右侧操作栏堆栈窗口
 	QStackedWidget* treeStackWidget;//左侧树状结构堆栈窗口
 	QString fileRoute;//外部文件路径接口，需要选择的路径可以直接用这个QString类字符串
+
+	OsgWidget* osgWidget;
 private:
 	QTreeWidget* treeWidget1; //左侧树状结构窗口1
 	QTreeWidget* treeWidget2; //左侧树状结构窗口2
@@ -180,10 +197,16 @@ private:
 	LoadSet_3D* loadSet_3D;
 	OptimizePara_3D* optimizePara_3D;
 
+	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
+
+	osg::Group* group;
+
 
 public slots:
 	void stackedWidgetPageChange(QTreeWidgetItem* item, int column);
 	void importDesignGridFile();
+private slots:
+	void generate3dDesignZone();
 };
 
 

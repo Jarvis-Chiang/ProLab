@@ -8,6 +8,7 @@
 #include <QTreeWidget>
 #include <QTime>
 
+
 #include "aboutdialog.h"
 #include "mainwindow.h"
 #include "QtitanRibbon.h"
@@ -158,9 +159,9 @@ void MainWindow::creatDockWindows()
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // creat graphWidget
-    osg::Node* displaynode = osgDB::readNodeFile("D:/Project_3D_Slice/ProLab/cow.osg");
-    OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded, displaynode);
-    setCentralWidget(osgWidget);
+    //osg::Node* displaynode = osgDB::readNodeFile("D:/Project_3D_Slice/ProLab/cow.osg");
+    //OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded);
+    setCentralWidget(topoOptimizeWidget->osgWidget);
 
 }
 
