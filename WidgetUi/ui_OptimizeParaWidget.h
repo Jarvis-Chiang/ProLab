@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'OptimizeParaWidget.ui'
 **
-** Created by: Qt User Interface Compiler version 5.15.2
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -230,19 +230,19 @@ public:
 
     void retranslateUi(QWidget *OptimizeParaWidget)
     {
-        OptimizeParaWidget->setWindowTitle(QCoreApplication::translate("OptimizeParaWidget", "Form", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("OptimizeParaWidget", "\344\274\230\345\214\226\345\217\202\346\225\260", nullptr));
-        label->setText(QCoreApplication::translate("OptimizeParaWidget", "\344\275\223\347\247\257\347\272\246\346\235\237\346\257\224\357\274\232", nullptr));
-        label_5->setText(QCoreApplication::translate("OptimizeParaWidget", "\346\234\200\345\244\247\350\277\255\344\273\243\346\255\245\357\274\232", nullptr));
-        label_6->setText(QCoreApplication::translate("OptimizeParaWidget", "  \346\224\266\346\225\233\351\230\210\345\200\274\357\274\232", nullptr));
-        label_7->setText(QCoreApplication::translate("OptimizeParaWidget", "  \350\277\207\346\273\244\345\215\212\345\276\204\357\274\232", nullptr));
-        startOptimizeBotton->setText(QCoreApplication::translate("OptimizeParaWidget", "\345\274\200\345\247\213\344\274\230\345\214\226", nullptr));
-        pushButton->setText(QCoreApplication::translate("OptimizeParaWidget", "PushButton", nullptr));
+        OptimizeParaWidget->setWindowTitle(QApplication::translate("OptimizeParaWidget", "Form", nullptr));
+        groupBox->setTitle(QApplication::translate("OptimizeParaWidget", "\344\274\230\345\214\226\345\217\202\346\225\260", nullptr));
+        label->setText(QApplication::translate("OptimizeParaWidget", "\344\275\223\347\247\257\347\272\246\346\235\237\346\257\224\357\274\232", nullptr));
+        label_5->setText(QApplication::translate("OptimizeParaWidget", "\346\234\200\345\244\247\350\277\255\344\273\243\346\255\245\357\274\232", nullptr));
+        label_6->setText(QApplication::translate("OptimizeParaWidget", "  \346\224\266\346\225\233\351\230\210\345\200\274\357\274\232", nullptr));
+        label_7->setText(QApplication::translate("OptimizeParaWidget", "  \350\277\207\346\273\244\345\215\212\345\276\204\357\274\232", nullptr));
+        startOptimizeBotton->setText(QApplication::translate("OptimizeParaWidget", "\345\274\200\345\247\213\344\274\230\345\214\226", nullptr));
+        pushButton->setText(QApplication::translate("OptimizeParaWidget", "PushButton", nullptr));
     } // retranslateUi
 
 };
 
-namespace Ui_OptimizePara {
+namespace Ui {
     class OptimizeParaWidget: public Ui_OptimizeParaWidget {};
 } // namespace Ui
 

@@ -85,13 +85,28 @@
     <ClInclude Include="ui_BoundaryCasesWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ui_BoundaryCasesWidget_3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ui_DesignZoneWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_DesignZoneWidget_3D">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ui_LoadSetWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ui_LoadSetWidget_3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_MaterialSetWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="ui_OptimizeParaWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_OptimizeParaWidget_3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ui_ResultCheckWidget.h">
@@ -108,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OptimizeParaWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -196,22 +214,5 @@
     <None Include="third_part\ribbon\DemoRibbonWindow\res\your_company_logo.png">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ui_DesignZoneWidget _3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_BoundaryCasesWidget_3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_LoadSetWidget_3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_OptimizeParaWidget_3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_MaterialSetWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

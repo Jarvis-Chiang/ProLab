@@ -14,8 +14,7 @@ include($$QTITANDIR\src\shared\qtitanribbon.pri)
 #Osg库的路径
 OSGDIR = $$PWD\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug
 
-INCLUDEPATH += $$OSGDIR/include \
-		$$PWD\third_part\Eigen3
+INCLUDEPATH += $$OSGDIR/include
 LIBS += -L$$OSGDIR/lib \ 
     -losgd \
     -losgDBd \

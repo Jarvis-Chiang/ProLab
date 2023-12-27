@@ -71,6 +71,9 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ProLab</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\Project_3D_Slice\ProLab\third_part\eigen3;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;..\Qt\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtOpenGL;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtWidgets;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtGui;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtANGLE;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtCore;release;/include;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -94,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanStyle2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanFastInfoset2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanBase2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanRibbon6.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanStyle2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanFastInfoset2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanBase2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanRibbon6.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgUtild.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -137,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;..\Qt\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtOpenGL;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtWidgets;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtGui;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtANGLE;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtCore;debug;/include;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\mkspecs\win32-msvc;.\third_part\Eigen3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.\third_part\eigen3;.;..\Qt\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtOpenGL;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtWidgets;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtGui;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtANGLE;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\include\QtCore;debug;/include;..\..\PROJECT_3D_SLICE\QT\QT5.15\5.15.2\MSVC2019_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -211,8 +214,8 @@
     <QtMoc Include="mainwindow.h" />
     <ClInclude Include="ui_BoundaryCasesWidget.h" />
     <ClInclude Include="ui_BoundaryCasesWidget_3D.h" />
-    <ClInclude Include="ui_DesignZoneWidget _3D.h" />
     <ClInclude Include="ui_DesignZoneWidget.h" />
+    <ClInclude Include="ui_DesignZoneWidget_3D" />
     <ClInclude Include="ui_LoadSetWidget.h" />
     <ClInclude Include="ui_LoadSetWidget_3D.h" />
     <ClInclude Include="ui_MaterialSetWidget.h" />
@@ -240,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui" />
+    <QtUic Include="WidgetUi\OptimizeParaWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">

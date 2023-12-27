@@ -81,6 +81,7 @@ void TopoOptimizeWidget::creatAction()
 	//文件读取对话框
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
+
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 
 }
@@ -406,6 +407,29 @@ void MaterialSetWidget::diffButton(int state)
 	}
 }
 
+
+osg::ref_ptr<osg::Node> TopoOptimizeWidget::createLightSource(unsigned int num, const osg::Vec3d& trans, const osg::Vec3d& vecDir)
+{
+
+	osg::ref_ptr<osg::Light> light = new osg::Light;
+	light->setLightNum(num);
+	light->setDirection(vecDir);
+	light->setAmbient(osg::Vec4(0.0f,0.0f,0.2f,1.0f));
+	//设置散射光的颜色
+	//light->setDiffuse(osg::Vec4(0.8f,0.8f,0.8f,1.0f));
+	// 
+	//light->setSpecular(osg::Vec4(1.0f,1.0f,1.0f,1.0f));
+	//light->setPosition( osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f) );
+
+	osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource;
+	lightSource->setLight(light);
+
+	osg::ref_ptr<osg::MatrixTransform> sourceTrans = new osg::MatrixTransform;
+	sourceTrans->setMatrix(osg::Matrix::translate(trans));
+	sourceTrans->addChild(lightSource.get());
+	return sourceTrans.release();
+}
+
 void TopoOptimizeWidget::generate3dDesignZone()
 //多次点击的覆盖问题？？？？？？？？？？？？？？？？？？？？？？？？？？？？
 {
@@ -416,8 +440,11 @@ void TopoOptimizeWidget::generate3dDesignZone()
 	QString hei = designZone_3D->uiDesignZone_3d->lineEdit_5->text();//高
 	QString re = designZone_3D->uiDesignZone_3d->lineEdit_3->text();//边长
 
+
+
 	if (len != nullptr && wid != nullptr && hei != nullptr && re != nullptr)
 	{
+		//文本框中文本转换
 		float length = len.toFloat();
 		float width = wid.toFloat();
 		float height = hei.toFloat();
@@ -431,54 +458,87 @@ void TopoOptimizeWidget::generate3dDesignZone()
 		aabbSplit3D(left, right, resolution, v, c);
 
 		//osg::Vec3f point1()
+		//生成单一体素单元
+		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(8 * (c.rows()));
 
-		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(8);
-		(*vertices)[0].set(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2));
-		(*vertices)[1].set(v(int(c(0, 1)), 0), v(int(c(0, 1)), 1), v(int(c(0, 1)), 2));
-		(*vertices)[2].set(v(int(c(0, 2)), 0), v(int(c(0, 2)), 1), v(int(c(0, 2)), 2));
-		(*vertices)[3].set(v(int(c(0, 3)), 0), v(int(c(0, 3)), 1), v(int(c(0, 3)), 2));
-		(*vertices)[4].set(v(int(c(0, 4)), 0), v(int(c(0, 4)), 1), v(int(c(0, 4)), 2));
-		(*vertices)[5].set(v(int(c(0, 5)), 0), v(int(c(0, 5)), 1), v(int(c(0, 5)), 2));
-		(*vertices)[6].set(v(int(c(0, 6)), 0), v(int(c(0, 6)), 1), v(int(c(0, 6)), 2));
-		(*vertices)[7].set(v(int(c(0, 7)), 0), v(int(c(0, 7)), 1), v(int(c(0, 7)), 2));
-
-		osg::ref_ptr<osg::DrawElementsUInt> indices = new osg::DrawElementsUInt(GL_TRIANGLES, 36);
-		(*indices)[0] = 0; (*indices)[1] = 1; (*indices)[2] = 2;
-		(*indices)[3] = 0; (*indices)[4] = 2; (*indices)[5] = 3;
-		(*indices)[6] = 0; (*indices)[7] = 3; (*indices)[8] = 4;
-		(*indices)[9] = 3; (*indices)[10] = 4; (*indices)[11] = 7;
-		(*indices)[12] = 4; (*indices)[13] = 5; (*indices)[14] = 7;
-		(*indices)[15] = 5; (*indices)[16] = 6; (*indices)[17] = 7;
-		(*indices)[18] = 1; (*indices)[19] = 2; (*indices)[20] = 5;
-		(*indices)[21] = 2; (*indices)[22] = 5; (*indices)[23] = 6;
-		(*indices)[24] = 2; (*indices)[25] = 3; (*indices)[26] = 7;
-		(*indices)[27] = 2; (*indices)[28] = 6; (*indices)[29] = 7;
-		(*indices)[30] = 0; (*indices)[31] = 1; (*indices)[32] = 4;
-		(*indices)[33] = 1; (*indices)[34] = 4; (*indices)[35] = 5;
-
+		osg::ref_ptr<osg::DrawElementsUInt> indices = new osg::DrawElementsUInt(GL_QUADS, 24 * c.rows());
 
 		osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
+
+		for (int i = 0; i < c.rows(); i++)
+		{
+			float x = v(int(c(i, 0)), 0) - v(int(c(0, 0)), 0);
+			float y = v(int(c(i, 0)), 1) - v(int(c(0, 0)), 1);
+			float z = v(int(c(i , 0)), 2) - v(int(c(0, 0)), 2);
+
+			(*vertices)[i * 8 + 0].set(v(int(c(0, 0)), 0) + x, v(int(c(0, 0)), 1) + y, v(int(c(0, 0)), 2) + z);
+			(*vertices)[i * 8 + 1].set(v(int(c(0, 1)), 0) + x, v(int(c(0, 1)), 1) + y, v(int(c(0, 1)), 2) + z);
+			(*vertices)[i * 8 + 2].set(v(int(c(0, 2)), 0) + x, v(int(c(0, 2)), 1) + y, v(int(c(0, 2)), 2) + z);
+			(*vertices)[i * 8 + 3].set(v(int(c(0, 3)), 0) + x, v(int(c(0, 3)), 1) + y, v(int(c(0, 3)), 2) + z);
+			(*vertices)[i * 8 + 4].set(v(int(c(0, 4)), 0) + x, v(int(c(0, 4)), 1) + y, v(int(c(0, 4)), 2) + z);
+			(*vertices)[i * 8 + 5].set(v(int(c(0, 5)), 0) + x, v(int(c(0, 5)), 1) + y, v(int(c(0, 5)), 2) + z);
+			(*vertices)[i * 8 + 6].set(v(int(c(0, 6)), 0) + x, v(int(c(0, 6)), 1) + y, v(int(c(0, 6)), 2) + z);
+			(*vertices)[i * 8 + 7].set(v(int(c(0, 7)), 0) + x, v(int(c(0, 7)), 1) + y, v(int(c(0, 7)), 2) + z);
+
+			(*indices)[i * 24 + 0] = i * 8 + 0; (*indices)[i * 24 + 1] = i * 8 + 1; (*indices)[i * 24 + 2] = i * 8 + 2; (*indices)[i * 24 + 3] = i * 8 + 3;
+			(*indices)[i * 24 + 4] = i * 8 + 0; (*indices)[i * 24 + 5] = i * 8 + 3; (*indices)[i * 24 + 6] = i * 8 + 7; (*indices)[i * 24 + 7] = i * 8 + 4;
+			(*indices)[i * 24 + 8] = i * 8 + 4; (*indices)[i * 24 + 9] = i * 8 + 5; (*indices)[i * 24 + 10] = i * 8 + 6; (*indices)[i * 24 + 11] = i * 8 + 7;
+			(*indices)[i * 24 + 12] = i * 8 + 1; (*indices)[i * 24 + 13] = i * 8 + 2; (*indices)[i * 24 + 14] = i * 8 + 6; (*indices)[i * 24 + 15] = i * 8 + 5;
+			(*indices)[i * 24 + 16] = i * 8 + 2; (*indices)[i * 24 + 17] = i * 8 + 3; (*indices)[i * 24 + 18] = i * 8 + 7; (*indices)[i * 24 + 19] = i * 8 + 6;
+			(*indices)[i * 24 + 20] = i * 8 + 1; (*indices)[i * 24 + 21] = i * 8 + 0; (*indices)[i * 24 + 22] = i * 8 + 4; (*indices)[i * 24 + 23] = i * 8 + 5;
+
+
+		}
+
 		geom->setVertexArray(vertices.get());
 		geom->addPrimitiveSet(indices.get());
+		osgUtil::SmoothingVisitor::smooth(*geom);//为每个地点设置法向量，实际上不用，有优化空间！！！！！
 
-		osgUtil::SmoothingVisitor::smooth(*geom);
+		osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
+		colors->push_back(osg::Vec4(0., 1., 1., 1.));
+		geom->setColorArray(colors);
+		geom->setColorBinding(osg::Geometry::BIND_OVERALL);
 
 		osg::ref_ptr<osg::Geode> root = new osg::Geode;
 		root->addDrawable(geom.get());
-		
 
 		group->addChild(root);
+		//osg::ref_ptr<osg::StateSet> stateset = group->getOrCreateStateSet();
+		//stateset->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+		//stateset->setMode(GL_LIGHT6, osg::StateAttribute::ON);	// GL_LIGHT0是默认光源
+		//// 设置6个光源 解决光照问题                         
+		//osg::Vec3d ptLight;
+		//osg::Vec3d ptCenter = osg::Vec3d(0, 0, 0);
+		//double dDis = 200000.0;
+		//ptLight = ptCenter + osg::Z_AXIS * dDis;
+		//osg::ref_ptr<osg::Node> pNodeLight = createLightSource(6, ptLight, -osg::Z_AXIS);
+		//pNodeLight->setName("light0");
+		//group->addChild(pNodeLight);
+		
+		//osg::ref_ptr<osg::Group> addedLightGroup = createLight(root);
 
-		for (int i = 1; i < c.rows(); i++)
-		{
-			osg::MatrixTransform* translateMT = new osg::MatrixTransform;
-			float x = v(int(c(i, 0)), 0) - v(int(c(0, 0)), 0);
-			float y = v(int(c(i, 0)), 1) - v(int(c(0, 0)), 1);
-			float z = v(int(c(i, 0)), 2) - v(int(c(0, 0)), 2);
-			translateMT->setMatrix(osg::Matrix::translate(x, y, z));
-			translateMT->addChild(root);
-			group->addChild(translateMT);
-		}
+		//decorator->addChild(root);
+
+
+
+		//group->addChild(decorator);
+
+		//polyoffset->setFactor(-1.0f);
+		//polyoffset->setUnits(-1.0f);
+		//polymode->setMode(osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE);
+		//stateset->setAttributeAndModes(polyoffset, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
+		//stateset->setAttributeAndModes(polymode, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
+
+#if 1
+		//osg::ref_ptr<osg::Material> material = new osg::Material;
+		//stateset->setAttributeAndModes(material, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
+		//stateset->setMode(GL_LIGHTING, osg::StateAttribute::OVERRIDE | osg::StateAttribute::OFF);
+#endif
+		//stateset->setTextureMode(0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE | osg::StateAttribute::OFF);
+		//decorator->setStateSet(stateset);
+
+		//optimzer.optimize(group);
+
 		osgWidget->view->setSceneData(group);
 	}
 	else

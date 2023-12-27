@@ -7,6 +7,7 @@
 #include <osgViewer/ViewerEventHandlers>
 
 #include <osgGA/MultiTouchTrackballManipulator>
+#include <osgGA/StateSetManipulator>
 
 #include <osgDB/ReadFile>
 

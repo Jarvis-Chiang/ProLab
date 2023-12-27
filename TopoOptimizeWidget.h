@@ -30,6 +30,16 @@
 #include <osgViewer/Viewer>
 #include <osg/Group>
 #include <osg/MatrixTransform>
+#include <osg/Light>
+#include <osg/LightSource>
+#include <osg/StateAttribute>
+//#include <osg/PolygonOffset>
+//#include <osgUtil/Optimizer>
+//#include <osg/PolygonMode>
+//#include <osg/Material>
+//#include <osg/Array>
+
+
 
 typedef Eigen::Vector2d Point2D;
 typedef Eigen::Vector3d Point3D;
@@ -183,6 +193,9 @@ public:
 	QString fileRoute;//外部文件路径接口，需要选择的路径可以直接用这个QString类字符串
 
 	OsgWidget* osgWidget;
+
+	osg::ref_ptr<osg::Node> createLightSource(unsigned int num, const osg::Vec3d& trans, const osg::Vec3d& vecDir);
+
 private:
 	QTreeWidget* treeWidget1; //左侧树状结构窗口1
 	QTreeWidget* treeWidget2; //左侧树状结构窗口2
@@ -199,7 +212,13 @@ private:
 
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 
-	osg::Group* group;
+	osg::ref_ptr<osg::Group> group = new osg::Group;//体素单元组节点
+	//osg::ref_ptr<osg::Group> decorator = new osg::Group;//附加网格线组节点
+	//osg::ref_ptr<osg::StateSet> stateset = new osg::StateSet;
+	//osg::ref_ptr<osg::PolygonOffset> polyoffset = new osg::PolygonOffset;//适当设定偏移 
+	//osg::ref_ptr<osg::PolygonMode> polymode = new osg::PolygonMode;
+
+	//osgUtil::Optimizer optimzer;//优化器
 
 
 public slots:
