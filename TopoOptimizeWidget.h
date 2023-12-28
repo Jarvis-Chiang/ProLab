@@ -13,6 +13,10 @@
 #include "ui_OptimizeParaWidget_3D.h"
 #include "OsgWidget.h"
 
+#include <set>
+#include <vector>
+#include <algorithm>
+
 #include <QWidget>
 #include <QStackedWidget>
 #include <QTreeWidget>
@@ -32,7 +36,10 @@
 #include <osg/MatrixTransform>
 #include <osg/Light>
 #include <osg/LightSource>
+#include <osg/StateSet>
+#include <osg/CullFace>
 #include <osg/StateAttribute>
+#include <osg/ShapeDrawable>
 //#include <osg/PolygonOffset>
 //#include <osgUtil/Optimizer>
 //#include <osg/PolygonMode>
@@ -43,6 +50,7 @@
 
 typedef Eigen::Vector2d Point2D;
 typedef Eigen::Vector3d Point3D;
+typedef std::vector<Eigen::Vector3d> CoorSet;
 typedef Eigen::MatrixXd V;
 typedef Eigen::MatrixXi C;
 
@@ -213,6 +221,17 @@ private:
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 
 	osg::ref_ptr<osg::Group> group = new osg::Group;//体素单元组节点
+	osg::Vec3 getnormal(osg::Vec3 v1, osg::Vec3 v2, osg::Vec3 v3, osg::Vec3 v4);//获得平面法向量
+	void getShellVoxel(V v, C c, CoorSet& finalCoors);//体素网格抽壳算法
+	static bool cmpAixsX(Point3D x, Point3D y);
+
+	static bool cmpAixsY(Point3D x, Point3D y);
+
+	static bool cmpAixsZ(Point3D x, Point3D y);
+
+	void pickSurfaceCoors(CoorSet unPickedCoors, CoorSet& PickCoors);
+
+	
 	//osg::ref_ptr<osg::Group> decorator = new osg::Group;//附加网格线组节点
 	//osg::ref_ptr<osg::StateSet> stateset = new osg::StateSet;
 	//osg::ref_ptr<osg::PolygonOffset> polyoffset = new osg::PolygonOffset;//适当设定偏移 
