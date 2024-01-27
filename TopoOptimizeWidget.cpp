@@ -17,7 +17,7 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	loadSet_3D(new LoadSet_3D),
 	optimizePara_3D(new OptimizePara_3D),
 	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded)),
-	group(new osg::Group)
+	root(osg::ref_ptr<osg::Group> (new osg::Group))
 
 {
 	init();
@@ -83,6 +83,7 @@ void TopoOptimizeWidget::creatAction()
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
+	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
 
 }
 
@@ -97,45 +98,6 @@ DesignZoneWidget::DesignZoneWidget() :
 DesignZoneWidget :: ~DesignZoneWidget()
 {
 	delete uiDesignZone;
-}
-
-void DesignZoneWidget::aabbSplit2D(const Point2D& left, const Point2D& right, double resolution, V& vers, C& cells)
-{
-	Eigen::Vector2d bound = right - left;
-	double aabbLength = bound.row(0).norm();
-	double aabbWidth = bound.row(1).norm();
-
-	auto Xnums = int((aabbLength - 1e-10) / resolution) + 1;
-	auto Ynums = int((aabbWidth - 1e-10) / resolution) + 1;
-
-	// Eigen::matrixXd Vertexes;
-	vers.resize((Xnums + 1) * (Ynums + 1), 2);
-	double startX = left.row(0).norm();
-	double startY = left.row(1).norm();
-	for (int i = 0; i < Ynums + 1; i++)
-	{
-		for (int j = 0; j < Xnums + 1; j++)
-		{
-			vers.row(i * (Xnums + 1) + j) << startX + resolution * j,
-				startY + resolution * i;
-		}
-	}
-	int crows = 0;
-	cells.resize((Xnums) * (Ynums), 4);
-	cells.setZero();
-	for (int i = 0; i < Ynums; i++)
-	{
-		for (int j = 0; j < Xnums; j++)
-		{
-			int start = i * (Xnums + 1) + j;
-			cells.row(crows) << start,
-				start + 1,
-				start + Xnums + 2,
-				start + 1 + (Xnums + 1),
-				start + Xnums + 1;
-			crows++;
-		}
-	}
 }
 
 //加载3D设计域
@@ -261,6 +223,44 @@ ResultCheckWidget::~ResultCheckWidget()
 	delete uiRecultCheck;
 }
 
+//2D设计域生成函数
+void TopoOptimizeWidget::aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells)
+{
+	Eigen::Vector2d bound = right - left;
+	double aabbLength = bound.row(0).norm();
+	double aabbWidth = bound.row(1).norm();
+
+	auto Xnums = int((aabbLength - 1e-10) / resolution) + 1;
+	auto Ynums = int((aabbWidth - 1e-10) / resolution) + 1;
+
+	// Eigen::matrixXd Vertexes;
+	vers.resize((Xnums + 1) * (Ynums + 1), 2);
+	double startX = left.row(0).norm();
+	double startY = left.row(1).norm();
+	for (int i = 0; i < Ynums + 1; i++)
+	{
+		for (int j = 0; j < Xnums + 1; j++)
+		{
+			vers.row(i * (Xnums + 1) + j) << startX + resolution * j,
+				startY + resolution * i;
+		}
+	}
+	int crows = 0;
+	cells.resize((Xnums) * (Ynums), 4);
+	cells.setZero();
+	for (int i = 0; i < Ynums; i++)
+	{
+		for (int j = 0; j < Xnums; j++)
+		{
+			int start = i * (Xnums + 1) + j;
+			cells.row(crows) << start,
+				start + 1,
+				start + 1 + (Xnums + 1),
+				start + Xnums + 1;
+			crows++;
+		}
+	}
+}
 
 //3D设计域生成函数
 void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells)
@@ -408,28 +408,6 @@ void MaterialSetWidget::diffButton(int state)
 }
 
 
-//osg::ref_ptr<osg::Node> TopoOptimizeWidget::createLightSource(unsigned int num, const osg::Vec3d& trans, const osg::Vec3d& vecDir)
-//{
-//
-//	osg::ref_ptr<osg::Light> light = new osg::Light;
-//	light->setLightNum(num);
-//	light->setDirection(vecDir);
-//	light->setAmbient(osg::Vec4(0.0f,0.0f,0.2f,1.0f));
-//	//设置散射光的颜色
-//	//light->setDiffuse(osg::Vec4(0.8f,0.8f,0.8f,1.0f));
-//	// 
-//	//light->setSpecular(osg::Vec4(1.0f,1.0f,1.0f,1.0f));
-//	//light->setPosition( osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f) );
-//
-//	osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource;
-//	lightSource->setLight(light);
-//
-//	osg::ref_ptr<osg::MatrixTransform> sourceTrans = new osg::MatrixTransform;
-//	sourceTrans->setMatrix(osg::Matrix::translate(trans));
-//	sourceTrans->addChild(lightSource.get());
-//	return sourceTrans.release();
-//}
-
 osg::Vec3 TopoOptimizeWidget::getnormal(osg::Vec3 v1, osg::Vec3 v2, osg::Vec3 v3, osg::Vec3 v4)
 { 
 	return -(v2 - v1) ^ (v3 - v2);
@@ -573,11 +551,123 @@ void TopoOptimizeWidget::getShellVoxel(V v, C c, CoorSet& finalCoors)
 	}
 }
 
+osg::ref_ptr<osg::Node> TopoOptimizeWidget::createLightSource(unsigned int num, const osg::Vec3d& trans,
+	const osg::Vec3d& vecDir)
+{
+	osg::ref_ptr<osg::Light> light = new osg::Light;
+	light->setLightNum(num);
+	light->setDirection(vecDir);
+	osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource;
+	lightSource->setLight(light);
+	osg::ref_ptr<osg::MatrixTransform> sourceTrans = new osg::MatrixTransform;
+	sourceTrans->setMatrix(osg::Matrix::translate(trans));
+	sourceTrans->addChild(lightSource.get());
+	return sourceTrans.release();
+}
+
+void TopoOptimizeWidget::generate2dDesignZone()
+{
+	if (root != nullptr)
+		root->removeChild(0, 1U);
+	osg::ref_ptr<osg::Group> group = new osg::Group;
+	QString len = designZoneWidget->uiDesignZone->lineEdit->text();//长
+	QString wid = designZoneWidget->uiDesignZone->lineEdit_4->text();//宽
+	QString re = designZoneWidget->uiDesignZone->lineEdit_3->text();//边长
+
+	if (len != nullptr && wid != nullptr && re != nullptr)
+	{
+		float length = len.toFloat();
+		float width = wid.toFloat();
+		float resolution = re.toFloat();
+
+		Point2D left(0, 0);
+		Point2D right(length, width);
+		V v;
+		C c;
+
+		aabbSplit2D(left, right, resolution, v, c);
+
+		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(4 * c.rows());
+		osg::ref_ptr<osg::DrawElementsUInt> quadsIndices = new osg::DrawElementsUInt(GL_QUADS, 4 * c.rows());
+		osg::ref_ptr<osg::DrawElementsUInt> linesIndices = new osg::DrawElementsUInt(GL_LINES, 8 * c.rows());
+		osg::ref_ptr<osg::Geometry> geom_QUADS = new osg::Geometry;
+		osg::ref_ptr<osg::Geometry> geom_lINES = new osg::Geometry;
+
+		for (int i = 0; i < c.rows(); i++)
+		{
+			//生成几何体
+			float x = v(int(c(i, 0)), 0) - v(int(c(0, 0)), 0);
+			float y = v(int(c(i, 0)), 1) - v(int(c(0, 0)), 1);
+			(*vertices)[i * 4 + 0].set(v(int(c(0, 0)), 0) + x, v(int(c(0, 0)), 1) + y, 0);
+			(*vertices)[i * 4 + 1].set(v(int(c(0, 1)), 0) + x, v(int(c(0, 1)), 1) + y, 0);
+			(*vertices)[i * 4 + 2].set(v(int(c(0, 2)), 0) + x, v(int(c(0, 2)), 1) + y, 0);
+			(*vertices)[i * 4 + 3].set(v(int(c(0, 3)), 0) + x, v(int(c(0, 3)), 1) + y, 0);
+
+			(*quadsIndices)[i * 4 + 0] = i * 4 + 0; (*quadsIndices)[i * 4 + 1] = i * 4 + 1; (*quadsIndices)[i * 4 + 2] = i * 4 + 2; (*quadsIndices)[i * 4 + 3] = i * 4 + 3;
+
+			(*linesIndices)[i * 8 + 0] = i * 4 + 0; (*linesIndices)[i * 8 + 1] = i * 4 + 1;
+			(*linesIndices)[i * 8 + 2] = i * 4 + 1; (*linesIndices)[i * 8 + 3] = i * 4 + 2;
+			(*linesIndices)[i * 8 + 4] = i * 4 + 2; (*linesIndices)[i * 8 + 5] = i * 4 + 3;
+			(*linesIndices)[i * 8 + 6] = i * 4 + 3; (*linesIndices)[i * 8 + 7] = i * 4 + 0;
+		}
+
+		geom_QUADS->setVertexArray(vertices.get());
+		geom_QUADS->addPrimitiveSet(quadsIndices.get());
+		osg::ref_ptr<osg::Vec4Array> quadsColors = new osg::Vec4Array;
+		quadsColors->push_back(osg::Vec4(0., 1., 1., 1.));
+		geom_QUADS->setColorArray(quadsColors);
+		geom_QUADS->setColorBinding(osg::Geometry::BIND_OVERALL);
+		osg::ref_ptr<osg::Geode> modelNode = new osg::Geode;
+		modelNode->addDrawable(geom_QUADS.get());
+
+		geom_lINES->setVertexArray(vertices.get());
+		geom_lINES->addPrimitiveSet(linesIndices.get());
+		osg::ref_ptr<osg::Vec4Array> lineColors = new osg::Vec4Array;
+		lineColors->push_back(osg::Vec4(0., 0., 0., 1.));
+		geom_lINES->setColorArray(lineColors);
+		geom_lINES->setColorBinding(osg::Geometry::BIND_OVERALL);
+		osg::ref_ptr<osg::Geode> stripNode = new osg::Geode;
+		stripNode->addDrawable(geom_lINES.get());
+
+		//网格化
+		group->addChild(modelNode);
+		group->addChild(stripNode);
+
+		/****************************设置上下左右近远六个光源，但是没写阴影*********************************/
+		osg::ref_ptr<osg::StateSet> stateset = group->getOrCreateStateSet();
+		stateset->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+		stateset->setMode(GL_LIGHT6, osg::StateAttribute::ON);	// GL_LIGHT0是默认光源
+		// 设置6个光源 解决光照问题                         
+		osg::Vec3d ptLight;
+		osg::Vec3d ptCenter = osg::Vec3d(0, 0, 0);
+		double dDis = 200000.0;
+		ptLight = ptCenter + osg::Z_AXIS * dDis;
+		osg::ref_ptr<osg::Node> pNodeLight = createLightSource(6, ptLight, -osg::Z_AXIS);
+		pNodeLight->setName("light0");
+		group->addChild(pNodeLight);
+
+		//设置网格线宽
+		osg::ref_ptr<osg::StateSet> state = stripNode->getOrCreateStateSet();
+		osg::ref_ptr<osg::LineWidth> lineWid = new osg::LineWidth(4.0f);
+		state->setAttribute(lineWid.get());
+		root->addChild(group);
+		osgWidget->view->setSceneData(root);
+	}
+	else
+	{
+		QMessageBox::information(NULL, QString("警告"), QString("数据不足"));
+	}
+
+}
+
 void TopoOptimizeWidget::generate3dDesignZone()
 //多次点击的覆盖问题？？？？？？？？？？？？？？？？？？？？？？？？？？？？
 {
+	if (root != nullptr)
+		root->removeChild(0, 1U);
 	//未考虑数据输入类型错误的bug？？？？？？？？？？？？？？？？？？？？？？
 	//获取QLineEdit中的数据
+	osg::ref_ptr<osg::Group> group = new osg::Group;
 	QString len = designZone_3D->uiDesignZone_3d->lineEdit->text();//长
 	QString wid = designZone_3D->uiDesignZone_3d->lineEdit_4->text();//宽
 	QString hei = designZone_3D->uiDesignZone_3d->lineEdit_5->text();//高
@@ -603,198 +693,95 @@ void TopoOptimizeWidget::generate3dDesignZone()
 
 	/*********************************所有网格生成一个几何体类，渲染效率提高*************************************/
 		//生成单一体素单元
-		//osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(8 * (c.rows()));
-		//osg::ref_ptr<osg::DrawElementsUInt> indices = new osg::DrawElementsUInt(GL_QUADS, 24 * c.rows());
-		//osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
-		//for (int i = 0; i < c.rows(); i++)
-		//{
-		//	float x = v(int(c(i, 0)), 0) - v(int(c(0, 0)), 0);
-		//	float y = v(int(c(i, 0)), 1) - v(int(c(0, 0)), 1);
-		//	float z = v(int(c(i , 0)), 2) - v(int(c(0, 0)), 2);
-		//	(*vertices)[i * 8 + 0].set(v(int(c(0, 0)), 0) + x, v(int(c(0, 0)), 1) + y, v(int(c(0, 0)), 2) + z);
-		//	(*vertices)[i * 8 + 1].set(v(int(c(0, 1)), 0) + x, v(int(c(0, 1)), 1) + y, v(int(c(0, 1)), 2) + z);
-		//	(*vertices)[i * 8 + 2].set(v(int(c(0, 2)), 0) + x, v(int(c(0, 2)), 1) + y, v(int(c(0, 2)), 2) + z);
-		//	(*vertices)[i * 8 + 3].set(v(int(c(0, 3)), 0) + x, v(int(c(0, 3)), 1) + y, v(int(c(0, 3)), 2) + z);
-		//	(*vertices)[i * 8 + 4].set(v(int(c(0, 4)), 0) + x, v(int(c(0, 4)), 1) + y, v(int(c(0, 4)), 2) + z);
-		//	(*vertices)[i * 8 + 5].set(v(int(c(0, 5)), 0) + x, v(int(c(0, 5)), 1) + y, v(int(c(0, 5)), 2) + z);
-		//	(*vertices)[i * 8 + 6].set(v(int(c(0, 6)), 0) + x, v(int(c(0, 6)), 1) + y, v(int(c(0, 6)), 2) + z);
-		//	(*vertices)[i * 8 + 7].set(v(int(c(0, 7)), 0) + x, v(int(c(0, 7)), 1) + y, v(int(c(0, 7)), 2) + z);
-		//	(*indices)[i * 24 + 0] = i * 8 + 0; (*indices)[i * 24 + 1] = i * 8 + 1; (*indices)[i * 24 + 2] = i * 8 + 2; (*indices)[i * 24 + 3] = i * 8 + 3;
-		//	(*indices)[i * 24 + 4] = i * 8 + 0; (*indices)[i * 24 + 5] = i * 8 + 3; (*indices)[i * 24 + 6] = i * 8 + 7; (*indices)[i * 24 + 7] = i * 8 + 4;
-		//	(*indices)[i * 24 + 8] = i * 8 + 4; (*indices)[i * 24 + 9] = i * 8 + 5; (*indices)[i * 24 + 10] = i * 8 + 6; (*indices)[i * 24 + 11] = i * 8 + 7;
-		//	(*indices)[i * 24 + 12] = i * 8 + 1; (*indices)[i * 24 + 13] = i * 8 + 2; (*indices)[i * 24 + 14] = i * 8 + 6; (*indices)[i * 24 + 15] = i * 8 + 5;
-		//	(*indices)[i * 24 + 16] = i * 8 + 2; (*indices)[i * 24 + 17] = i * 8 + 3; (*indices)[i * 24 + 18] = i * 8 + 7; (*indices)[i * 24 + 19] = i * 8 + 6;
-		//	(*indices)[i * 24 + 20] = i * 8 + 1; (*indices)[i * 24 + 21] = i * 8 + 0; (*indices)[i * 24 + 22] = i * 8 + 4; (*indices)[i * 24 + 23] = i * 8 + 5;
-		//}
+		int numOfFinalCoors = finalCoors.size();
+		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(8 * numOfFinalCoors);
+		osg::ref_ptr<osg::DrawElementsUInt> quadsIndices = new osg::DrawElementsUInt(GL_QUADS, 24 * numOfFinalCoors);
+		osg::ref_ptr<osg::DrawElementsUInt> linesIndices = new osg::DrawElementsUInt(GL_LINES, 24 * numOfFinalCoors);
 
-		//geom->setVertexArray(vertices.get());
-		//geom->addPrimitiveSet(indices.get());
-		//osgUtil::SmoothingVisitor::smooth(*geom);//为每个地点设置法向量，实际上不用，有优化空间！！！！！
-		//osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
-		//colors->push_back(osg::Vec4(0., 1., 1., 1.));
-		//geom->setColorArray(colors);
-		//geom->setColorBinding(osg::Geometry::BIND_OVERALL);
-		//osg::ref_ptr<osg::Geode> root = new osg::Geode;
-		//root->addDrawable(geom.get());
-		//group->addChild(root);
-		
+		osg::ref_ptr<osg::Geometry> geom_QUADS = new osg::Geometry;
+		osg::ref_ptr<osg::Geometry> geom_lINES = new osg::Geometry;
 
-
-		/****************************设置上下左右近远六个光源，但是没写阴影*********************************/
-		//osg::ref_ptr<osg::StateSet> stateset = group->getOrCreateStateSet();
-		//stateset->setMode(GL_LIGHTING, osg::StateAttribute::ON);
-		//stateset->setMode(GL_LIGHT6, osg::StateAttribute::ON);	// GL_LIGHT0是默认光源
-		//// 设置6个光源 解决光照问题                         
-		//osg::Vec3d ptLight;
-		//osg::Vec3d ptCenter = osg::Vec3d(0, 0, 0);
-		//double dDis = 200000.0;
-		//ptLight = ptCenter + osg::Z_AXIS * dDis;
-		//osg::ref_ptr<osg::Node> pNodeLight = createLightSource(6, ptLight, -osg::Z_AXIS);
-		//pNodeLight->setName("light0");
-		//group->addChild(pNodeLight);
-		//osg::ref_ptr<osg::Group> addedLightGroup = createLight(root);
-
-		/************************************添加光照************************************************/
-		//decorator->addChild(root);
-		//group->addChild(decorator);
-		//polyoffset->setFactor(-1.0f);
-		//polyoffset->setUnits(-1.0f);
-		//polymode->setMode(osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE);
-		//stateset->setAttributeAndModes(polyoffset, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-		//stateset->setAttributeAndModes(polymode, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-//#if 1
-		//osg::ref_ptr<osg::Material> material = new osg::Material;
-		//stateset->setAttributeAndModes(material, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-		//stateset->setMode(GL_LIGHTING, osg::StateAttribute::OVERRIDE | osg::StateAttribute::OFF);
-//#endif
-		//stateset->setTextureMode(0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE | osg::StateAttribute::OFF);
-		//decorator->setStateSet(stateset);
-		//optimzer.optimize(group);
-
-
-		/**********************使用24顶点几何体生成体素网格，并进行相应的简化******************************/
-
-
-		osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-		osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
-		//osg::Box* voxel = new osg::Box(osg::Vec3(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2)), resolution); //osg::Shape类最好别用osg::ref_ptr
-		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(24);
-		(*vertices)[0].set(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2));
-		(*vertices)[1].set(v(int(c(0, 1)), 0), v(int(c(0, 1)), 1), v(int(c(0, 1)), 2));
-		(*vertices)[2].set(v(int(c(0, 2)), 0), v(int(c(0, 2)), 1), v(int(c(0, 2)), 2));
-		(*vertices)[3].set(v(int(c(0, 3)), 0), v(int(c(0, 3)), 1), v(int(c(0, 3)), 2));
-		(*vertices)[4].set(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2));
-		(*vertices)[5].set(v(int(c(0, 3)), 0), v(int(c(0, 3)), 1), v(int(c(0, 3)), 2));
-		(*vertices)[6].set(v(int(c(0, 7)), 0), v(int(c(0, 7)), 1), v(int(c(0, 7)), 2));
-		(*vertices)[7].set(v(int(c(0, 4)), 0), v(int(c(0, 4)), 1), v(int(c(0, 4)), 2));
-		(*vertices)[8].set(v(int(c(0, 7)), 0), v(int(c(0, 7)), 1), v(int(c(0, 7)), 2));
-		(*vertices)[9].set(v(int(c(0, 6)), 0), v(int(c(0, 6)), 1), v(int(c(0, 6)), 2));
-		(*vertices)[10].set(v(int(c(0, 5)), 0), v(int(c(0, 5)), 1), v(int(c(0, 5)), 2));
-		(*vertices)[11].set(v(int(c(0, 4)), 0), v(int(c(0, 4)), 1), v(int(c(0, 4)), 2));
-		(*vertices)[12].set(v(int(c(0, 5)), 0), v(int(c(0, 5)), 1), v(int(c(0, 5)), 2));
-		(*vertices)[13].set(v(int(c(0, 6)), 0), v(int(c(0, 6)), 1), v(int(c(0, 6)), 2));
-		(*vertices)[14].set(v(int(c(0, 2)), 0), v(int(c(0, 2)), 1), v(int(c(0, 2)), 2));
-		(*vertices)[15].set(v(int(c(0, 1)), 0), v(int(c(0, 1)), 1), v(int(c(0, 1)), 2));
-		(*vertices)[16].set(v(int(c(0, 6)), 0), v(int(c(0, 6)), 1), v(int(c(0, 6)), 2));
-		(*vertices)[17].set(v(int(c(0, 7)), 0), v(int(c(0, 7)), 1), v(int(c(0, 7)), 2));
-		(*vertices)[18].set(v(int(c(0, 3)), 0), v(int(c(0, 3)), 1), v(int(c(0, 3)), 2));
-		(*vertices)[19].set(v(int(c(0, 2)), 0), v(int(c(0, 2)), 1), v(int(c(0, 2)), 2));
-		(*vertices)[20].set(v(int(c(0, 1)), 0), v(int(c(0, 1)), 1), v(int(c(0, 1)), 2));
-		(*vertices)[21].set(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2));
-		(*vertices)[22].set(v(int(c(0, 4)), 0), v(int(c(0, 4)), 1), v(int(c(0, 4)), 2));
-		(*vertices)[23].set(v(int(c(0, 5)), 0), v(int(c(0, 5)), 1), v(int(c(0, 5)), 2));
-		geom->setVertexArray(vertices.get());
-
-		/***************************BIND_PER_PRITIMIVE_SET**************************************/
-		//geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,4));
-		//geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 4, 4));
-		//geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 8, 4));
-		//geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 12, 4));
-		//geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 16, 4));
-		//geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 20, 4));
-
-		//osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array;
-		//normals->push_back(getnormal((*vertices)[0], (*vertices)[1], (*vertices)[2], (*vertices)[3]));
-		//normals->push_back(getnormal((*vertices)[4], (*vertices)[5], (*vertices)[6], (*vertices)[7]));
-		//normals->push_back(getnormal((*vertices)[8], (*vertices)[9], (*vertices)[10], (*vertices)[11]));
-		//normals->push_back(getnormal((*vertices)[12], (*vertices)[13], (*vertices)[14], (*vertices)[15]));
-		//normals->push_back(getnormal((*vertices)[16], (*vertices)[17], (*vertices)[18], (*vertices)[19]));
-		//normals->push_back(getnormal((*vertices)[20], (*vertices)[21], (*vertices)[22], (*vertices)[23]));
-		//geom->setNormalArray(normals.get());
-		//geom->setNormalBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
-
-		/***************************BIND_PER_VERTEX**************************************/
-		osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array;
-		geom->setNormalArray(normals.get());
-		geom->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
-		normals->push_back(getnormal((*vertices)[0], (*vertices)[1], (*vertices)[2], (*vertices)[3]));
-		normals->push_back(getnormal((*vertices)[0], (*vertices)[1], (*vertices)[2], (*vertices)[3]));
-		normals->push_back(getnormal((*vertices)[0], (*vertices)[1], (*vertices)[2], (*vertices)[3]));
-		normals->push_back(getnormal((*vertices)[0], (*vertices)[1], (*vertices)[2], (*vertices)[3]));
-		normals->push_back(getnormal((*vertices)[4], (*vertices)[5], (*vertices)[6], (*vertices)[7]));
-		normals->push_back(getnormal((*vertices)[4], (*vertices)[5], (*vertices)[6], (*vertices)[7]));
-		normals->push_back(getnormal((*vertices)[4], (*vertices)[5], (*vertices)[6], (*vertices)[7]));
-		normals->push_back(getnormal((*vertices)[4], (*vertices)[5], (*vertices)[6], (*vertices)[7]));
-		normals->push_back(getnormal((*vertices)[8], (*vertices)[9], (*vertices)[10], (*vertices)[11]));
-		normals->push_back(getnormal((*vertices)[8], (*vertices)[9], (*vertices)[10], (*vertices)[11]));
-		normals->push_back(getnormal((*vertices)[8], (*vertices)[9], (*vertices)[10], (*vertices)[11]));
-		normals->push_back(getnormal((*vertices)[8], (*vertices)[9], (*vertices)[10], (*vertices)[11]));
-		normals->push_back(getnormal((*vertices)[12], (*vertices)[13], (*vertices)[14], (*vertices)[15]));
-		normals->push_back(getnormal((*vertices)[12], (*vertices)[13], (*vertices)[14], (*vertices)[15]));
-		normals->push_back(getnormal((*vertices)[12], (*vertices)[13], (*vertices)[14], (*vertices)[15]));
-		normals->push_back(getnormal((*vertices)[12], (*vertices)[13], (*vertices)[14], (*vertices)[15]));
-		normals->push_back(getnormal((*vertices)[16], (*vertices)[17], (*vertices)[18], (*vertices)[19]));
-		normals->push_back(getnormal((*vertices)[16], (*vertices)[17], (*vertices)[18], (*vertices)[19]));
-		normals->push_back(getnormal((*vertices)[16], (*vertices)[17], (*vertices)[18], (*vertices)[19]));
-		normals->push_back(getnormal((*vertices)[16], (*vertices)[17], (*vertices)[18], (*vertices)[19]));
-		normals->push_back(getnormal((*vertices)[20], (*vertices)[21], (*vertices)[22], (*vertices)[23]));
-		normals->push_back(getnormal((*vertices)[20], (*vertices)[21], (*vertices)[22], (*vertices)[23]));
-		normals->push_back(getnormal((*vertices)[20], (*vertices)[21], (*vertices)[22], (*vertices)[23]));
-		normals->push_back(getnormal((*vertices)[20], (*vertices)[21], (*vertices)[22], (*vertices)[23]));
-		geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 0, 24));
-		geode->addDrawable(geom.get());
-
-		/**********************使用8顶点几何体生成体素网格，并进行相应的简化******************************/
-
-		//osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array(8);
-		//(*vertices)[0].set(v(int(c(0, 0)), 0), v(int(c(0, 0)), 1), v(int(c(0, 0)), 2));
-		//(*vertices)[1].set(v(int(c(0, 1)), 0), v(int(c(0, 1)), 1), v(int(c(0, 1)), 2));
-		//(*vertices)[2].set(v(int(c(0, 2)), 0), v(int(c(0, 2)), 1), v(int(c(0, 2)), 2));
-		//(*vertices)[3].set(v(int(c(0, 3)), 0), v(int(c(0, 3)), 1), v(int(c(0, 3)), 2));
-		//(*vertices)[4].set(v(int(c(0, 4)), 0), v(int(c(0, 4)), 1), v(int(c(0, 4)), 2));
-		//(*vertices)[5].set(v(int(c(0, 5)), 0), v(int(c(0, 5)), 1), v(int(c(0, 5)), 2));
-		//(*vertices)[6].set(v(int(c(0, 6)), 0), v(int(c(0, 6)), 1), v(int(c(0, 6)), 2));
-		//(*vertices)[7].set(v(int(c(0, 7)), 0), v(int(c(0, 7)), 1), v(int(c(0, 7)), 2));
-		//osg::ref_ptr<osg::DrawElementsUInt> indices = new osg::DrawElementsUInt(GL_QUADS, 24);
-		//(*indices)[0] = 0; (*indices)[1] = 1; (*indices)[2] = 2; (*indices)[3] = 3;
-		//(*indices)[4] = 0; (*indices)[5] = 3; (*indices)[6] = 7; (*indices)[7] = 4;
-		//(*indices)[8] = 4; (*indices)[9] = 5; (*indices)[10] = 6; (*indices)[11] = 7;
-		//(*indices)[12] = 1; (*indices)[13] = 2; (*indices)[14] = 6; (*indices)[15] = 5;
-		//(*indices)[16] = 2; (*indices)[17] = 3; (*indices)[18] = 7; (*indices)[19] = 6;
-		//(*indices)[20] = 1; (*indices)[21] = 0; (*indices)[22] = 4; (*indices)[23] = 5;
-		//osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
-		//geom->setVertexArray(vertices.get());
-		//geom->addPrimitiveSet(indices.get());
-		//osgUtil::SmoothingVisitor::smooth(*geom);
-		//osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-		//geode->addDrawable(geom.get());
-		//拷贝并平行变换
+		int i = 0;
 		for (auto iter = finalCoors.begin(); iter != finalCoors.end(); ++iter)
 		{
-			osg::ref_ptr<osg::MatrixTransform> translateMT = new osg::MatrixTransform;
+			//生成几何体
 			float x = (*iter)(0) - v(int(c(0, 0)), 0);
 			float y = (*iter)(1) - v(int(c(0, 0)), 1);
 			float z = (*iter)(2) - v(int(c(0, 0)), 2);
-			translateMT->setMatrix(osg::Matrix::translate(x, y, z));
-			translateMT->addChild(geode);
-			group->addChild(translateMT);
+			(*vertices)[i * 8 + 0].set(v(int(c(0, 0)), 0) + x, v(int(c(0, 0)), 1) + y, v(int(c(0, 0)), 2) + z);
+			(*vertices)[i * 8 + 1].set(v(int(c(0, 1)), 0) + x, v(int(c(0, 1)), 1) + y, v(int(c(0, 1)), 2) + z);
+			(*vertices)[i * 8 + 2].set(v(int(c(0, 2)), 0) + x, v(int(c(0, 2)), 1) + y, v(int(c(0, 2)), 2) + z);
+			(*vertices)[i * 8 + 3].set(v(int(c(0, 3)), 0) + x, v(int(c(0, 3)), 1) + y, v(int(c(0, 3)), 2) + z);
+			(*vertices)[i * 8 + 4].set(v(int(c(0, 4)), 0) + x, v(int(c(0, 4)), 1) + y, v(int(c(0, 4)), 2) + z);
+			(*vertices)[i * 8 + 5].set(v(int(c(0, 5)), 0) + x, v(int(c(0, 5)), 1) + y, v(int(c(0, 5)), 2) + z);
+			(*vertices)[i * 8 + 6].set(v(int(c(0, 6)), 0) + x, v(int(c(0, 6)), 1) + y, v(int(c(0, 6)), 2) + z);
+			(*vertices)[i * 8 + 7].set(v(int(c(0, 7)), 0) + x, v(int(c(0, 7)), 1) + y, v(int(c(0, 7)), 2) + z);
+
+			(*quadsIndices)[i * 24 + 0] = i * 8 + 0; (*quadsIndices)[i * 24 + 1] = i * 8 + 1; (*quadsIndices)[i * 24 + 2] = i * 8 + 2; (*quadsIndices)[i * 24 + 3] = i * 8 + 3;
+			(*quadsIndices)[i * 24 + 4] = i * 8 + 0; (*quadsIndices)[i * 24 + 5] = i * 8 + 3; (*quadsIndices)[i * 24 + 6] = i * 8 + 7; (*quadsIndices)[i * 24 + 7] = i * 8 + 4;
+			(*quadsIndices)[i * 24 + 8] = i * 8 + 4; (*quadsIndices)[i * 24 + 9] = i * 8 + 5; (*quadsIndices)[i * 24 + 10] = i * 8 + 6; (*quadsIndices)[i * 24 + 11] = i * 8 + 7;
+			(*quadsIndices)[i * 24 + 12] = i * 8 + 1; (*quadsIndices)[i * 24 + 13] = i * 8 + 2; (*quadsIndices)[i * 24 + 14] = i * 8 + 6; (*quadsIndices)[i * 24 + 15] = i * 8 + 5;
+			(*quadsIndices)[i * 24 + 16] = i * 8 + 2; (*quadsIndices)[i * 24 + 17] = i * 8 + 3; (*quadsIndices)[i * 24 + 18] = i * 8 + 7; (*quadsIndices)[i * 24 + 19] = i * 8 + 6;
+			(*quadsIndices)[i * 24 + 20] = i * 8 + 1; (*quadsIndices)[i * 24 + 21] = i * 8 + 0; (*quadsIndices)[i * 24 + 22] = i * 8 + 4; (*quadsIndices)[i * 24 + 23] = i * 8 + 5;
+	
+			(*linesIndices)[i * 24 + 0] = i * 8 + 0; (*linesIndices)[i * 24 + 1] = i * 8 + 1; 
+			(*linesIndices)[i * 24 + 2] = i * 8 + 1; (*linesIndices)[i * 24 + 3] = i * 8 + 2;
+			(*linesIndices)[i * 24 + 4] = i * 8 + 2; (*linesIndices)[i * 24 + 5] = i * 8 + 3; 
+			(*linesIndices)[i * 24 + 6] = i * 8 + 3; (*linesIndices)[i * 24 + 7] = i * 8 + 0;
+			(*linesIndices)[i * 24 + 8] = i * 8 + 1; (*linesIndices)[i * 24 + 9] = i * 8 + 5; 
+			(*linesIndices)[i * 24 + 10] = i * 8 + 5; (*linesIndices)[i * 24 + 11] = i * 8 + 6;
+			(*linesIndices)[i * 24 + 12] = i * 8 + 6; (*linesIndices)[i * 24 + 13] = i * 8 + 2; 
+			(*linesIndices)[i * 24 + 14] = i * 8 + 6; (*linesIndices)[i * 24 + 15] = i * 8 + 7;
+			(*linesIndices)[i * 24 + 16] = i * 8 + 7; (*linesIndices)[i * 24 + 17] = i * 8 + 3;
+			(*linesIndices)[i * 24 + 18] = i * 8 + 7; (*linesIndices)[i * 24 + 19] = i * 8 + 4;
+			(*linesIndices)[i * 24 + 20] = i * 8 + 4; (*linesIndices)[i * 24 + 21] = i * 8 + 5; 
+			(*linesIndices)[i * 24 + 22] = i * 8 + 4; (*linesIndices)[i * 24 + 23] = i * 8 + 0;
+
+			i++;
 		}
-		group->addChild(geode);
-		osg::ref_ptr<osg::StateSet> state = group->getOrCreateStateSet();
-		osg::ref_ptr<osg::CullFace> cullface = new osg::CullFace(osg::CullFace::FRONT);
-		state->setAttribute(cullface.get());
-		state->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
-		osgWidget->view->setSceneData(group);
+
+		geom_QUADS->setVertexArray(vertices.get());
+		geom_QUADS->addPrimitiveSet(quadsIndices.get());
+		osg::ref_ptr<osg::Vec4Array> quadsColors = new osg::Vec4Array;
+		quadsColors->push_back(osg::Vec4(0., 1., 1., 1.));
+		geom_QUADS->setColorArray(quadsColors);
+		geom_QUADS->setColorBinding(osg::Geometry::BIND_OVERALL);
+		osg::ref_ptr<osg::Geode> modelNode = new osg::Geode;
+		modelNode->addDrawable(geom_QUADS.get());
+
+		geom_lINES->setVertexArray(vertices.get());
+		geom_lINES->addPrimitiveSet(linesIndices.get());
+		osg::ref_ptr<osg::Vec4Array> lineColors = new osg::Vec4Array;
+		lineColors->push_back(osg::Vec4(0., 0., 0., 1.));
+		geom_lINES->setColorArray(lineColors);
+		geom_lINES->setColorBinding(osg::Geometry::BIND_OVERALL);
+		osg::ref_ptr<osg::Geode> stripNode = new osg::Geode;
+		stripNode->addDrawable(geom_lINES.get());
+		
+		//网格化
+		group->addChild(modelNode);
+		group->addChild(stripNode);
+
+
+		/****************************设置上下左右近远六个光源，但是没写阴影*********************************/
+		osg::ref_ptr<osg::StateSet> stateset = group->getOrCreateStateSet();
+		stateset->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+		stateset->setMode(GL_LIGHT6, osg::StateAttribute::ON);	// GL_LIGHT0是默认光源
+		// 设置6个光源 解决光照问题                         
+		osg::Vec3d ptLight;
+		osg::Vec3d ptCenter = osg::Vec3d(0, 0, 0);
+		double dDis = 200000.0;
+		ptLight = ptCenter + osg::Z_AXIS * dDis;
+		osg::ref_ptr<osg::Node> pNodeLight = createLightSource(6, ptLight, -osg::Z_AXIS);
+		pNodeLight->setName("light0");
+		group->addChild(pNodeLight);
+		
+		//设置网格线宽
+		osg::ref_ptr<osg::StateSet> state = stripNode->getOrCreateStateSet();
+		osg::ref_ptr<osg::LineWidth> lineWid = new osg::LineWidth(4.0f);
+		state->setAttribute(lineWid.get());
+		root->addChild(group);
+		osgWidget->view->setSceneData(root);
 	}
 	else
 	{

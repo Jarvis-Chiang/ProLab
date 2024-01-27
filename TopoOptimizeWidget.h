@@ -40,6 +40,9 @@
 #include <osg/CullFace>
 #include <osg/StateAttribute>
 #include <osg/ShapeDrawable>
+#include <osg/Light>
+#include <osg/LightSource>
+#include <osg/LineWidth>
 //#include <osg/PolygonOffset>
 //#include <osgUtil/Optimizer>
 //#include <osg/PolygonMode>
@@ -64,9 +67,6 @@ public:
 	DesignZoneWidget();
 	~DesignZoneWidget();
 	Ui_DesignZone::DesignZoneWidget* uiDesignZone;
-private:
-	void aabbSplit2D(const Point2D& left, const Point2D& right, double resolution, V& vers, C& cells);
-
 	//	//元对象系统自动生成的信号：条件是保持同名
 	//public slots:
 	//	void on_importDesignGridBotton_clicked();//必须写定义
@@ -219,8 +219,9 @@ private:
 	OptimizePara_3D* optimizePara_3D;
 
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
+	void aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells);
 
-	osg::ref_ptr<osg::Group> group = new osg::Group;//体素单元组节点
+	osg::ref_ptr<osg::Group> root;
 	osg::Vec3 getnormal(osg::Vec3 v1, osg::Vec3 v2, osg::Vec3 v3, osg::Vec3 v4);//获得平面法向量
 	void getShellVoxel(V v, C c, CoorSet& finalCoors);//体素网格抽壳算法
 	static bool cmpAixsX(Point3D x, Point3D y);
@@ -231,20 +232,12 @@ private:
 
 	void pickSurfaceCoors(CoorSet unPickedCoors, CoorSet& PickCoors);
 
-	
-	//osg::ref_ptr<osg::Group> decorator = new osg::Group;//附加网格线组节点
-	//osg::ref_ptr<osg::StateSet> stateset = new osg::StateSet;
-	//osg::ref_ptr<osg::PolygonOffset> polyoffset = new osg::PolygonOffset;//适当设定偏移 
-	//osg::ref_ptr<osg::PolygonMode> polymode = new osg::PolygonMode;
-
-	//osgUtil::Optimizer optimzer;//优化器
-
-
 public slots:
 	void stackedWidgetPageChange(QTreeWidgetItem* item, int column);
 	void importDesignGridFile();
 private slots:
 	void generate3dDesignZone();
+	void generate2dDesignZone();
 };
 
 

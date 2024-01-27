@@ -23,7 +23,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_LoadSetWidget_3D
+class Ui_LoadSetWidget
 {
 public:
     QVBoxLayout *verticalLayout;
@@ -263,8 +263,8 @@ public:
 
 };
 
-namespace Ui_LoadSet_3D {
-    class LoadSetWidget_3D : public Ui_LoadSetWidget_3D {};
+namespace Ui {
+    class LoadSetWidget: public Ui_LoadSetWidget {};
 } // namespace Ui
 
 QT_END_NAMESPACE

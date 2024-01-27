@@ -76,6 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\Project_3D_Slice\ProLab\third_part\eigen3;$(IncludePath)</IncludePath>
+    <ExecutablePath>D:\Project_3D_Slice\ProLab\third_part\bin_need;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -101,7 +102,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanStyle2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanFastInfoset2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanBase2.lib;D:\Project_3D_Slice\Qt\QtitanRibbon6.5.0\bin\QtitanRibbon6.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgUtild.lib;OpenThreads.lib;osg.lib;osgAnimation.lib;osgDB.lib;osgFX.lib;osgGA.lib;osgManipulator.lib;osgParticle.lib;osgPresentation.lib;osgQOpenGL.lib;osgQt5.lib;osgShadow.lib;osgSim.lib;osgTerrain.lib;osgText.lib;osgUI.lib;osgUtil.lib;osgViewer.lib;osgVolume.lib;osgWidget.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\osg\OpenSceneGraph-3.6.5-VC2019-64-Release\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Project_3D_Slice\ProLab\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib;D:\osg\OpenSceneGraph-3.6.5-VC2019-64-Release\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -246,7 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui" />
-    <QtUic Include="WidgetUi\OptimizeParaWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">
