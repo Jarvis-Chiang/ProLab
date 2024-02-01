@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 # QTITANDIR路径
-QTITANDIR = E:\Qt\Developer Machines\QtitanRibbon6.5.0
+QTITANDIR = D:\Qt\Developer Machines\QtitanRibbon6.5.0
 
 include($$QTITANDIR\src\shared\qtitanstyle.pri)
 include($$QTITANDIR\src\shared\qtitanfastinfoset.pri)
@@ -20,21 +20,42 @@ LIBS += -L$$OSGDIR/lib \
     -losgDBd \
     -losgGAd \
     -losgQt5d \
-    -losgViewerd
+    -losgViewerd \
+    -losgUtild
 
 DESTDIR = $$quote($$PWD\build\Debug)
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    OsgWidget.cpp
+    OsgWidget.cpp \
+    TopoOptimizeWidget.cpp
 
 HEADERS += \
     mainwindow.h \
-    OsgWidget.h
+    OsgWidget.h \
+    TopoOptimizeWidget.h \
+    ui_BoundaryCasesWidget.h \
+    ui_DesignZoneWidget.h \
+    ui_LoadSetWidget.h \
+    ui_MaterialSetWidget.h \
+    ui_OptimizeParaWidget.h \
+    ui_ResultCheckWidget.h \
+    ui_DesignZoneWidget_3D \
+    ui_BoundaryCasesWidget_3D.h \
+    ui_LoadSetWidget_3D.h \
+    ui_OptimizeParaWidget_3D.h
+
+
+
 
 FORMS += \
     mainwindow.ui
+
+
+
+
+
 
 #RESOURCES += res.qrc
 

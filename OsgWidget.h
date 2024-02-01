@@ -7,6 +7,7 @@
 #include <osgViewer/ViewerEventHandlers>
 
 #include <osgGA/MultiTouchTrackballManipulator>
+#include <osgGA/StateSetManipulator>
 
 #include <osgDB/ReadFile>
 
@@ -23,6 +24,8 @@ public:
 	osgQt::GraphicsWindowQt* createGraphicsWindow(int x, int y, int w, int h, const std::string& name = "", bool windowDecoration = false);
 
 	virtual void paintEvent(QPaintEvent* event);
+
+	osgViewer::View* view;
 
 protected:
 	QTimer _timer;

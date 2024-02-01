@@ -8,6 +8,7 @@
 #include <QTreeWidget>
 #include <QTime>
 
+
 #include "aboutdialog.h"
 #include "mainwindow.h"
 #include "QtitanRibbon.h"
@@ -18,7 +19,8 @@
 
 /* MainWindow */
 MainWindow::MainWindow(QWidget* parent)
-    : DemoRibbonWindow(parent)
+    : DemoRibbonWindow(parent),
+    topoOptimizeWidget(new TopoOptimizeWidget)
 {
     // init
     setWindowTitle(QObject::tr("ProLab"));
@@ -31,11 +33,13 @@ MainWindow::MainWindow(QWidget* parent)
 
 
     RibbonPage* homePage = ribbonBar()->addPage("&开始");
+    RibbonPage* structureOptiPage = ribbonBar()->addPage("&结构优化");
     RibbonPage* cadPage = ribbonBar()->addPage("&CAD");
     RibbonPage* caePage = ribbonBar()->addPage("&CAE");
     RibbonPage* camPage = ribbonBar()->addPage("&CAM");
 
     creatHomeButton(homePage);
+    creatStructureOptiButton(structureOptiPage);
     creatCadButton(cadPage);
     creatCaeButton(caePage);
     creatCamButton(camPage);
@@ -43,7 +47,7 @@ MainWindow::MainWindow(QWidget* parent)
     creatDockWindows();
     creatConnect();
 
-    selectedIndex = treeView->currentIndex();                       // selected row
+/*    selectedIndex = treeView->currentIndex();     */                  // selected row
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
@@ -63,11 +67,15 @@ MainWindow::~MainWindow()
 void MainWindow::creatConnect()
 {
     QObject::connect(m_newFile, &QAction::triggered, this, &MainWindow::openFile);
+    QObject::connect(m_Topo2D, &QAction::triggered, this, &MainWindow::topo2D);
+    QObject::connect(m_Topo3D, &QAction::triggered, this, &MainWindow::topo3D);
     //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
     //QObject::connect(m_addDock, SIGNAL(button1->triggered()), this, SLOT(creatPage(oprDock)));
 
     // ????
     connect(m_addDock, SIGNAL(m_addDock->triggered()), this, SLOT(openFile()));
+    //connect(m_Topo2D, SIGNAL(m_Topo2D->triggered()), this, SLOT(topo2D));
+    //connect(m_Topo3D, SIGNAL(m_Topo3D->triggered()), this, SLOT(topo3D));
 }
 
 void MainWindow::creatHomeButton(RibbonPage* page)
@@ -83,14 +91,25 @@ void MainWindow::creatHomeButton(RibbonPage* page)
     groupHome->addControl(toolBar);
 }
 
+void MainWindow::creatStructureOptiButton(RibbonPage* page)
+{
+    RibbonGroup* groupCad = page->addGroup("优化选择");
+    RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
+    m_Topo2D =  toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D拓扑优化", Qt::ToolButtonTextUnderIcon);
+    m_Topo3D = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "3D拓扑优化", Qt::ToolButtonTextUnderIcon);
+    //m_Topo2D->setCheckable(true);
+    //m_Topo3D->setCheckable(true);//设置按下样式
+    groupCad->addControl(toolBar);
+}
+
 
 void MainWindow::creatCadButton(RibbonPage* page)
 {
     RibbonGroup* groupCad = page->addGroup("文件操作");
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
-    m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), QStringLiteral("new"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
-    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), QStringLiteral("新建\n文件"), Qt::ToolButtonTextUnderIcon);
+    m_newFile = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "new", Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "新建\n文件", Qt::ToolButtonTextUnderIcon);
+    toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "新建\n文件", Qt::ToolButtonTextUnderIcon);
     groupCad->addControl(toolBar);
 }
 
@@ -108,7 +127,7 @@ void MainWindow::creatDockWindows()
     treeDock = new QDockWidget(tr("Project Tree View"), this);
     treeDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     treeDock->setFeatures(QDockWidget::DockWidgetMovable);
-    creatTreeItem(treeDock);
+    treeDock->setWidget(topoOptimizeWidget->treeStackWidget);
     addDockWidget(Qt::LeftDockWidgetArea, treeDock);
     // creat log dock
     myLogWidget* logWidget = new myLogWidget;
@@ -130,62 +149,22 @@ void MainWindow::creatDockWindows()
     addDockWidget(Qt::BottomDockWidgetArea, logDock);
 
     // creat operate Dock
-    myOprWidget* oprWidget = new myOprWidget;
     oprDock = new QDockWidget(tr("operate"), this);
     oprDock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     oprDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     // addOprPage();
-    oprDock->setWidget(oprWidget);
+    oprDock->setWidget(topoOptimizeWidget->oprStackWidget);
     //creatOprPage(oprDock);
     addDockWidget(Qt::RightDockWidgetArea, oprDock);
 
     // creat graphWidget
-    osg::Node* displaynode = osgDB::readNodeFile("D:/osgLIB_and_openLIB/osgLIB/build/data/cow.osg");
-    OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded, displaynode);
-    setCentralWidget(osgWidget);
+    //osg::Node* displaynode = osgDB::readNodeFile("D:/Project_3D_Slice/ProLab/cow.osg");
+    //OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded);
+    setCentralWidget(topoOptimizeWidget->osgWidget);
 
 }
 
-void MainWindow::creatTreeItem(QDockWidget* treeDock)
-{
-    treeView = new QTreeView;
-    treeView->setHeaderHidden(true);                            // hide header, otherwise display a ugly header
-    QList<QStandardItem*> list_domain;
-    auto item_domain = new QStandardItem("设计域");
-    list_domain.push_back(item_domain);
-
-    QList<QStandardItem*> list_material;
-    auto item_material = new QStandardItem("材料属性");
-    list_material.push_back(item_material);
-
-
-    QList<QStandardItem*> list_boundary;
-    auto item_boundary = new QStandardItem("边界条件");
-    list_boundary.push_back(item_boundary);
-
-    QList<QStandardItem*> list_load;
-    auto item_load = new QStandardItem("载荷设置");
-    list_load.push_back(item_load);
-
-    QList<QStandardItem*> list_optimization;
-    auto item_optimization = new QStandardItem("优化参数");
-    list_optimization.push_back(item_optimization);
-
-    QList<QStandardItem*> list_result;
-    auto item_result = new QStandardItem("结果查看");
-    list_result.push_back(item_result);
-
-    model.appendRow(list_domain);
-    model.appendRow(list_material);
-    model.appendRow(list_boundary);
-    model.appendRow(list_load);
-    model.appendRow(list_optimization);
-    model.appendRow(list_result);
-
-    treeView->setModel(&model);
-    treeDock->setWidget(treeView);
-}
 
 void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level)
 {
@@ -243,9 +222,50 @@ void MainWindow::creatOprPage(QDockWidget* dock)
     dock->setWidget(wid);
 }
 
+
+
+
+
+
+//**************以下为槽函数**********************//
 void MainWindow::openFile()
 {
     QMessageBox::information(NULL, QString("openFile"), QString("prolab->now open file"));
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    QString filePath = QFileDialog::getOpenFileName(nullptr, "选择inp文件", "", "INP Files (*.inp)");
+    readINP reader;
+    reader.readVertex(filePath.toStdString().c_str(), geode, V0, PD1, PD2);
+
+    // 创建环境光
+    osg::ref_ptr<osg::Light> light = new osg::Light;
+    light->setLightNum(0); // 设置灯光编号
+    light->setPosition(osg::Vec4(0.0f, 0.0f, 1.0f, 0.0f)); // 设置灯光位置
+    light->setDiffuse(osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f)); // 设置灯光漫反射颜色
+    // 创建环境光源
+    osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource;
+    lightSource->setLight(light.get());
+    // 将环境光源添加到场景图中
+    Root->addChild(lightSource.get());
+
+    Root->addChild(geode);
+    OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded, Root);
+    setCentralWidget(osgWidget);
     return;
 }
 
+
+void MainWindow::topo2D()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至2D拓扑优化模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(0);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(0);
+    return;
+}
+
+void MainWindow::topo3D()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至3D拓扑优化模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(6);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(1);
+    return;
+}

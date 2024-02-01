@@ -11,10 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4D26A27C-BD94-3AE7-91D4-BBFC7CA530BB}</ProjectGuid>
+    <ProjectGuid>{A65FC5FC-CB32-3911-BC7A-56A31FFB6AE8}</ProjectGuid>
     <RootNamespace>ProLab</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -45,6 +46,7 @@
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
     <QtModules>core;opengl;gui;widgets</QtModules>
+    <QtPlugin>true</QtPlugin>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -70,9 +72,12 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ProLab</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\new\ProLab\third_part\Eigen3;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\..\..\Qt\Developer Machines\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;..\..\Qt\Developer Machines\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -85,14 +90,15 @@
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QTN_PRIVATE_HEADERS;_WINDOWS;QTN_NAMESPACE;QTN_VERSION_STYLE=2.6.0;QTN_VERSION_FASTINFOSET=2.6.0;QTN_VERSION_RIBBON=6.5.0;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName></ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanStyle2.lib";"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanFastInfoset2.lib";"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanBase2.lib";"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanRibbon6.lib";.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanStyle2.lib";"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanFastInfoset2.lib";"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanBase2.lib";"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanRibbon6.lib";.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgUtild.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -135,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\..\..\Qt\Developer Machines\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\new\ProLab\third_part\libigl\glad-src\include;D:\new\ProLab\third_part\libigl\libigl-src;D:\new\ProLab\third_part\libigl\glfw-src\include;D:\new\ProLab\third_part\libigl\imgui-src;D:\new\ProLab\third_part\libigl\imguizmo-src;D:\new\ProLab\third_part\libigl\libigl_imgui_fonts-src;D:\new\ProLab\third_part\Eigen3;GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;..\..\Qt\Developer Machines\QtitanRibbon6.5.0\include;third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include;third_part\ribbon\aboutdialog;third_part\ribbon\DemoRibbonWindow;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -154,7 +160,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanStyled2.lib";"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanFastInfosetd2.lib";"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanBased2.lib";"E:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanRibbond6.lib";.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanStyled2.lib";"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanFastInfosetd2.lib";"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanBased2.lib";"D:\Qt\Developer Machines\QtitanRibbon6.5.0\bin\QtitanRibbond6.lib";.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgDBd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgGAd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgQt5d.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgViewerd.lib;.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib\osgUtild.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\lib;C:\openssl\lib;C:\Utils\my_sql\mysql-5.7.25-winx64\lib;C:\Utils\postgresql\pgsql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -194,17 +200,33 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Function.cpp" />
+    <ClCompile Include="readINP.cpp" />
     <ClCompile Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.cpp" />
     <ClCompile Include="OsgWidget.cpp" />
+    <ClCompile Include="TopoOptimizeWidget.cpp" />
     <ClCompile Include="third_part\ribbon\aboutdialog\aboutdialog.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h" />
+    <ClInclude Include="Function.h" />
     <ClInclude Include="OsgWidget.h" />
+    <QtMoc Include="TopoOptimizeWidget.h" />
     <QtMoc Include="third_part\ribbon\aboutdialog\aboutdialog.h" />
     <QtMoc Include="mainwindow.h" />
+    <ClInclude Include="readINP.h" />
+    <ClInclude Include="ui_BoundaryCasesWidget.h" />
+    <ClInclude Include="ui_BoundaryCasesWidget_3D.h" />
+    <ClInclude Include="ui_DesignZoneWidget.h" />
+    <ClInclude Include="ui_DesignZoneWidget_3D" />
+    <ClInclude Include="ui_LoadSetWidget.h" />
+    <ClInclude Include="ui_LoadSetWidget_3D.h" />
+    <ClInclude Include="ui_MaterialSetWidget.h" />
+    <ClInclude Include="ui_OptimizeParaWidget.h" />
+    <ClInclude Include="ui_OptimizeParaWidget_3D.h" />
+    <ClInclude Include="ui_ResultCheckWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -226,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui" />
+    <QtUic Include="WidgetUi\LoadSetWidget_3D.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">

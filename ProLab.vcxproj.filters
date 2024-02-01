@@ -53,6 +53,9 @@
     <ClCompile Include="OsgWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TopoOptimizeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="third_part\ribbon\aboutdialog\aboutdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Function.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="readINP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,12 +79,42 @@
     <ClInclude Include="OsgWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="TopoOptimizeWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="third_part\ribbon\aboutdialog\aboutdialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="ui_BoundaryCasesWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_BoundaryCasesWidget_3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_DesignZoneWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_DesignZoneWidget_3D">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_LoadSetWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_MaterialSetWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_OptimizeParaWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_OptimizeParaWidget_3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_ResultCheckWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -87,6 +126,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\LoadSetWidget_3D.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -175,5 +217,16 @@
     <None Include="third_part\ribbon\DemoRibbonWindow\res\your_company_logo.png">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="readINP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_LoadSetWidget_3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
