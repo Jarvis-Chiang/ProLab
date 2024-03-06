@@ -87,6 +87,7 @@ void TopoOptimizeWidget::creatAction()
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
+	connect(loadSet_3D->uiLoadSet_3D->pushButton_add, SIGNAL(clicked()), this, SLOT(addArrow0()));
 
 }
 //osgwidget
@@ -379,6 +380,38 @@ void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, 
 			}
 		}
 	}
+}
+
+
+void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction)
+{
+	double radius = 0.3;
+	double height = direction.length() * 2;
+	double coneRadius = 0.5;
+	double coneHeight = 2;
+
+	osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3(0.0f, 0.0f, height), coneRadius, coneHeight);
+	osg::ref_ptr<osg::ShapeDrawable> coneDrawable = new osg::ShapeDrawable(cone.get());
+
+	osg::ref_ptr<osg::Cylinder> cylinder = new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0.5 * height), radius, height);
+	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable = new osg::ShapeDrawable(cylinder.get());
+
+	// 创建变换节点，并将圆柱和圆锥的几何体添加到变换节点中
+	osg::ref_ptr<osg::PositionAttitudeTransform> arrowTransform = new osg::PositionAttitudeTransform;
+	arrowTransform->addChild(coneDrawable.get());
+	arrowTransform->addChild(cylinderDrawable.get());
+
+	// 设置变换节点的位置和方向
+	arrowTransform->setPosition(startPoint);
+	osg::Vec3 normalizedDirection = direction;
+	normalizedDirection.normalize();
+	osg::Quat rotation;
+	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
+	arrowTransform->setAttitude(rotation);
+
+	// 将变换节点添加到箭头的根节点中
+	root_t->addChild(arrowTransform.get());
+
 }
 
 
@@ -858,3 +891,65 @@ void TopoOptimizeWidget::generate3dDesignZone()
 		QMessageBox::information(NULL, QString("警告"), QString("数据不足"));
 	}
 }
+
+//void TopoOptimizeWidget::addTangentPlane()
+//{
+//	Function function;
+//	function.genPlaneCoordinateSystem();
+//}
+//
+void TopoOptimizeWidget::addArrow0()
+{
+	QString inputText = loadSet_3D->uiLoadSet_3D->lineEdit_x0->text();
+	double x = inputText.toDouble();
+	QString inputText2 = loadSet_3D->uiLoadSet_3D->lineEdit_y0->text();
+	double y = inputText2.toDouble();
+	QString inputText3 = loadSet_3D->uiLoadSet_3D->lineEdit_z0->text();
+	double z = inputText3.toDouble();
+	osg::Vec3 input(x, y, z);
+	//function.genPlaneCoordinateSystem();
+	CreatArrow(arrow, startPoint, input);
+
+	QString text = QString("在坐标(%1,%2,%3)处插入向量(%4,%5,%6)")
+		.arg(startPoint.x(), 0, 'f', 2).arg(startPoint.y(), 0, 'f', 2).arg(startPoint.z(), 0, 'f', 2)
+		.arg(input.x()).arg(input.y()).arg(input.z());
+	loadSet_3D->uiLoadSet_3D->listWidget->addItem(text);
+}
+//
+//
+//void TopoOptimizeWidget::add2DArrow()
+//{
+//	Function function;
+//	QString inputText = loadSetWidget->uiLoadSet->lineEdit->text();
+//	double x = inputText.toDouble();
+//	QString inputText2 = loadSetWidget->uiLoadSet->lineEdit_2->text();
+//	double y = inputText2.toDouble();
+//	double z = 0;
+//	osg::Vec3 input(x, y, z);
+//	function.genArrow(input);
+//
+//	QString text = QString("在坐标(%1,%2,%3)处插入向量(%4,%5,%6)")
+//		.arg(startPoint.x(), 0, 'f', 2).arg(startPoint.y(), 0, 'f', 2)
+//		.arg(input.x()).arg(input.y());
+//	loadSetWidget->uiLoadSet->listWidget->addItem(text);
+//}
+//
+//void TopoOptimizeWidget::delArrow()
+//{
+//	Function function;
+//	function.deleteArrow();
+//
+//	QString text = QString("在坐标(%1,%2,%3)处删除向量")
+//		.arg(startPoint.x(), 0, 'f', 2).arg(startPoint.y(), 0, 'f', 2).arg(startPoint.z(), 0, 'f', 2);
+//	loadSet_3D->uiLoadSet_3D->listWidget->addItem(text);
+//}
+//
+//void TopoOptimizeWidget::del2DArrow()
+//{
+//	Function function;
+//	function.deleteArrow();
+//
+//	QString text = QString("在坐标(%1,%2,%3)处删除向量")
+//		.arg(startPoint.x(), 0, 'f', 2).arg(startPoint.y(), 0, 'f', 2);
+//	loadSetWidget->uiLoadSet->listWidget->addItem(text);
+//}

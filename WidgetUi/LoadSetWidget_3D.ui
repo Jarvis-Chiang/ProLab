@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1114</width>
-    <height>712</height>
+    <height>821</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
      <property name="title">
       <string>边界条件</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_7">
       <item>
        <widget class="QWidget" name="widget" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -64,16 +64,16 @@
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="pushButton_del">
                  <property name="text">
                   <string>删除</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="pushButton_plane">
                  <property name="text">
-                  <string>添加</string>
+                  <string>切平面</string>
                  </property>
                 </widget>
                </item>
@@ -85,6 +85,192 @@
          </item>
          <item>
           <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_12" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <spacer name="horizontalSpacer_23">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>276</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>载荷大小</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QWidget" name="widget_13" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_14">
+               <item>
+                <spacer name="horizontalSpacer_24">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
+                  <string>X：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_x0"/>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_25">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_14" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_15">
+               <item>
+                <spacer name="horizontalSpacer_26">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>Y：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_y0"/>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_27">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_15" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_16">
+               <item>
+                <spacer name="horizontalSpacer_28">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Z：</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_z0"/>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_29">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_add">
+              <property name="text">
+               <string>添加</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_30">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -130,7 +316,7 @@
             </size>
            </property>
            <property name="title">
-            <string>载荷大小</string>
+            <string>相对载荷大小</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
@@ -157,7 +343,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit"/>
+                <widget class="QLineEdit" name="lineEdit_x1"/>
                </item>
                <item>
                 <spacer name="horizontalSpacer_6">
@@ -199,7 +385,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_2"/>
+                <widget class="QLineEdit" name="lineEdit_y1"/>
                </item>
                <item>
                 <spacer name="horizontalSpacer_8">
@@ -241,7 +427,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_4"/>
+                <widget class="QLineEdit" name="lineEdit_z1"/>
                </item>
                <item>
                 <spacer name="horizontalSpacer_12">
@@ -257,6 +443,13 @@
                 </spacer>
                </item>
               </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_add_2">
+              <property name="text">
+               <string>添加</string>
+              </property>
              </widget>
             </item>
            </layout>

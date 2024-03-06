@@ -13,6 +13,7 @@
 #include "ui_OptimizeParaWidget_3D.h"
 #include "OsgWidget.h"
 #include "Global.h"
+//#include "Function.h"
 
 #include <set>
 #include <vector>
@@ -44,13 +45,13 @@
 #include <osg/Light>
 #include <osg/LightSource>
 #include <osg/LineWidth>
+#include <osg/PositionAttitudeTransform>
 //#include <osg/PolygonOffset>
 //#include <osgUtil/Optimizer>
 //#include <osg/PolygonMode>
 //#include <osg/Material>
 //#include <osg/Array>
 
-#pragma once
 #include <QTimer>
 #include <QApplication>
 #include <QGridLayout>
@@ -230,6 +231,8 @@ public:
 	void init();
 	void creatAction();
 
+	void CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);
+
 public:
 	QStackedWidget* oprStackWidget; //ÓÒ²à²Ù×÷À¸¶ÑÕ»´°¿Ú
 	QStackedWidget* treeStackWidget;//×ó²àÊ÷×´½á¹¹¶ÑÕ»´°¿Ú
@@ -272,6 +275,13 @@ public slots:
 private slots:
 	void generate3dDesignZone();
 	void generate2dDesignZone();
+
+	//void addTangentPlane();
+	//void addArrow0();
+	void addArrow0();
+	//void add2DArrow();
+	//void delArrow();
+	//void del2DArrow();
 };
 
 
@@ -328,6 +338,7 @@ public:
 
 					}
 					std::sort(pointsToChoose.begin(), pointsToChoose.end(), cmp);
+					startPoint = pointsToChoose[0];
 					//creatPoint(pointsToChoose[0].x(), pointsToChoose[0].y(), pointsToChoose[0].z());
 					//pointsData_ctrl->push_back(osg::Vec3f(pointsToChoose[0].x(), pointsToChoose[0].y(), pointsToChoose[0].z()));
 					//lines_ctrl->addChild(drawLines(pointsData_ctrl, LinesType::ControlLines));

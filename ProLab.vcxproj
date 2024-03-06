@@ -72,7 +72,7 @@
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Project_3D_Slice\ProLab\third_part\eigen3;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Project_3D_Slice\ProLab\third_part\eigen3;D:\Project_3D_Slice\ProLab\third_part\libigl\libigl-src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\Project_3D_Slice\ProLab\third_part\eigen3;$(IncludePath)</IncludePath>
@@ -152,7 +152,7 @@
       <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ObjectFileName>debug\</ObjectFileName>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QTN_PRIVATE_HEADERS;_WINDOWS;QTN_NAMESPACE;QTN_VERSION_STYLE=2.6.0;QTN_VERSION_FASTINFOSET=2.6.0;QTN_VERSION_RIBBON=6.5.0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
