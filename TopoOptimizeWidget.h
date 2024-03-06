@@ -12,6 +12,7 @@
 #include "ui_LoadSetWidget_3D.h"
 #include "ui_OptimizeParaWidget_3D.h"
 #include "OsgWidget.h"
+#include "Global.h"
 
 #include <set>
 #include <vector>
@@ -49,13 +50,52 @@
 //#include <osg/Material>
 //#include <osg/Array>
 
+#pragma once
+#include <QTimer>
+#include <QApplication>
+#include <QGridLayout>
 
+#include <osgViewer/CompositeViewer>
+#include <osgViewer/ViewerEventHandlers>
+
+#include <osgGA/MultiTouchTrackballManipulator>
+#include <osgGA/StateSetManipulator>
+
+#include <osgDB/ReadFile>
+
+#include <osgQt/GraphicsWindowQt>
+
+#include <iostream>
+
+#include "Global.h"
+
+static osg::ref_ptr<osg::Group> root = new osg::Group;//osg窗口显示的所有节点的根节点
+static osg::ref_ptr<osg::Group> arrow = new osg::Group;//osg窗口显示的所有箭头
+static osg::ref_ptr<osg::Group> slicePlane = new osg::Group;//osg窗口显示的所有切平面节点
+static osg::ref_ptr<osg::Group> model = new osg::Group;//osg窗口显示的所有模型节点
 
 typedef Eigen::Vector2d Point2D;
 typedef Eigen::Vector3d Point3D;
 typedef std::vector<Eigen::Vector3d> CoorSet;
 typedef Eigen::MatrixXd V;
 typedef Eigen::MatrixXi C;
+
+class OsgWidget : public QWidget, public osgViewer::CompositeViewer
+{
+public:
+	OsgWidget(QWidget* parent = 0, Qt::WindowFlags f = 0, osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::CompositeViewer::SingleThreaded);
+
+	QWidget* addViewWidget(osgQt::GraphicsWindowQt* gw);
+
+	osgQt::GraphicsWindowQt* createGraphicsWindow(int x, int y, int w, int h, const std::string& name = "", bool windowDecoration = false);
+
+	virtual void paintEvent(QPaintEvent* event);
+
+	osgViewer::Viewer* view;
+
+protected:
+	QTimer _timer;
+};
 
 //设计域
 class DesignZoneWidget : public QWidget
@@ -221,7 +261,6 @@ private:
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 	void aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells);
 
-	osg::ref_ptr<osg::Group> root;
 	osg::Vec3 getnormal(osg::Vec3 v1, osg::Vec3 v2, osg::Vec3 v3, osg::Vec3 v4);//获得平面法向量
 	void getShellVoxel(V v, C c, CoorSet& finalCoors);//体素网格抽壳算法
 	static bool cmpAixsX(Point3D x, Point3D y);

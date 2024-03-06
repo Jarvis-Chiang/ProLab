@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="OsgWidget.h" />
     <QtMoc Include="TopoOptimizeWidget.h" />
     <QtMoc Include="third_part\ribbon\aboutdialog\aboutdialog.h" />

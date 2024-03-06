@@ -16,9 +16,7 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	boundaryCases_3D(new BoundaryCases_3D),
 	loadSet_3D(new LoadSet_3D),
 	optimizePara_3D(new OptimizePara_3D),
-	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded)),
-	root(osg::ref_ptr<osg::Group> (new osg::Group))
-
+	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded))
 {
 	init();
 	creatAction();
@@ -70,6 +68,11 @@ void TopoOptimizeWidget :: init()
 	//左侧树状结构堆栈窗口
 	treeStackWidget->addWidget(treeWidget1);
 	treeStackWidget->addWidget(treeWidget2);
+
+	//显示结构初始化
+	root->addChild(model.get());
+	root->addChild(arrow.get());
+	root->addChild(slicePlane.get());
 }
 
 void TopoOptimizeWidget::creatAction()
@@ -85,6 +88,68 @@ void TopoOptimizeWidget::creatAction()
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
 
+}
+//osgwidget
+OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::ThreadingModel threadingModel) :
+	view(new osgViewer::Viewer)
+{
+	setThreadingModel(threadingModel);
+
+	// disable the default setting of viewer.done() by pressing Escape.
+	setKeyEventSetsDone(0);
+
+	QWidget* popupWidget = addViewWidget(createGraphicsWindow(900, 100, 800, 600, "Popup window", true));
+	QGridLayout* grid = new QGridLayout;
+	grid->addWidget(popupWidget, 0, 0);
+	setLayout(grid);
+
+	connect(&_timer, SIGNAL(timeout()), this, SLOT(update()));
+	_timer.start(5);
+}
+
+QWidget* OsgWidget::addViewWidget(osgQt::GraphicsWindowQt* gw)
+{
+	addView(view);
+
+	osg::Camera* camera = view->getCamera();
+	camera->setGraphicsContext(gw);
+
+	const osg::GraphicsContext::Traits* traits = gw->getTraits();
+
+	camera->setClearColor(osg::Vec4(1, 1, 1, 1));
+	camera->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
+	camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(traits->width) / static_cast<double>(traits->height), 1.0f, 10000.0f);
+
+	view->setSceneData(root);
+	view->addEventHandler(new osgViewer::StatsHandler);
+	view->addEventHandler(new osgGA::StateSetManipulator(view->getCamera()->getOrCreateStateSet()));
+	view->setCameraManipulator(new osgGA::MultiTouchTrackballManipulator);
+	gw->setTouchEventsEnabled(true);
+	return gw->getGLWidget();
+}
+
+osgQt::GraphicsWindowQt* OsgWidget::createGraphicsWindow(int x, int y, int w, int h, const std::string& name, bool windowDecoration)
+{
+	osg::DisplaySettings* ds = osg::DisplaySettings::instance().get();
+	osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits;
+	traits->windowName = name;
+	traits->windowDecoration = windowDecoration;
+	traits->x = x;
+	traits->y = y;
+	traits->width = w;
+	traits->height = h;
+	traits->doubleBuffer = true;
+	traits->alpha = ds->getMinimumNumAlphaBits();
+	traits->stencil = ds->getMinimumNumStencilBits();
+	traits->sampleBuffers = ds->getMultiSamples();
+	traits->samples = ds->getNumMultiSamples();
+
+	return new osgQt::GraphicsWindowQt(traits.get());
+}
+
+void OsgWidget::paintEvent(QPaintEvent* event)
+{
+	frame();
 }
 
 
@@ -567,8 +632,8 @@ osg::ref_ptr<osg::Node> TopoOptimizeWidget::createLightSource(unsigned int num, 
 
 void TopoOptimizeWidget::generate2dDesignZone()
 {
-	if (root != nullptr)
-		root->removeChild(0, 1U);
+	if (model != nullptr)
+		model->removeChild(0, 1U);
 	osg::ref_ptr<osg::Group> group = new osg::Group;
 	QString len = designZoneWidget->uiDesignZone->lineEdit->text();//长
 	QString wid = designZoneWidget->uiDesignZone->lineEdit_4->text();//宽
@@ -650,8 +715,10 @@ void TopoOptimizeWidget::generate2dDesignZone()
 		osg::ref_ptr<osg::StateSet> state = stripNode->getOrCreateStateSet();
 		osg::ref_ptr<osg::LineWidth> lineWid = new osg::LineWidth(4.0f);
 		state->setAttribute(lineWid.get());
-		root->addChild(group);
-		osgWidget->view->setSceneData(root);
+		model->addChild(group);
+		//显示自适应模型大小
+		osgWidget->view->getCameraManipulator()->computeHomePosition();
+		osgWidget->view->getCameraManipulator()->home(0.0);
 	}
 	else
 	{
@@ -663,8 +730,8 @@ void TopoOptimizeWidget::generate2dDesignZone()
 void TopoOptimizeWidget::generate3dDesignZone()
 //多次点击的覆盖问题？？？？？？？？？？？？？？？？？？？？？？？？？？？？
 {
-	if (root != nullptr)
-		root->removeChild(0, 1U);
+	if (model != nullptr)
+		model->removeChild(0, 1U);
 	//未考虑数据输入类型错误的bug？？？？？？？？？？？？？？？？？？？？？？
 	//获取QLineEdit中的数据
 	osg::ref_ptr<osg::Group> group = new osg::Group;
@@ -780,8 +847,10 @@ void TopoOptimizeWidget::generate3dDesignZone()
 		osg::ref_ptr<osg::StateSet> state = stripNode->getOrCreateStateSet();
 		osg::ref_ptr<osg::LineWidth> lineWid = new osg::LineWidth(4.0f);
 		state->setAttribute(lineWid.get());
-		root->addChild(group);
-		osgWidget->view->setSceneData(root);
+		model->addChild(group);
+		//显示自适应模型大小
+		osgWidget->view->getCameraManipulator()->computeHomePosition();
+		osgWidget->view->getCameraManipulator()->home(0.0);
 	}
 	else
 	{
