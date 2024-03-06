@@ -122,7 +122,8 @@ QWidget* OsgWidget::addViewWidget(osgQt::GraphicsWindowQt* gw)
 
 	view->setSceneData(root);
 	view->addEventHandler(new osgViewer::StatsHandler);
-	view->addEventHandler(new osgGA::StateSetManipulator(view->getCamera()->getOrCreateStateSet()));
+	//view->addEventHandler(new osgGA::StateSetManipulator(view->getCamera()->getOrCreateStateSet()));
+	view->addEventHandler(new AddLinePointHandler);
 	view->setCameraManipulator(new osgGA::MultiTouchTrackballManipulator);
 	gw->setTouchEventsEnabled(true);
 	return gw->getGLWidget();

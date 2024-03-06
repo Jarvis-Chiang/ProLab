@@ -69,11 +69,6 @@
 
 #include "Global.h"
 
-static osg::ref_ptr<osg::Group> root = new osg::Group;//osg窗口显示的所有节点的根节点
-static osg::ref_ptr<osg::Group> arrow = new osg::Group;//osg窗口显示的所有箭头
-static osg::ref_ptr<osg::Group> slicePlane = new osg::Group;//osg窗口显示的所有切平面节点
-static osg::ref_ptr<osg::Group> model = new osg::Group;//osg窗口显示的所有模型节点
-
 typedef Eigen::Vector2d Point2D;
 typedef Eigen::Vector3d Point3D;
 typedef std::vector<Eigen::Vector3d> CoorSet;
@@ -279,5 +274,76 @@ private slots:
 	void generate2dDesignZone();
 };
 
+
+/*******************以下为交互事件函数***********************/
+class AddLinePointHandler : public osgGA::GUIEventHandler
+{
+public:
+	AddLinePointHandler() {};
+	~AddLinePointHandler() {};
+
+	static bool cmp(const osg::Vec3f& v1, const osg::Vec3f& v2)
+	{
+		float distance_v1 = (v1 - position).length();
+		float distance_v2 = (v2 - position).length();
+		return distance_v1 < distance_v2;
+	}
+
+	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
+	{
+		//获取要响应的viewer
+		osg::ref_ptr<osgViewer::Viewer> viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+
+		if (viewer == NULL)
+			return false;
+
+		//判断事件类型
+		switch (ea.getEventType())
+		{
+		case osgGA::GUIEventAdapter::DOUBLECLICK://双击鼠标添加顶点
+			if (ea.getButton() == 1)
+			{
+				//创建一个线段交集检测对象
+				osgUtil::LineSegmentIntersector::Intersections intersections;
+				float x = ea.getX();
+				float y = ea.getY();
+
+				std::vector<osg::Vec3> pointsToChoose;
+
+				viewer->getCamera()->getViewMatrixAsLookAt(position, center_1, up);
+
+				if (viewer->computeIntersections(x, y, intersections))//没有选中物体
+				{
+					//得到相交交集的交点
+					for (osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
+						hitr != intersections.end();
+						++hitr)
+						//用emit传递数据
+					{
+						float x_Point = float(hitr->getWorldIntersectPoint().x());
+						float y_Point = float(hitr->getWorldIntersectPoint().y());
+						float z_Point = float(hitr->getWorldIntersectPoint().z());
+
+						pointsToChoose.push_back(osg::Vec3(x_Point, y_Point, z_Point));
+
+					}
+					std::sort(pointsToChoose.begin(), pointsToChoose.end(), cmp);
+					//creatPoint(pointsToChoose[0].x(), pointsToChoose[0].y(), pointsToChoose[0].z());
+					//pointsData_ctrl->push_back(osg::Vec3f(pointsToChoose[0].x(), pointsToChoose[0].y(), pointsToChoose[0].z()));
+					//lines_ctrl->addChild(drawLines(pointsData_ctrl, LinesType::ControlLines));
+					//const QString text = QString("(%1, %2, %3)").arg(pointsToChoose[0].x()).arg(pointsToChoose[0].y()).arg(pointsToChoose[0].z());
+					//listLinesWidget->addItem(text);
+					//UpdateLog(QString("添加控制顶点 (%1, %2, %3)\n").arg(pointsToChoose[0].x()).arg(pointsToChoose[0].y()).arg(pointsToChoose[0].z()));
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		return false;
+	}
+};
 
 
