@@ -34,12 +34,14 @@ MainWindow::MainWindow(QWidget* parent)
 
     RibbonPage* homePage = ribbonBar()->addPage("&开始");
     RibbonPage* structureOptiPage = ribbonBar()->addPage("&结构优化");
+    RibbonPage* processPlanPage = ribbonBar()->addPage("&工艺规划");
     RibbonPage* cadPage = ribbonBar()->addPage("&CAD");
     RibbonPage* caePage = ribbonBar()->addPage("&CAE");
     RibbonPage* camPage = ribbonBar()->addPage("&CAM");
 
     creatHomeButton(homePage);
     creatStructureOptiButton(structureOptiPage);
+    creatprocessPlanButton(processPlanPage);
     creatCadButton(cadPage);
     creatCaeButton(caePage);
     creatCamButton(camPage);
@@ -69,6 +71,13 @@ void MainWindow::creatConnect()
     QObject::connect(m_newFile, &QAction::triggered, this, &MainWindow::openFile);
     QObject::connect(m_Topo2D, &QAction::triggered, this, &MainWindow::topo2D);
     QObject::connect(m_Topo3D, &QAction::triggered, this, &MainWindow::topo3D);
+
+    QObject::connect(m_VectorDriven, &QAction::triggered, this, &MainWindow::on_vectorFieldDriven_trigged);
+    QObject::connect(m_OffsetPath, &QAction::triggered, this, &MainWindow::on_offset_trigged);
+    QObject::connect(m_GradientFilling, &QAction::triggered, this, &MainWindow::on_GradientFilling_trigged);
+    QObject::connect(m_ReferenceSurfaceBased, &QAction::triggered, this, &MainWindow::on_ReferenceSurfaceBased_trigged);
+    QObject::connect(m_VectorFieldBased, &QAction::triggered, this, &MainWindow::on_VectorFieldBased_trigged);
+
     //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
     //QObject::connect(m_addDock, SIGNAL(button1->triggered()), this, SLOT(creatPage(oprDock)));
 
@@ -95,13 +104,29 @@ void MainWindow::creatStructureOptiButton(RibbonPage* page)
 {
     RibbonGroup* groupCad = page->addGroup("优化选择");
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
-    m_Topo2D =  toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D拓扑优化", Qt::ToolButtonTextUnderIcon);
+    m_Topo2D = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D拓扑优化", Qt::ToolButtonTextUnderIcon);
     m_Topo3D = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "3D拓扑优化", Qt::ToolButtonTextUnderIcon);
+
     //m_Topo2D->setCheckable(true);
     //m_Topo3D->setCheckable(true);//设置按下样式
     groupCad->addControl(toolBar);
 }
 
+
+void MainWindow::creatprocessPlanButton(RibbonPage* page)
+{
+    RibbonGroup* groupCad = page->addGroup("规划选择");
+    RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
+
+    m_VectorDriven = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "方向场驱动路径", Qt::ToolButtonTextUnderIcon);
+    m_OffsetPath = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "偏移路径", Qt::ToolButtonTextUnderIcon);
+    m_GradientFilling = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "梯度填充路径", Qt::ToolButtonTextUnderIcon);
+    m_ReferenceSurfaceBased = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "基准面法曲面切片", Qt::ToolButtonTextUnderIcon);
+    m_VectorFieldBased = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "方向场法曲面切片", Qt::ToolButtonTextUnderIcon);
+    //m_Topo2D->setCheckable(true);
+    //m_Topo3D->setCheckable(true);//设置按下样式
+    groupCad->addControl(toolBar);
+}
 
 void MainWindow::creatCadButton(RibbonPage* page)
 {
@@ -249,4 +274,39 @@ void MainWindow::topo3D()
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(6);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(1);
     return;
+}
+
+void MainWindow::on_vectorFieldDriven_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至方向场驱动路径模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(11);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_offset_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至偏移路径模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(13);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_GradientFilling_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至梯度填充路径模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(15);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(4);
+}
+
+void MainWindow::on_ReferenceSurfaceBased_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至基准面法曲面模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(17);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(5);
+}
+
+void MainWindow::on_VectorFieldBased_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至方向场法曲面模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(22);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(6);
 }

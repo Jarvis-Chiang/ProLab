@@ -248,6 +248,12 @@
     <QtUic Include="WidgetUi\DesignZoneWidget.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
+    <QtUic Include="WidgetUi\GradientFilling_PathPara.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\GradientFilling_SurfaceMesh.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
     <QtUic Include="WidgetUi\LoadSetWidget.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
@@ -257,13 +263,58 @@
     <QtUic Include="WidgetUi\MaterialSetWidget.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
+    <QtUic Include="WidgetUi\OffsetPath_PathPara.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\OffsetPath_SurfaceMesh.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
     <QtUic Include="WidgetUi\OptimizeParaWidget.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
     <QtUic Include="WidgetUi\OptimizeParaWidget_3D.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_ModMesh.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_PathPlan.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_PrinZone.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_RefPlane.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_SurfSlice.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
     <QtUic Include="WidgetUi\ResultCheckWidget.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_ModMesh.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_PathPlan.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_PrinZone.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_SurfSlice.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_VecField.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_PathPara.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_SurfaceMesh.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_VecField.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
   </ItemGroup>

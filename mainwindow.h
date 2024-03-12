@@ -49,6 +49,7 @@ private:
     void creatConnect();
     void creatHomeButton(RibbonPage* page);
     void creatStructureOptiButton(RibbonPage* page);
+    void creatprocessPlanButton(RibbonPage* page);
     void creatCadButton(RibbonPage* page);
     void creatCaeButton(RibbonPage* page);
     void creatCamButton(RibbonPage* page);
@@ -65,7 +66,12 @@ private slots:
     void creatOprPage(QDockWidget* dock);
     void topo2D();
     void topo3D();
-    
+
+    void on_vectorFieldDriven_trigged();
+    void on_offset_trigged();
+    void on_GradientFilling_trigged();
+    void on_ReferenceSurfaceBased_trigged();
+    void on_VectorFieldBased_trigged();
 
 protected:
 
@@ -74,6 +80,12 @@ protected:
     QAction* m_addDock;
     QAction* m_Topo2D;
     QAction* m_Topo3D;
+
+    QAction* m_VectorDriven;
+    QAction* m_OffsetPath;
+    QAction* m_GradientFilling;
+    QAction* m_ReferenceSurfaceBased;
+    QAction* m_VectorFieldBased;
 
     // button
     QToolButton* button1;

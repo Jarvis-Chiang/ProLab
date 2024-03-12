@@ -119,6 +119,57 @@
     <QtUic Include="WidgetUi\ResultCheckWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_SurfaceMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_VecField.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_PathPara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OffsetPath_SurfaceMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OffsetPath_PathPara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\GradientFilling_SurfaceMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\GradientFilling_PathPara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_ModMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_PrinZone.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_RefPlane.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_SurfSlice.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_PathPlan.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_ModMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_PrinZone.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_VecField.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_SurfSlice.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_PathPlan.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">

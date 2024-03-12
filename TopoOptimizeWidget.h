@@ -11,6 +11,24 @@
 #include "ui_BoundaryCasesWidget_3D.h"
 #include "ui_LoadSetWidget_3D.h"
 #include "ui_OptimizeParaWidget_3D.h"
+#include "ui_VectorDieldDriven_PathPara.h"
+#include "ui_VectorDieldDriven_SurfaceMesh.h"
+#include "ui_VectorDieldDriven_VecField.h"
+#include "ui_OffsetPath_SurfaceMesh.h"
+#include "ui_OffsetPath_PathPara.h"
+#include "ui_GradientFilling_SurfaceMesh.h"
+#include "ui_GradientFilling_PathPara.h"
+#include "ui_RefSurfBasedSlice_ModMesh.h"
+#include "ui_RefSurfBasedSlice_PrinZone.h"
+#include "ui_RefSurfBasedSlice_RefPlane.h"
+#include "ui_RefSurfBasedSlice_SurfSlice.h"
+#include "ui_RefSurfBasedSlice_PathPlan.h"
+#include "ui_VecFieldBasedSlice_ModMesh.h"
+#include "ui_VecFieldBasedSlice_PathPlan.h"
+#include "ui_VecFieldBasedSlice_PrinZone.h"
+#include "ui_VecFieldBasedSlice_SurfSlice.h"
+#include "ui_VecFieldBasedSlice_VecField.h"
+
 #include "Global.h"
 
 #include <set>
@@ -85,6 +103,8 @@ public:
 protected:
 	QTimer _timer;
 };
+
+/***********************************结构优化操作窗口************************************/
 
 //设计域
 class DesignZoneWidget : public QWidget
@@ -212,6 +232,184 @@ public:
 
 };
 
+/***************************************工艺规划操作窗口***********************************/
+
+//方向场驱动路径UI
+	//路径参数UI
+class VectorDieldDriven_PathPara : public QWidget
+{
+	Q_OBJECT
+public:
+	VectorDieldDriven_PathPara() : uiPathPara(new Ui::VectorDieldDriven_PathPara){uiPathPara->setupUi(this);};
+	~VectorDieldDriven_PathPara(){delete uiPathPara;};
+	Ui::VectorDieldDriven_PathPara* uiPathPara;
+};
+
+	//曲面网格UI
+class VectorDieldDriven_SurfaceMesh : public QWidget
+{
+	Q_OBJECT
+public:
+	VectorDieldDriven_SurfaceMesh() : uiSurfaceMesh(new Ui::VectorFieldDriven_SurfaceMesh) { uiSurfaceMesh->setupUi(this); };
+	~VectorDieldDriven_SurfaceMesh() { delete uiSurfaceMesh; };
+	Ui::VectorFieldDriven_SurfaceMesh* uiSurfaceMesh;
+};
+
+	//方向场UI
+class VectorDieldDriven_VecField : public QWidget
+{
+	Q_OBJECT
+public:
+	VectorDieldDriven_VecField() : uiVecField(new Ui::VectorDieldDriven_VecField) { uiVecField->setupUi(this); };
+	~VectorDieldDriven_VecField() { delete uiVecField; };
+	Ui::VectorDieldDriven_VecField* uiVecField;
+};
+
+//偏移路径UI
+	//曲面网格UI
+class OffsetPath_SurfaceMesh : public QWidget
+{
+	Q_OBJECT
+public:
+	OffsetPath_SurfaceMesh() : uiSurfaceMesh(new Ui::OffsetPath_SurfaceMesh) { uiSurfaceMesh->setupUi(this); };
+	~OffsetPath_SurfaceMesh() { delete uiSurfaceMesh; };
+	Ui::OffsetPath_SurfaceMesh* uiSurfaceMesh;
+};
+
+	//路径参数UI
+class OffsetPath_PathPara : public QWidget
+{
+	Q_OBJECT
+public:
+	OffsetPath_PathPara() : uiPathPara(new Ui::OffsetPath_PathPara) { uiPathPara->setupUi(this); };
+	~OffsetPath_PathPara() { delete uiPathPara; };
+	Ui::OffsetPath_PathPara* uiPathPara;
+};
+
+//梯度填充路径UI
+	//曲面网格UI
+class GradientFilling_SurfaceMesh : public QWidget
+{
+	Q_OBJECT
+public:
+	GradientFilling_SurfaceMesh() : uiSurfaceMesh(new Ui::GradientFilling_SurfaceMesh) { uiSurfaceMesh->setupUi(this); };
+	~GradientFilling_SurfaceMesh() { delete uiSurfaceMesh; };
+	Ui::GradientFilling_SurfaceMesh* uiSurfaceMesh;
+};
+
+//路径参数UI
+class GradientFilling_PathPara : public QWidget
+{
+	Q_OBJECT
+public:
+	GradientFilling_PathPara() : uiPathPara(new Ui::GradientFilling_PathPara) { uiPathPara->setupUi(this); };
+	~GradientFilling_PathPara() { delete uiPathPara; };
+	Ui::GradientFilling_PathPara* uiPathPara;
+};
+
+//基准面法曲面切片UI
+	//模型网格UI
+class RefSurfBasedSlice_ModMesh : public QWidget
+{
+	Q_OBJECT
+public:
+	RefSurfBasedSlice_ModMesh() : uiModMesh(new Ui::RefSurfBasedSlice_ModMesh) { uiModMesh->setupUi(this); };
+	~RefSurfBasedSlice_ModMesh() { delete uiModMesh; };
+	Ui::RefSurfBasedSlice_ModMesh* uiModMesh;
+};
+
+  //打印域UI
+class RefSurfBasedSlice_PrinZone : public QWidget
+{
+	Q_OBJECT
+public:
+	RefSurfBasedSlice_PrinZone() : uiPrinZone(new Ui::RefSurfBasedSlice_PrinZone) { uiPrinZone->setupUi(this); };
+	~RefSurfBasedSlice_PrinZone() { delete uiPrinZone; };
+	Ui::RefSurfBasedSlice_PrinZone* uiPrinZone;
+};
+
+	//基准面UI
+class RefSurfBasedSlice_RefPlane : public QWidget
+{
+	Q_OBJECT
+public:
+	RefSurfBasedSlice_RefPlane() : uiRefPlane(new Ui::RefSurfBasedSlice_RefPlane) { uiRefPlane->setupUi(this); };
+	~RefSurfBasedSlice_RefPlane() { delete uiRefPlane; };
+	Ui::RefSurfBasedSlice_RefPlane* uiRefPlane;
+};
+
+//曲面切片UI
+class RefSurfBasedSlice_SurfSlice : public QWidget
+{
+	Q_OBJECT
+public:
+	RefSurfBasedSlice_SurfSlice() : uiSurfSlice(new Ui::RefSurfBasedSlice_SurfSlice) { uiSurfSlice->setupUi(this); };
+	~RefSurfBasedSlice_SurfSlice() { delete uiSurfSlice; };
+	Ui::RefSurfBasedSlice_SurfSlice* uiSurfSlice;
+};
+
+//路径规划UI
+class RefSurfBasedSlice_PathPlan : public QWidget
+{
+	Q_OBJECT
+public:
+	RefSurfBasedSlice_PathPlan() : uiPathPlan(new Ui::RefSurfBasedSlice_PathPlan) { uiPathPlan->setupUi(this); };
+	~RefSurfBasedSlice_PathPlan() { delete uiPathPlan; };
+	Ui::RefSurfBasedSlice_PathPlan* uiPathPlan;
+};
+
+//方向场法曲面切片UI
+	//模型网格UI
+class VecFieldBasedSlice_ModMesh : public QWidget
+{
+	Q_OBJECT
+public:
+	VecFieldBasedSlice_ModMesh() : uiModMesh(new Ui::VecFieldBasedSlice_ModMesh) { uiModMesh->setupUi(this); };
+	~VecFieldBasedSlice_ModMesh() { delete uiModMesh; };
+	Ui::VecFieldBasedSlice_ModMesh* uiModMesh;
+};
+
+//打印域UI
+class VecFieldBasedSlice_PrinZone : public QWidget
+{
+	Q_OBJECT
+public:
+	VecFieldBasedSlice_PrinZone() : uiPrinZone(new Ui::VecFieldBasedSlice_PrinZone) { uiPrinZone->setupUi(this); };
+	~VecFieldBasedSlice_PrinZone() { delete uiPrinZone; };
+	Ui::VecFieldBasedSlice_PrinZone* uiPrinZone;
+};
+
+//方向场UI
+class VecFieldBasedSlice_VecField : public QWidget
+{
+	Q_OBJECT
+public:
+	VecFieldBasedSlice_VecField() : uiVecField(new Ui::VecFieldBasedSlice_VecField) { uiVecField->setupUi(this); };
+	~VecFieldBasedSlice_VecField() { delete uiVecField; };
+	Ui::VecFieldBasedSlice_VecField* uiVecField;
+};
+
+//曲面切片UI
+class VecFieldBasedSlice_SurfSlice : public QWidget
+{
+	Q_OBJECT
+public:
+	VecFieldBasedSlice_SurfSlice() : uiSurfSlice(new Ui::VecFieldBasedSlice_SurfSlice) { uiSurfSlice->setupUi(this); };
+	~VecFieldBasedSlice_SurfSlice() { delete uiSurfSlice; };
+	Ui::VecFieldBasedSlice_SurfSlice* uiSurfSlice;
+};
+
+//路径规划UI
+class VecFieldBasedSlice_PathPlan : public QWidget
+{
+	Q_OBJECT
+public:
+	VecFieldBasedSlice_PathPlan() : uiPathPlan(new Ui::VecFieldBasedSlice_PathPlan) { uiPathPlan->setupUi(this); };
+	~VecFieldBasedSlice_PathPlan() { delete uiPathPlan; };
+	Ui::VecFieldBasedSlice_PathPlan* uiPathPlan;
+};
+
+
 class TopoOptimizeWidget : public QWidget
 {
 
@@ -238,6 +436,12 @@ public:
 private:
 	QTreeWidget* treeWidget1; //左侧树状结构窗口1
 	QTreeWidget* treeWidget2; //左侧树状结构窗口2
+	QTreeWidget* treeWidget3; //左侧树状结构窗口3
+	QTreeWidget* treeWidget4; //左侧树状结构窗口4
+	QTreeWidget* treeWidget5; //左侧树状结构窗口5
+	QTreeWidget* treeWidget6; //左侧树状结构窗口6
+	QTreeWidget* treeWidget7; //左侧树状结构窗口7
+
 	DesignZoneWidget* designZoneWidget;
 	DesignZone_3D* designZone_3D;
 	MaterialSetWidget* materialSetWidget;
@@ -248,6 +452,23 @@ private:
 	BoundaryCases_3D* boundaryCases_3D;
 	LoadSet_3D* loadSet_3D;
 	OptimizePara_3D* optimizePara_3D;
+	VectorDieldDriven_PathPara* vectorFieldDriven_PathPara;
+	VectorDieldDriven_SurfaceMesh* vectorDieldDriven_SurfaceMesh;
+	VectorDieldDriven_VecField* vectorDieldDriven_VecField;
+	OffsetPath_SurfaceMesh* offsetPath_SurfaceMesh;
+	OffsetPath_PathPara* offsetPath_PathPara;
+	GradientFilling_SurfaceMesh* gradientFilling_SurfaceMesh;
+	GradientFilling_PathPara* gradientFilling_PathPara;
+	RefSurfBasedSlice_ModMesh* refSurfBasedSlice_ModMesh;
+	RefSurfBasedSlice_PathPlan* refSurfBasedSlice_PathPlan;
+	RefSurfBasedSlice_PrinZone* refSurfBasedSlice_PrinZone;
+	RefSurfBasedSlice_RefPlane* refSurfBasedSlice_RefPlane;
+	RefSurfBasedSlice_SurfSlice* refSurfBasedSlice_SurfSlice;
+	VecFieldBasedSlice_ModMesh* vecFieldBasedSlice_ModMesh;
+	VecFieldBasedSlice_PathPlan* vecFieldBasedSlice_PathPlan;
+	VecFieldBasedSlice_PrinZone* vecFieldBasedSlice_PrinZone;
+	VecFieldBasedSlice_SurfSlice* vecFieldBasedSlice_SurfSlice;
+	VecFieldBasedSlice_VecField* vecFieldBasedSlice_VecField;
 
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 	void aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells);

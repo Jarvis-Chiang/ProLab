@@ -11,11 +11,33 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	loadSetWidget(new LoadSetWidget),
 	treeWidget1(new QTreeWidget(this)),
 	treeWidget2(new QTreeWidget(this)),
+	treeWidget3(new QTreeWidget(this)),
+	treeWidget4(new QTreeWidget(this)),
+	treeWidget5(new QTreeWidget(this)),
+	treeWidget6(new QTreeWidget(this)),
+	treeWidget7(new QTreeWidget(this)),
 	designZone_3D(new DesignZone_3D),
 	treeStackWidget(new QStackedWidget),
 	boundaryCases_3D(new BoundaryCases_3D),
 	loadSet_3D(new LoadSet_3D),
 	optimizePara_3D(new OptimizePara_3D),
+	vectorFieldDriven_PathPara(new VectorDieldDriven_PathPara),
+	vectorDieldDriven_SurfaceMesh(new VectorDieldDriven_SurfaceMesh),
+	vectorDieldDriven_VecField(new VectorDieldDriven_VecField),
+	offsetPath_SurfaceMesh(new OffsetPath_SurfaceMesh),
+	offsetPath_PathPara(new OffsetPath_PathPara),
+	gradientFilling_SurfaceMesh(new GradientFilling_SurfaceMesh),
+	gradientFilling_PathPara(new GradientFilling_PathPara),
+	refSurfBasedSlice_ModMesh(new RefSurfBasedSlice_ModMesh),
+	refSurfBasedSlice_PathPlan(new RefSurfBasedSlice_PathPlan),
+	refSurfBasedSlice_PrinZone(new RefSurfBasedSlice_PrinZone),
+	refSurfBasedSlice_RefPlane(new RefSurfBasedSlice_RefPlane),
+	refSurfBasedSlice_SurfSlice(new RefSurfBasedSlice_SurfSlice),
+	vecFieldBasedSlice_ModMesh(new VecFieldBasedSlice_ModMesh),
+	vecFieldBasedSlice_PathPlan(new VecFieldBasedSlice_PathPlan),
+	vecFieldBasedSlice_PrinZone(new VecFieldBasedSlice_PrinZone),
+	vecFieldBasedSlice_SurfSlice(new VecFieldBasedSlice_SurfSlice),
+	vecFieldBasedSlice_VecField(new VecFieldBasedSlice_VecField),
 	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded))
 {
 	init();
@@ -30,16 +52,40 @@ TopoOptimizeWidget :: ~TopoOptimizeWidget()
 void TopoOptimizeWidget :: init()
 {
 	//右侧操作栏堆栈窗口
-	oprStackWidget->addWidget(designZoneWidget);//QStackedWidget类适addWidget函数适只适用于标准指针，Qt智能指针不行
-	oprStackWidget->addWidget(materialSetWidget);
-	oprStackWidget->addWidget(boundaryCasesWidget);
-	oprStackWidget->addWidget(loadSetWidget);
-	oprStackWidget->addWidget(optimizeParaWidget);
-	oprStackWidget->addWidget(resultCheckWidget);
-	oprStackWidget->addWidget(designZone_3D);
-	oprStackWidget->addWidget(boundaryCases_3D);
-	oprStackWidget->addWidget(loadSet_3D);
-	oprStackWidget->addWidget(optimizePara_3D);
+	/********************************结构优化右侧操作************************************/
+	oprStackWidget->addWidget(designZoneWidget);//QStackedWidget类适addWidget函数适只适用于标准指针，Qt智能指针不行//0
+	oprStackWidget->addWidget(materialSetWidget);//1
+	oprStackWidget->addWidget(boundaryCasesWidget);//2
+	oprStackWidget->addWidget(loadSetWidget);//3
+	oprStackWidget->addWidget(optimizeParaWidget);//4
+	oprStackWidget->addWidget(resultCheckWidget);//5
+	oprStackWidget->addWidget(designZone_3D);//6
+	oprStackWidget->addWidget(boundaryCases_3D);//7
+	oprStackWidget->addWidget(loadSet_3D);//8
+	oprStackWidget->addWidget(optimizePara_3D);//9
+
+	oprStackWidget->addWidget(vectorFieldDriven_PathPara);//10
+	oprStackWidget->addWidget(vectorDieldDriven_SurfaceMesh);//11
+	oprStackWidget->addWidget(vectorDieldDriven_VecField);//12
+
+	oprStackWidget->addWidget(offsetPath_SurfaceMesh);//13
+	oprStackWidget->addWidget(offsetPath_PathPara);//14
+
+	oprStackWidget->addWidget(gradientFilling_SurfaceMesh);//15
+	oprStackWidget->addWidget(gradientFilling_PathPara);//16
+
+	oprStackWidget->addWidget(refSurfBasedSlice_ModMesh);//17
+	oprStackWidget->addWidget(refSurfBasedSlice_PrinZone);//18
+	oprStackWidget->addWidget(refSurfBasedSlice_RefPlane);//19
+	oprStackWidget->addWidget(refSurfBasedSlice_SurfSlice);//20
+	oprStackWidget->addWidget(refSurfBasedSlice_PathPlan);//21
+
+	oprStackWidget->addWidget(vecFieldBasedSlice_ModMesh);//22
+	oprStackWidget->addWidget(vecFieldBasedSlice_PrinZone);//23
+	oprStackWidget->addWidget(vecFieldBasedSlice_VecField);//24
+	oprStackWidget->addWidget(vecFieldBasedSlice_SurfSlice);//25
+	oprStackWidget->addWidget(vecFieldBasedSlice_PathPlan);//26
+
 
 	//左侧树状结构窗口1
 	treeWidget1->setColumnCount(1); //设置列数
@@ -65,9 +111,56 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree2_5 = new QTreeWidgetItem(treeWidget2, QStringList(QString("结果查看")));
 	treeWidget2->expandAll();
 
+	//左侧树状结构窗口3（方向场驱动路径）
+	treeWidget3->setColumnCount(1); //设置列数
+	treeWidget3->setHeaderLabel(QString("方向场驱动路径结构树"));
+	QTreeWidgetItem* tree3_0 = new QTreeWidgetItem(treeWidget3, QStringList(QString("曲面网格(方向场驱动路径)")));
+	QTreeWidgetItem* tree3_1 = new QTreeWidgetItem(treeWidget3, QStringList(QString("方向场(方向场驱动路径)")));
+	QTreeWidgetItem* tree3_2 = new QTreeWidgetItem(treeWidget3, QStringList(QString("路径参数(方向场驱动路径)")));
+	treeWidget3->expandAll();
+
+	//树状结构窗口4（偏移路径）
+	treeWidget4->setColumnCount(1); //设置列数
+	treeWidget4->setHeaderLabel(QString("偏移路径结构树"));
+	QTreeWidgetItem* tree4_0 = new QTreeWidgetItem(treeWidget4, QStringList(QString("曲面网格(偏移路径)")));
+	QTreeWidgetItem* tree4_1 = new QTreeWidgetItem(treeWidget4, QStringList(QString("路径参数(偏移路径)")));
+	treeWidget4->expandAll();
+
+	//树状结构窗口5（梯度填充路径）
+	treeWidget5->setColumnCount(1); //设置列数
+	treeWidget5->setHeaderLabel(QString("梯度填充路径结构树"));
+	QTreeWidgetItem* tree5_0 = new QTreeWidgetItem(treeWidget5, QStringList(QString("曲面网格(梯度填充路径)")));
+	QTreeWidgetItem* tree5_1 = new QTreeWidgetItem(treeWidget5, QStringList(QString("路径参数(梯度填充路径)")));
+	treeWidget5->expandAll();
+
+	//树状结构窗口6（基准面法曲面切片）
+	treeWidget6->setColumnCount(1); //设置列数
+	treeWidget6->setHeaderLabel(QString("基准面法曲面切片结构树"));
+	QTreeWidgetItem* tree6_0 = new QTreeWidgetItem(treeWidget6, QStringList(QString("模型网格(基准面法)")));
+	QTreeWidgetItem* tree6_1 = new QTreeWidgetItem(treeWidget6, QStringList(QString("打印域(基准面法)")));
+	QTreeWidgetItem* tree6_2 = new QTreeWidgetItem(treeWidget6, QStringList(QString("基准面")));
+	QTreeWidgetItem* tree6_3 = new QTreeWidgetItem(treeWidget6, QStringList(QString("曲面切片(基准面法)")));
+	QTreeWidgetItem* tree6_4 = new QTreeWidgetItem(treeWidget6, QStringList(QString("路径规划(基准面法)")));
+	treeWidget6->expandAll();
+
+	//树状结构窗口7（方向场法曲面切片）
+	treeWidget7->setColumnCount(1); //设置列数
+	treeWidget7->setHeaderLabel(QString("方向场法曲面切片结构树"));
+	QTreeWidgetItem* tree7_0 = new QTreeWidgetItem(treeWidget7, QStringList(QString("模型网格(方向场法)")));
+	QTreeWidgetItem* tree7_1 = new QTreeWidgetItem(treeWidget7, QStringList(QString("打印域(方向场法)")));
+	QTreeWidgetItem* tree7_2 = new QTreeWidgetItem(treeWidget7, QStringList(QString("方向场")));
+	QTreeWidgetItem* tree7_3 = new QTreeWidgetItem(treeWidget7, QStringList(QString("曲面切片(方向场法)")));
+	QTreeWidgetItem* tree7_4 = new QTreeWidgetItem(treeWidget7, QStringList(QString("路径规划(方向场法)")));
+	treeWidget7->expandAll();
+
 	//左侧树状结构堆栈窗口
 	treeStackWidget->addWidget(treeWidget1);
 	treeStackWidget->addWidget(treeWidget2);
+	treeStackWidget->addWidget(treeWidget3);
+	treeStackWidget->addWidget(treeWidget4);
+	treeStackWidget->addWidget(treeWidget5);
+	treeStackWidget->addWidget(treeWidget6);
+	treeStackWidget->addWidget(treeWidget7);
 
 	//显示结构初始化
 	root->addChild(model.get());
@@ -80,6 +173,11 @@ void TopoOptimizeWidget::creatAction()
 	//树结构和堆栈窗口关联
 	connect(treeWidget1, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
 	connect(treeWidget2, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget3, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget4, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget5, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget6, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget7, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
 
 	//文件读取对话框
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
@@ -420,54 +518,86 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int column)
 {
 	if (item->text(column) == "2D设计域")//?????????????
-	{
 		oprStackWidget->setCurrentIndex(0);
-	}
 
 	if (item->text(column) == "材料属性")
-	{
 		oprStackWidget->setCurrentIndex(1);
-	}
 
 	if (item->text(column) == "2D边界条件")
-	{
 		oprStackWidget->setCurrentIndex(2);
-	}
 
 	if (item->text(column) == "2D载荷设置")
-	{
 		oprStackWidget->setCurrentIndex(3);
-	}
 
 	if (item->text(column) == "2D优化参数")
-	{
 		oprStackWidget->setCurrentIndex(4);
-	}
 
 	if (item->text(column) == "结果查看")
-	{
 		oprStackWidget->setCurrentIndex(5);
-	}
 
 	if (item->text(column) == "3D设计域")
-	{
 		oprStackWidget->setCurrentIndex(6);
-	}
 
 	if (item->text(column) == "3D边界条件")
-	{
 		oprStackWidget->setCurrentIndex(7);
-	}
 
 	if (item->text(column) == "3D载荷设置")
-	{
 		oprStackWidget->setCurrentIndex(8);
-	}
 
 	if (item->text(column) == "3D优化参数")
-	{
 		oprStackWidget->setCurrentIndex(9);
-	}
+
+	if (item->text(column) == "曲面网格(方向场驱动路径)")
+		oprStackWidget->setCurrentIndex(11);
+
+	if (item->text(column) == "方向场(方向场驱动路径)")
+		oprStackWidget->setCurrentIndex(12);
+
+	if (item->text(column) == "路径参数(方向场驱动路径)")
+		oprStackWidget->setCurrentIndex(10);
+
+	if (item->text(column) == "曲面网格(偏移路径)")
+		oprStackWidget->setCurrentIndex(13);
+
+	if (item->text(column) == "路径参数(偏移路径)")
+		oprStackWidget->setCurrentIndex(14);
+
+	if (item->text(column) == "曲面网格(梯度填充路径)")
+		oprStackWidget->setCurrentIndex(15);
+
+	if (item->text(column) == "路径参数(梯度填充路径)")
+		oprStackWidget->setCurrentIndex(16);
+
+	if (item->text(column) == "模型网格(基准面法)")
+		oprStackWidget->setCurrentIndex(17);
+
+	if (item->text(column) == "打印域(基准面法)")
+		oprStackWidget->setCurrentIndex(18);
+
+	if (item->text(column) == "基准面")
+		oprStackWidget->setCurrentIndex(19);
+
+	if (item->text(column) == "曲面切片(基准面法)")
+		oprStackWidget->setCurrentIndex(20);
+
+	if (item->text(column) == "路径规划(基准面法)")
+		oprStackWidget->setCurrentIndex(21);
+
+	if (item->text(column) == "模型网格(方向场法)")
+		oprStackWidget->setCurrentIndex(22);
+
+	if (item->text(column) == "打印域(方向场法)")
+		oprStackWidget->setCurrentIndex(23);
+
+	if (item->text(column) == "方向场")
+		oprStackWidget->setCurrentIndex(24);
+
+	if (item->text(column) == "曲面切片(方向场法)")
+		oprStackWidget->setCurrentIndex(25);
+
+	if (item->text(column) == "路径规划(方向场法)")
+		oprStackWidget->setCurrentIndex(26);
+
 }
 
 //设计域中导入设计域网格文件对应的选择文件路径对话框
