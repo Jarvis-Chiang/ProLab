@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'LoadSetWidget.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -218,20 +218,20 @@ public:
 
     void retranslateUi(QWidget *LoadSetWidget)
     {
-        LoadSetWidget->setWindowTitle(QApplication::translate("LoadSetWidget", "Form", nullptr));
-        groupBox->setTitle(QApplication::translate("LoadSetWidget", "\350\276\271\347\225\214\346\235\241\344\273\266", nullptr));
-        groupBox_2->setTitle(QApplication::translate("LoadSetWidget", "\350\275\275\350\215\267\351\241\266\347\202\271", nullptr));
-        groupBox_3->setTitle(QApplication::translate("LoadSetWidget", "\346\223\215\344\275\234", nullptr));
-        pushButton->setText(QApplication::translate("LoadSetWidget", "\345\210\240\351\231\244", nullptr));
-        pushButton_2->setText(QApplication::translate("LoadSetWidget", "\346\267\273\345\212\240", nullptr));
-        groupBox_4->setTitle(QApplication::translate("LoadSetWidget", "\350\275\275\350\215\267\345\244\247\345\260\217", nullptr));
-        label->setText(QApplication::translate("LoadSetWidget", "X\357\274\232", nullptr));
-        label_2->setText(QApplication::translate("LoadSetWidget", "Y\357\274\232", nullptr));
+        LoadSetWidget->setWindowTitle(QCoreApplication::translate("LoadSetWidget", "Form", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("LoadSetWidget", "\350\276\271\347\225\214\346\235\241\344\273\266", nullptr));
+        groupBox_2->setTitle(QCoreApplication::translate("LoadSetWidget", "\350\275\275\350\215\267\351\241\266\347\202\271", nullptr));
+        groupBox_3->setTitle(QCoreApplication::translate("LoadSetWidget", "\346\223\215\344\275\234", nullptr));
+        pushButton->setText(QCoreApplication::translate("LoadSetWidget", "\345\210\240\351\231\244", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("LoadSetWidget", "\346\267\273\345\212\240", nullptr));
+        groupBox_4->setTitle(QCoreApplication::translate("LoadSetWidget", "\350\275\275\350\215\267\345\244\247\345\260\217", nullptr));
+        label->setText(QCoreApplication::translate("LoadSetWidget", "X\357\274\232", nullptr));
+        label_2->setText(QCoreApplication::translate("LoadSetWidget", "Y\357\274\232", nullptr));
     } // retranslateUi
 
 };
 
-namespace Ui_LoadSet {
+namespace Ui {
     class LoadSetWidget: public Ui_LoadSetWidget {};
 } // namespace Ui
 

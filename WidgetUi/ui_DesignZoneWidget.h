@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'DesignZoneWidget.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -201,13 +201,13 @@ public:
 
     void retranslateUi(QWidget *DesignZoneWidget)
     {
-        DesignZoneWidget->setWindowTitle(QApplication::translate("DesignZoneWidget", "Form", nullptr));
-        groupBox->setTitle(QApplication::translate("DesignZoneWidget", "\350\256\276\350\256\241\345\237\237", nullptr));
-        label->setText(QApplication::translate("DesignZoneWidget", "\351\225\277\357\274\232", nullptr));
-        label_4->setText(QApplication::translate("DesignZoneWidget", "\345\256\275\357\274\232", nullptr));
-        label_3->setText(QApplication::translate("DesignZoneWidget", "\350\276\271\351\225\277\357\274\232", nullptr));
-        generateButton->setText(QApplication::translate("DesignZoneWidget", "\347\224\237\346\210\220", nullptr));
-        importDesignGridButton->setText(QApplication::translate("DesignZoneWidget", "\345\257\274\345\205\245\350\256\276\350\256\241\345\237\237\347\275\221\346\240\274", nullptr));
+        DesignZoneWidget->setWindowTitle(QCoreApplication::translate("DesignZoneWidget", "Form", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("DesignZoneWidget", "\350\256\276\350\256\241\345\237\237", nullptr));
+        label->setText(QCoreApplication::translate("DesignZoneWidget", "\351\225\277\357\274\232", nullptr));
+        label_4->setText(QCoreApplication::translate("DesignZoneWidget", "\345\256\275\357\274\232", nullptr));
+        label_3->setText(QCoreApplication::translate("DesignZoneWidget", "\350\276\271\351\225\277\357\274\232", nullptr));
+        generateButton->setText(QCoreApplication::translate("DesignZoneWidget", "\347\224\237\346\210\220", nullptr));
+        importDesignGridButton->setText(QCoreApplication::translate("DesignZoneWidget", "\345\257\274\345\205\245\350\256\276\350\256\241\345\237\237\347\275\221\346\240\274", nullptr));
     } // retranslateUi
 
 };

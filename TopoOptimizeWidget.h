@@ -11,9 +11,7 @@
 #include "ui_BoundaryCasesWidget_3D.h"
 #include "ui_LoadSetWidget_3D.h"
 #include "ui_OptimizeParaWidget_3D.h"
-#include "OsgWidget.h"
 #include "Global.h"
-//#include "Function.h"
 
 #include <set>
 #include <vector>
@@ -46,11 +44,6 @@
 #include <osg/LightSource>
 #include <osg/LineWidth>
 #include <osg/PositionAttitudeTransform>
-//#include <osg/PolygonOffset>
-//#include <osgUtil/Optimizer>
-//#include <osg/PolygonMode>
-//#include <osg/Material>
-//#include <osg/Array>
 
 #include <QTimer>
 #include <QApplication>
@@ -102,7 +95,7 @@ class DesignZoneWidget : public QWidget
 public:
 	DesignZoneWidget();
 	~DesignZoneWidget();
-	Ui_DesignZone::DesignZoneWidget* uiDesignZone;
+	Ui::DesignZoneWidget* uiDesignZone;
 	//	//元对象系统自动生成的信号：条件是保持同名
 	//public slots:
 	//	void on_importDesignGridBotton_clicked();//必须写定义
@@ -118,7 +111,7 @@ class DesignZone_3D : public QWidget
 public:
 	DesignZone_3D();
 	~DesignZone_3D();
-	Ui_DesignZone_3D::DesignZoneWidget* uiDesignZone_3d;
+	Ui::DesignZoneWidget_3D* uiDesignZone_3d;
 };
 
 //材料设置
@@ -130,7 +123,7 @@ class MaterialSetWidget : public QWidget
 public:
 	MaterialSetWidget();
 	~MaterialSetWidget();
-	Ui_Material::MeterialSetWidget* uiMaterialSet;
+	Ui::MeterialSetWidget* uiMaterialSet;
 private:
 	QButtonGroup* radioButtons;
 
@@ -148,7 +141,7 @@ class BoundaryCasesWidget : public QWidget
 public:
 	BoundaryCasesWidget();
 	~BoundaryCasesWidget();
-	Ui_BoundaryCases::BoundaryCasesWidget* uiBoundaryCases;
+	Ui::BoundaryCasesWidget* uiBoundaryCases;
 };
 
 //3D边界条件设置
@@ -157,7 +150,7 @@ class BoundaryCases_3D : public QWidget
 public:
 	BoundaryCases_3D();
 	~BoundaryCases_3D();
-	Ui_BoundaryCases_3D::BoundaryCasesWidget_3D* uiBoundaryCases_3D;
+	Ui::BoundaryCasesWidget_3D* uiBoundaryCases_3D;
 	
 };
 
@@ -171,7 +164,7 @@ class LoadSetWidget : public QWidget
 public:
 	LoadSetWidget();
 	~LoadSetWidget();
-	Ui_LoadSet::LoadSetWidget* uiLoadSet;
+	Ui::LoadSetWidget* uiLoadSet;
 
 };
 
@@ -181,7 +174,7 @@ class LoadSet_3D : public QWidget
 public:
 	LoadSet_3D();
 	~LoadSet_3D();
-	Ui_LoadSet_3D::LoadSetWidget_3D* uiLoadSet_3D;
+	Ui::LoadSetWidget_3D* uiLoadSet_3D;
 };
 
 
@@ -194,7 +187,7 @@ class OptimizeParaWidget : public QWidget
 public:
 	OptimizeParaWidget();
 	~OptimizeParaWidget();
-	Ui_OptimizePara::OptimizeParaWidget* uiOptimizePara;
+	Ui::OptimizeParaWidget* uiOptimizePara;
 };
 
 //3D优化参数设置
@@ -203,7 +196,7 @@ class OptimizePara_3D : public QWidget
 public:
 	OptimizePara_3D();
 	~OptimizePara_3D();
-	Ui_OptimizePara_3D::OptimizeParaWidget_3D* uiOptimizePara_3D;
+	Ui::OptimizeParaWidget_3D* uiOptimizePara_3D;
 };
 
 //结果查看
@@ -215,7 +208,7 @@ class ResultCheckWidget : public QWidget
 public:
 	ResultCheckWidget();
 	~ResultCheckWidget();
-	Ui_Result::ResultCheckWidget* uiRecultCheck;
+	Ui::ResultCheckWidget* uiRecultCheck;
 
 };
 

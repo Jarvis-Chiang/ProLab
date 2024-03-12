@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'DesignZoneWidget.ui'
+** Form generated from reading UI file 'DesignZoneWidget _3D.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_DESIGNZONEWIDGET_H
-#define UI_DESIGNZONEWIDGET_H
+#ifndef UI_DESIGNZONEWIDGET_20__3D_H
+#define UI_DESIGNZONEWIDGET_20__3D_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -22,7 +22,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_DesignZoneWidget
+class Ui_DesignZoneWidget_3D
 {
 public:
     QVBoxLayout *verticalLayout_2;
@@ -40,6 +40,12 @@ public:
     QLabel *label_4;
     QLineEdit *lineEdit_4;
     QSpacerItem *horizontalSpacer_11;
+    QWidget *widget_6;
+    QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_12;
+    QLabel *label_5;
+    QLineEdit *lineEdit_5;
+    QSpacerItem *horizontalSpacer_13;
     QWidget *widget_3;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_5;
@@ -55,14 +61,14 @@ public:
     QSpacerItem *horizontalSpacer_8;
     QSpacerItem *verticalSpacer;
 
-    void setupUi(QWidget *DesignZoneWidget)
+    void setupUi(QWidget *DesignZoneWidget_3D)
     {
-        if (DesignZoneWidget->objectName().isEmpty())
-            DesignZoneWidget->setObjectName(QString::fromUtf8("DesignZoneWidget"));
-        DesignZoneWidget->resize(766, 570);
-        verticalLayout_2 = new QVBoxLayout(DesignZoneWidget);
+        if (DesignZoneWidget_3D->objectName().isEmpty())
+            DesignZoneWidget_3D->setObjectName(QString::fromUtf8("DesignZoneWidget_3D"));
+        DesignZoneWidget_3D->resize(766, 570);
+        verticalLayout_2 = new QVBoxLayout(DesignZoneWidget_3D);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        groupBox = new QGroupBox(DesignZoneWidget);
+        groupBox = new QGroupBox(DesignZoneWidget_3D);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setEnabled(true);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -129,6 +135,33 @@ public:
 
         verticalLayout->addWidget(widget_5);
 
+        widget_6 = new QWidget(groupBox);
+        widget_6->setObjectName(QString::fromUtf8("widget_6"));
+        horizontalLayout_6 = new QHBoxLayout(widget_6);
+        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_12);
+
+        label_5 = new QLabel(widget_6);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+
+        horizontalLayout_6->addWidget(label_5);
+
+        lineEdit_5 = new QLineEdit(widget_6);
+        lineEdit_5->setObjectName(QString::fromUtf8("lineEdit_5"));
+        sizePolicy1.setHeightForWidth(lineEdit_5->sizePolicy().hasHeightForWidth());
+        lineEdit_5->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_6->addWidget(lineEdit_5);
+
+        horizontalSpacer_13 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_13);
+
+
+        verticalLayout->addWidget(widget_6);
+
         widget_3 = new QWidget(groupBox);
         widget_3->setObjectName(QString::fromUtf8("widget_3"));
         horizontalLayout_3 = new QHBoxLayout(widget_3);
@@ -194,28 +227,29 @@ public:
         verticalLayout_2->addWidget(groupBox);
 
 
-        retranslateUi(DesignZoneWidget);
+        retranslateUi(DesignZoneWidget_3D);
 
-        QMetaObject::connectSlotsByName(DesignZoneWidget);
+        QMetaObject::connectSlotsByName(DesignZoneWidget_3D);
     } // setupUi
 
-    void retranslateUi(QWidget *DesignZoneWidget)
+    void retranslateUi(QWidget *DesignZoneWidget_3D)
     {
-        DesignZoneWidget->setWindowTitle(QApplication::translate("DesignZoneWidget", "Form", nullptr));
-        groupBox->setTitle(QApplication::translate("DesignZoneWidget", "\350\256\276\350\256\241\345\237\237", nullptr));
-        label->setText(QApplication::translate("DesignZoneWidget", "\351\225\277\357\274\232", nullptr));
-        label_4->setText(QApplication::translate("DesignZoneWidget", "\345\256\275\357\274\232", nullptr));
-        label_3->setText(QApplication::translate("DesignZoneWidget", "\350\276\271\351\225\277\357\274\232", nullptr));
-        generateButton->setText(QApplication::translate("DesignZoneWidget", "\347\224\237\346\210\220", nullptr));
-        importDesignGridButton->setText(QApplication::translate("DesignZoneWidget", "\345\257\274\345\205\245\350\256\276\350\256\241\345\237\237\347\275\221\346\240\274", nullptr));
+        DesignZoneWidget_3D->setWindowTitle(QCoreApplication::translate("DesignZoneWidget_3D", "Form", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("DesignZoneWidget_3D", "\350\256\276\350\256\241\345\237\237", nullptr));
+        label->setText(QCoreApplication::translate("DesignZoneWidget_3D", "\351\225\277\357\274\232", nullptr));
+        label_4->setText(QCoreApplication::translate("DesignZoneWidget_3D", "\345\256\275\357\274\232", nullptr));
+        label_5->setText(QCoreApplication::translate("DesignZoneWidget_3D", "\351\253\230\357\274\232", nullptr));
+        label_3->setText(QCoreApplication::translate("DesignZoneWidget_3D", "\350\276\271\351\225\277\357\274\232", nullptr));
+        generateButton->setText(QCoreApplication::translate("DesignZoneWidget_3D", "\347\224\237\346\210\220", nullptr));
+        importDesignGridButton->setText(QCoreApplication::translate("DesignZoneWidget_3D", "\345\257\274\345\205\245\350\256\276\350\256\241\345\237\237\347\275\221\346\240\274", nullptr));
     } // retranslateUi
 
 };
 
-namespace Ui_DesignZone {
-    class DesignZoneWidget: public Ui_DesignZoneWidget {};
+namespace Ui {
+    class DesignZoneWidget_3D: public Ui_DesignZoneWidget_3D {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_DESIGNZONEWIDGET_H
+#endif // UI_DESIGNZONEWIDGET_20__3D_H

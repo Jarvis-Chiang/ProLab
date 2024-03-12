@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'BoundaryCasesWidget_3D.ui'
+** Form generated from reading UI file 'BoundaryCasesWidget.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef UI_BOUNDARYCASESWIDGET_3D_H
-#define UI_BOUNDARYCASESWIDGET_3D_H
+#ifndef UI_BOUNDARYCASESWIDGET_H
+#define UI_BOUNDARYCASESWIDGET_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -22,7 +22,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_BoundaryCasesWidget_3D
+class Ui_BoundaryCasesWidget
 {
 public:
     QVBoxLayout *verticalLayout;
@@ -47,19 +47,17 @@ public:
     QCheckBox *checkBox;
     QSpacerItem *horizontalSpacer_5;
     QCheckBox *checkBox_2;
-    QSpacerItem *horizontalSpacer_6;
-    QCheckBox *checkBox_3;
     QSpacerItem *horizontalSpacer_4;
     QSpacerItem *verticalSpacer_2;
 
-    void setupUi(QWidget *BoundaryCasesWidget_3D)
+    void setupUi(QWidget *BoundaryCasesWidget)
     {
-        if (BoundaryCasesWidget_3D->objectName().isEmpty())
-            BoundaryCasesWidget_3D->setObjectName(QString::fromUtf8("BoundaryCasesWidget_3D"));
-        BoundaryCasesWidget_3D->resize(344, 593);
-        verticalLayout = new QVBoxLayout(BoundaryCasesWidget_3D);
+        if (BoundaryCasesWidget->objectName().isEmpty())
+            BoundaryCasesWidget->setObjectName(QString::fromUtf8("BoundaryCasesWidget"));
+        BoundaryCasesWidget->resize(344, 593);
+        verticalLayout = new QVBoxLayout(BoundaryCasesWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        groupBox = new QGroupBox(BoundaryCasesWidget_3D);
+        groupBox = new QGroupBox(BoundaryCasesWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
@@ -140,7 +138,7 @@ public:
 
         horizontalLayout_3->addWidget(checkBox);
 
-        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_5);
 
@@ -148,15 +146,6 @@ public:
         checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
 
         horizontalLayout_3->addWidget(checkBox_2);
-
-        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_6);
-
-        checkBox_3 = new QCheckBox(groupBox_4);
-        checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
-
-        horizontalLayout_3->addWidget(checkBox_3);
 
 
         horizontalLayout_4->addWidget(groupBox_4);
@@ -176,31 +165,30 @@ public:
         verticalLayout->addWidget(groupBox);
 
 
-        retranslateUi(BoundaryCasesWidget_3D);
+        retranslateUi(BoundaryCasesWidget);
 
-        QMetaObject::connectSlotsByName(BoundaryCasesWidget_3D);
+        QMetaObject::connectSlotsByName(BoundaryCasesWidget);
     } // setupUi
 
-    void retranslateUi(QWidget *BoundaryCasesWidget_3D)
+    void retranslateUi(QWidget *BoundaryCasesWidget)
     {
-        BoundaryCasesWidget_3D->setWindowTitle(QCoreApplication::translate("BoundaryCasesWidget_3D", "Form", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("BoundaryCasesWidget_3D", "\350\276\271\347\225\214\346\235\241\344\273\266", nullptr));
-        groupBox_2->setTitle(QCoreApplication::translate("BoundaryCasesWidget_3D", "\347\272\246\346\235\237\351\241\266\347\202\271", nullptr));
-        groupBox_3->setTitle(QCoreApplication::translate("BoundaryCasesWidget_3D", "\346\223\215\344\275\234", nullptr));
-        pushButton->setText(QCoreApplication::translate("BoundaryCasesWidget_3D", "\345\210\240\351\231\244", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("BoundaryCasesWidget_3D", "\346\267\273\345\212\240", nullptr));
-        groupBox_4->setTitle(QCoreApplication::translate("BoundaryCasesWidget_3D", "\350\207\252\347\224\261\345\272\246\347\272\246\346\235\237", nullptr));
-        checkBox->setText(QCoreApplication::translate("BoundaryCasesWidget_3D", "X", nullptr));
-        checkBox_2->setText(QCoreApplication::translate("BoundaryCasesWidget_3D", "Y", nullptr));
-        checkBox_3->setText(QCoreApplication::translate("BoundaryCasesWidget_3D", "Z", nullptr));
+        BoundaryCasesWidget->setWindowTitle(QCoreApplication::translate("BoundaryCasesWidget", "Form", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("BoundaryCasesWidget", "\350\276\271\347\225\214\346\235\241\344\273\266", nullptr));
+        groupBox_2->setTitle(QCoreApplication::translate("BoundaryCasesWidget", "\347\272\246\346\235\237\351\241\266\347\202\271", nullptr));
+        groupBox_3->setTitle(QCoreApplication::translate("BoundaryCasesWidget", "\346\223\215\344\275\234", nullptr));
+        pushButton->setText(QCoreApplication::translate("BoundaryCasesWidget", "\345\210\240\351\231\244", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("BoundaryCasesWidget", "\346\267\273\345\212\240", nullptr));
+        groupBox_4->setTitle(QCoreApplication::translate("BoundaryCasesWidget", "\350\207\252\347\224\261\345\272\246\347\272\246\346\235\237", nullptr));
+        checkBox->setText(QCoreApplication::translate("BoundaryCasesWidget", "X", nullptr));
+        checkBox_2->setText(QCoreApplication::translate("BoundaryCasesWidget", "Y", nullptr));
     } // retranslateUi
 
 };
 
-namespace Ui_BoundaryCases_3D {
-    class BoundaryCasesWidget_3D: public Ui_BoundaryCasesWidget_3D {};
+namespace Ui {
+    class BoundaryCasesWidget: public Ui_BoundaryCasesWidget {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_BOUNDARYCASESWIDGET_3D_H
+#endif // UI_BOUNDARYCASESWIDGET_H

@@ -157,7 +157,7 @@ void OsgWidget::paintEvent(QPaintEvent* event)
 
 //加载设计域ui
 DesignZoneWidget::DesignZoneWidget() :
-	uiDesignZone(new Ui_DesignZone::DesignZoneWidget)
+	uiDesignZone(new Ui::DesignZoneWidget)
 {
 	uiDesignZone->setupUi(this);
 }
@@ -169,7 +169,7 @@ DesignZoneWidget :: ~DesignZoneWidget()
 
 //加载3D设计域
 DesignZone_3D::DesignZone_3D():
-	uiDesignZone_3d(new Ui_DesignZone_3D::DesignZoneWidget)
+	uiDesignZone_3d(new Ui::DesignZoneWidget_3D)
 {
 	uiDesignZone_3d->setupUi(this);
 }
@@ -181,7 +181,7 @@ DesignZone_3D::~DesignZone_3D()
 
 //加载材料属性设置ui
 MaterialSetWidget::MaterialSetWidget():
-	uiMaterialSet(new Ui_Material::MeterialSetWidget),
+	uiMaterialSet(new Ui::MeterialSetWidget),
 	radioButtons(new QButtonGroup)
 {
 	uiMaterialSet->setupUi(this);
@@ -208,7 +208,7 @@ MaterialSetWidget::~MaterialSetWidget()
 //加载边界条件ui
 
 BoundaryCasesWidget::BoundaryCasesWidget():
-	uiBoundaryCases(new Ui_BoundaryCases::BoundaryCasesWidget)
+	uiBoundaryCases(new Ui::BoundaryCasesWidget)
 {
 	uiBoundaryCases->setupUi(this);
 }
@@ -220,7 +220,7 @@ BoundaryCasesWidget::~BoundaryCasesWidget()
 
 //加载3D边界条件ui
 BoundaryCases_3D::BoundaryCases_3D() :
-	uiBoundaryCases_3D(new Ui_BoundaryCases_3D::BoundaryCasesWidget_3D)
+	uiBoundaryCases_3D(new Ui::BoundaryCasesWidget_3D)
 {
 	uiBoundaryCases_3D->setupUi(this);
 }
@@ -232,7 +232,7 @@ BoundaryCases_3D::~BoundaryCases_3D()
 
 //加载载荷设置ui
 LoadSetWidget::LoadSetWidget():
-	uiLoadSet(new Ui_LoadSet::LoadSetWidget)
+	uiLoadSet(new Ui::LoadSetWidget)
 {
 	uiLoadSet->setupUi(this);
 }
@@ -244,7 +244,7 @@ LoadSetWidget::~LoadSetWidget()
 
 //加载3D载荷设置ui
 LoadSet_3D::LoadSet_3D() :
-	uiLoadSet_3D(new Ui_LoadSet_3D::LoadSetWidget_3D)
+	uiLoadSet_3D(new Ui::LoadSetWidget_3D)
 {
 	uiLoadSet_3D->setupUi(this);
 }
@@ -256,7 +256,7 @@ LoadSet_3D::~LoadSet_3D()
 
 //加载参数优化ui
 OptimizeParaWidget::OptimizeParaWidget():
-	uiOptimizePara(new Ui_OptimizePara::OptimizeParaWidget)
+	uiOptimizePara(new Ui::OptimizeParaWidget)
 {
 	uiOptimizePara->setupUi(this);
 }
@@ -268,7 +268,7 @@ OptimizeParaWidget::~OptimizeParaWidget()
 
 //加载3D参数优化ui
 OptimizePara_3D::OptimizePara_3D() :
-	uiOptimizePara_3D(new Ui_OptimizePara_3D::OptimizeParaWidget_3D)
+	uiOptimizePara_3D(new Ui::OptimizeParaWidget_3D)
 {
 	uiOptimizePara_3D->setupUi(this);
 }
@@ -280,7 +280,7 @@ OptimizePara_3D::~OptimizePara_3D()
 
 //加载结果查看ui
 ResultCheckWidget::ResultCheckWidget():
-	uiRecultCheck(new Ui_Result:: ResultCheckWidget)
+	uiRecultCheck(new Ui:: ResultCheckWidget)
 {
 	uiRecultCheck->setupUi(this);
 }

@@ -21,41 +21,32 @@ LIBS += -L$$OSGDIR/lib \
     -losgGAd \
     -losgQt5d \
     -losgViewerd \
-    -losgUtild
+    -losgUtild\
 
 DESTDIR = $$quote($$PWD\build\Debug)
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    OsgWidget.cpp \
     TopoOptimizeWidget.cpp
 
 HEADERS += \
     mainwindow.h \
-    OsgWidget.h \
-    TopoOptimizeWidget.h \
-    ui_BoundaryCasesWidget.h \
-    ui_DesignZoneWidget.h \
-    ui_LoadSetWidget.h \
-    ui_MaterialSetWidget.h \
-    ui_OptimizeParaWidget.h \
-    ui_ResultCheckWidget.h \
-    ui_DesignZoneWidget_3D \
-    ui_BoundaryCasesWidget_3D.h \
-    ui_LoadSetWidget_3D.h \
-    ui_OptimizeParaWidget_3D.h
-
-
-
+    TopoOptimizeWidget.h\
+    Global.h 
 
 FORMS += \
-    mainwindow.ui
-
-
-
-
-
+    mainwindow.ui \
+    BoundaryCasesWidget.ui \
+    BoundaryCasesWidget_3D.ui \
+    DesignZoneWidget _3D.ui \
+    DesignZoneWidget.ui \
+    LoadSetWidget.ui \
+    LoadSetWidget_3D.ui \
+    MaterialSetWidget.ui \
+    OptimizeParaWidget.ui \
+    OptimizeParaWidget_3D.ui \
+    ResultCheckWidget.ui 
 
 #RESOURCES += res.qrc
 

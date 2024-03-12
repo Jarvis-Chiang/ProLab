@@ -302,7 +302,7 @@ public:
 
 };
 
-namespace Ui_Material {
+namespace Ui {
     class MeterialSetWidget: public Ui_MeterialSetWidget {};
 } // namespace Ui
 

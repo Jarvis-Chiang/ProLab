@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ResultCheckWidget.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.6
+** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -206,18 +206,18 @@ public:
 
     void retranslateUi(QWidget *ResultCheckWidget)
     {
-        ResultCheckWidget->setWindowTitle(QApplication::translate("ResultCheckWidget", "Form", nullptr));
-        groupBox->setTitle(QApplication::translate("ResultCheckWidget", "\347\273\223\346\236\234\346\237\245\347\234\213", nullptr));
-        label_4->setText(QApplication::translate("ResultCheckWidget", "\344\270\264\347\225\214\345\200\274\357\274\232", nullptr));
-        generateDensityFieldBotton_4->setText(QApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\345\257\206\345\272\246\345\234\272", nullptr));
-        generateStressFieldBotton_4->setText(QApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\345\272\224\345\212\233\345\234\272", nullptr));
-        generateBiasFieldBotton_4->setText(QApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\344\275\215\347\247\273\345\234\272", nullptr));
-        generateVectorFieldBotton_4->setText(QApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\345\220\221\351\207\217\345\234\272", nullptr));
+        ResultCheckWidget->setWindowTitle(QCoreApplication::translate("ResultCheckWidget", "Form", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("ResultCheckWidget", "\347\273\223\346\236\234\346\237\245\347\234\213", nullptr));
+        label_4->setText(QCoreApplication::translate("ResultCheckWidget", "\344\270\264\347\225\214\345\200\274\357\274\232", nullptr));
+        generateDensityFieldBotton_4->setText(QCoreApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\345\257\206\345\272\246\345\234\272", nullptr));
+        generateStressFieldBotton_4->setText(QCoreApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\345\272\224\345\212\233\345\234\272", nullptr));
+        generateBiasFieldBotton_4->setText(QCoreApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\344\275\215\347\247\273\345\234\272", nullptr));
+        generateVectorFieldBotton_4->setText(QCoreApplication::translate("ResultCheckWidget", "\347\224\237\346\210\220\345\220\221\351\207\217\345\234\272", nullptr));
     } // retranslateUi
 
 };
 
-namespace Ui_Result {
+namespace Ui {
     class ResultCheckWidget: public Ui_ResultCheckWidget {};
 } // namespace Ui
 
