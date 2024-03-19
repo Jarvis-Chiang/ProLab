@@ -62,6 +62,7 @@
 #include <osg/LightSource>
 #include <osg/LineWidth>
 #include <osg/PositionAttitudeTransform>
+#include <osgGA/FirstPersonManipulator>
 
 #include <QTimer>
 #include <QApplication>
@@ -86,6 +87,19 @@ typedef Eigen::Vector3d Point3D;
 typedef std::vector<Eigen::Vector3d> CoorSet;
 typedef Eigen::MatrixXd V;
 typedef Eigen::MatrixXi C;
+
+class HUDAxis :public osg::Camera
+{
+public:
+	HUDAxis();
+	HUDAxis(HUDAxis const& copy, osg::CopyOp copyOp = osg::CopyOp::SHALLOW_COPY);
+	META_Node(osg, HUDAxis);
+	inline void setMainCamera(Camera* camera) { _mainCamera = camera; }
+	virtual void traverse(osg::NodeVisitor& nv);
+protected:
+	virtual ~HUDAxis();
+	osg::observer_ptr<Camera> _mainCamera;
+};
 
 class OsgWidget : public QWidget, public osgViewer::CompositeViewer
 {
@@ -421,6 +435,9 @@ public:
 
 	void init();
 	void creatAction();
+	osg::ref_ptr<osg::Geode> makeCoordinate();
+	void creatHUD();
+
 
 	void CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);
 
@@ -503,14 +520,97 @@ private slots:
 class AddLinePointHandler : public osgGA::GUIEventHandler
 {
 public:
-	AddLinePointHandler() {};
-	~AddLinePointHandler() {};
+	AddLinePointHandler() { };
+	~AddLinePointHandler() { };
+
+	osg::ref_ptr<osg::PositionAttitudeTransform> picked;
+	bool PickedObject = false;
+	bool isModel = false;
+	osg::Vec3f firstPoint;
+	osg::Vec3f lastPoint;
 
 	static bool cmp(const osg::Vec3f& v1, const osg::Vec3f& v2)
 	{
 		float distance_v1 = (v1 - position).length();
 		float distance_v2 = (v2 - position).length();
 		return distance_v1 < distance_v2;
+	}
+
+	osg::Vec3 getSurfPoint(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer)
+	{
+		//获得model节点下的模型表面点
+		osgUtil::LineSegmentIntersector::Intersections intersections;
+		std::vector<osg::Vec3> pointsToChoose;//用来保存model上的所有点
+		viewer->getCamera()->getViewMatrixAsLookAt(position, center_1, up);
+
+		if (viewer->computeIntersections(x, y, intersections))//有选中物体
+		{
+			for (osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
+				hitr != intersections.end();
+				++hitr)//遍历和所有节点的所有交点
+			{
+				osg::NodePath getNodePath = hitr->nodePath;
+				for (int i = getNodePath.size() - 1; i >= 0; --i)//遍历节点路径，当是model上点 isModel = true 否则 isModel = false；
+				{
+					if (getNodePath[i] == model)
+					{
+						isModel = true;
+						break;
+					}
+				}
+				if (isModel)
+				{
+					float x_Point = float(hitr->getWorldIntersectPoint().x());
+					float y_Point = float(hitr->getWorldIntersectPoint().y());
+					float z_Point = float(hitr->getWorldIntersectPoint().z());
+
+					pointsToChoose.push_back(osg::Vec3(x_Point, y_Point, z_Point));
+
+				}
+				isModel = false;
+			}
+			if (pointsToChoose.empty())//如果所有的交点全不是model上的
+				return osg::Vec3(0, 0, 0);
+			else
+			{
+				std::sort(pointsToChoose.begin(), pointsToChoose.end(), cmp);
+				return pointsToChoose[0];
+			}
+		}
+		else
+			return osg::Vec3(0, 0, 0);
+	}
+
+	void pick(float x, float y, osg::ref_ptr<osgViewer::Viewer> view)
+	{
+
+		osgUtil::LineSegmentIntersector::Intersections intersections;
+
+		if (view->computeIntersections(x, y, intersections))
+		{
+			osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
+			osg::NodePath getNodePath = hitr->nodePath;
+			for (int i = getNodePath.size() - 1; i >= 0; --i)
+			{
+				osg::PositionAttitudeTransform* mt = dynamic_cast<osg::PositionAttitudeTransform*>(getNodePath[i]);
+				if (mt == NULL)
+				{
+					continue;
+				}
+				else
+				{
+					PickedObject = true;
+					picked = mt;
+					firstPoint = { float(hitr->getWorldIntersectPoint().x()), float(hitr->getWorldIntersectPoint().y()), float(hitr->getWorldIntersectPoint().z()) };
+				}
+
+			}
+		}
+		else
+		{
+			PickedObject = false;
+		}
+
 	}
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
@@ -528,39 +628,35 @@ public:
 			if (ea.getButton() == 1)
 			{
 				//创建一个线段交集检测对象
-				osgUtil::LineSegmentIntersector::Intersections intersections;
 				float x = ea.getX();
 				float y = ea.getY();
 
-				std::vector<osg::Vec3> pointsToChoose;
+				startPoint = getSurfPoint(x, y, viewer);
 
-				viewer->getCamera()->getViewMatrixAsLookAt(position, center_1, up);
-
-				if (viewer->computeIntersections(x, y, intersections))//没有选中物体
-				{
-					//得到相交交集的交点
-					for (osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
-						hitr != intersections.end();
-						++hitr)
-						//用emit传递数据
-					{
-						float x_Point = float(hitr->getWorldIntersectPoint().x());
-						float y_Point = float(hitr->getWorldIntersectPoint().y());
-						float z_Point = float(hitr->getWorldIntersectPoint().z());
-
-						pointsToChoose.push_back(osg::Vec3(x_Point, y_Point, z_Point));
-
-					}
-					std::sort(pointsToChoose.begin(), pointsToChoose.end(), cmp);
-					startPoint = pointsToChoose[0];
-					//creatPoint(pointsToChoose[0].x(), pointsToChoose[0].y(), pointsToChoose[0].z());
-					//pointsData_ctrl->push_back(osg::Vec3f(pointsToChoose[0].x(), pointsToChoose[0].y(), pointsToChoose[0].z()));
-					//lines_ctrl->addChild(drawLines(pointsData_ctrl, LinesType::ControlLines));
-					//const QString text = QString("(%1, %2, %3)").arg(pointsToChoose[0].x()).arg(pointsToChoose[0].y()).arg(pointsToChoose[0].z());
-					//listLinesWidget->addItem(text);
-					//UpdateLog(QString("添加控制顶点 (%1, %2, %3)\n").arg(pointsToChoose[0].x()).arg(pointsToChoose[0].y()).arg(pointsToChoose[0].z()));
-				}
 			}
+			break;
+
+		case osgGA::GUIEventAdapter::PUSH://单机鼠标选中拖动物体
+			if (ea.getButton() == 1)
+			{
+				float x = ea.getX();
+				float y = ea.getY();
+				pick(x, y, viewer);
+			}
+			break;
+
+		case osgGA::GUIEventAdapter::DRAG://拖动物体移动
+			if (PickedObject)//如果选中物体进行了拖动
+			{
+				float x = ea.getX();
+				float y = ea.getY();
+				osg::Vec3 lastPoint = getSurfPoint(x, y, viewer);
+				picked->setPosition(lastPoint);
+				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
+			}
+
+		case osgGA::GUIEventAdapter::RELEASE:
+			PickedObject = false;
 			break;
 
 		default:
@@ -569,6 +665,9 @@ public:
 
 		return false;
 	}
+
+
+	
 };
 
 

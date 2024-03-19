@@ -40,6 +40,7 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	vecFieldBasedSlice_VecField(new VecFieldBasedSlice_VecField),
 	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded))
 {
+	creatHUD();
 	init();
 	creatAction();
 }
@@ -166,6 +167,9 @@ void TopoOptimizeWidget :: init()
 	root->addChild(model.get());
 	root->addChild(arrow.get());
 	root->addChild(slicePlane.get());
+
+	model->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
+
 }
 
 void TopoOptimizeWidget::creatAction()
@@ -490,9 +494,11 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 
 	osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3(0.0f, 0.0f, height), coneRadius, coneHeight);
 	osg::ref_ptr<osg::ShapeDrawable> coneDrawable = new osg::ShapeDrawable(cone.get());
+	coneDrawable->setColor(osg::Vec4(1, 0, 0, 1));
 
 	osg::ref_ptr<osg::Cylinder> cylinder = new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0.5 * height), radius, height);
 	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable = new osg::ShapeDrawable(cylinder.get());
+	cylinderDrawable->setColor(osg::Vec4(1, 0, 0, 1));
 
 	// 创建变换节点，并将圆柱和圆锥的几何体添加到变换节点中
 	osg::ref_ptr<osg::PositionAttitudeTransform> arrowTransform = new osg::PositionAttitudeTransform;
@@ -510,6 +516,96 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	// 将变换节点添加到箭头的根节点中
 	root_t->addChild(arrowTransform.get());
 
+}
+
+HUDAxis::HUDAxis()
+{
+	//可以在这直接读取axes.osgt;
+	// this->addChild(osgDB::readNodeFile("axes.osgt"));
+}
+HUDAxis::HUDAxis(HUDAxis const& copy, osg::CopyOp copyOp /* = CopyOp::SHALLOW_COPY */) :Camera(copy, copyOp),
+_mainCamera(copy._mainCamera)
+{
+}
+void HUDAxis::traverse(osg::NodeVisitor& nv)
+{
+	double fovy, aspectRatio, vNear, vFar;
+	_mainCamera->getProjectionMatrixAsPerspective(fovy, aspectRatio, vNear, vFar);
+	//this->setProjectionMatrixAsOrtho(-10.0*aspectRatio, 10.0*aspectRatio, -10.0, 10.0, 2.0, -2.0); //设置投影矩阵，使缩放不起效果
+	this->setProjectionMatrixAsOrtho2D(-10.0 * aspectRatio, 10.0 * aspectRatio, -10.0, 10.0);
+	osg::Vec3 trans(8.5 * aspectRatio, -8.5, -8.0);
+	if (_mainCamera.valid() && nv.getVisitorType() == osg::NodeVisitor::CULL_VISITOR)
+	{
+		osg::Matrix matrix = _mainCamera->getViewMatrix();//改变视图矩阵，让移动位置固定
+		matrix.setTrans(trans);
+		this->setViewMatrix(matrix);
+	}//if
+	osg::Camera::traverse(nv);
+}
+HUDAxis::~HUDAxis()
+{
+}
+
+void TopoOptimizeWidget::creatHUD()
+{
+	osg::ref_ptr<HUDAxis> hudAxes = new HUDAxis;
+	hudAxes->addChild(makeCoordinate());
+	hudAxes->setMainCamera(osgWidget->view->getCamera());
+	hudAxes->setRenderOrder(osg::Camera::POST_RENDER);
+	hudAxes->setClearMask(GL_DEPTH_BUFFER_BIT);
+	hudAxes->setAllowEventFocus(false);
+	hudAxes->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
+	hudAxes->setName("hudAxes");
+	hudAxes->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
+	root->addChild(hudAxes);//子节点2
+}
+
+osg::ref_ptr<osg::Geode> TopoOptimizeWidget::makeCoordinate()
+{
+	osg::ref_ptr<osg::Sphere> pSphereShape = new osg::Sphere(osg::Vec3(0, 0, 0), 0.1f);
+	osg::ref_ptr<osg::ShapeDrawable> pShapeDrawable = new osg::ShapeDrawable(pSphereShape.get());
+	pShapeDrawable->setColor(osg::Vec4(0.0, 0.0, 0.0, 1.0));
+
+	//创建保存几何信息的对象
+	osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+
+	//创建四个顶点
+	osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+	v->push_back(osg::Vec3(0.0f, 0.0f, 0.0f));
+	v->push_back(osg::Vec3(1.0f, 0.0f, 0.0f));
+	v->push_back(osg::Vec3(0.0f, 0.0f, 0.0f));
+	v->push_back(osg::Vec3(0.0f, 1.0f, 0.0f));
+	v->push_back(osg::Vec3(0.0f, 0.0f, 0.0f));
+	v->push_back(osg::Vec3(0.0f, 0.0f, 1.0f));
+	geom->setVertexArray(v.get());
+
+
+	//为每个顶点指定一种颜色
+	osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+	c->push_back(osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f)); //坐标原点为红色
+	c->push_back(osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f)); //x red
+	c->push_back(osg::Vec4(0.0f, 1.0f, 0.0f, 1.0f)); //坐标原点为绿色
+	c->push_back(osg::Vec4(0.0f, 1.0f, 0.0f, 1.0f)); //y green
+	c->push_back(osg::Vec4(0.0f, 0.0f, 1.0f, 1.0f)); //坐标原点为蓝色
+	c->push_back(osg::Vec4(0.0f, 0.0f, 1.0f, 1.0f)); //z blue
+	//如果没指定颜色则会变为黑色
+	geom->setColorArray(c.get());
+	geom->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
+
+	//三个轴
+	geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, 2)); //X
+	geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 2, 2)); //Y
+	geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 4, 2)); //Z
+
+	osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+	//geode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::ON);
+	geode->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0), osg::StateAttribute::ON);
+
+	geode->addDrawable(pShapeDrawable.get());
+	geode->addDrawable(geom.get());
+
+
+	return geode.release();
 }
 
 
