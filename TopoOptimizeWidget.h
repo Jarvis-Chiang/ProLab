@@ -45,6 +45,9 @@
 #include <QButtonGroup>
 #include <Eigen/Dense>
 #include <QMessageBox>
+#include <QTimer>
+#include <QApplication>
+#include <QGridLayout>
 
 #include <osg/Geometry>
 #include <osg/Geode>
@@ -62,17 +65,16 @@
 #include <osg/LightSource>
 #include <osg/LineWidth>
 #include <osg/PositionAttitudeTransform>
-#include <osgGA/FirstPersonManipulator>
 
-#include <QTimer>
-#include <QApplication>
-#include <QGridLayout>
+#include <osgManipulator/Selection>
+#include <osgManipulator/TrackballDragger>
 
 #include <osgViewer/CompositeViewer>
 #include <osgViewer/ViewerEventHandlers>
 
 #include <osgGA/MultiTouchTrackballManipulator>
 #include <osgGA/StateSetManipulator>
+#include <osgGA/FirstPersonManipulator>
 
 #include <osgDB/ReadFile>
 
@@ -524,8 +526,11 @@ public:
 	~AddLinePointHandler() { };
 
 	osg::ref_ptr<osg::PositionAttitudeTransform> picked;
+
 	bool PickedObject = false;
 	bool isModel = false;
+	bool m_ctrlKeyPressed = false;//用来监测ctrl是否按下的变量
+
 	osg::Vec3f firstPoint;
 	osg::Vec3f lastPoint;
 
@@ -613,6 +618,35 @@ public:
 
 	}
 
+	void addTraceBallTracker(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer)
+	{
+		osgManipulator::TrackballDragger* dragger = new osgManipulator::TrackballDragger;
+		dragger->setupDefaultGeometry();
+
+		osgUtil::LineSegmentIntersector::Intersections intersections;//创建交点判断器
+		if (viewer->computeIntersections(x, y, intersections))//如果成功选中了物体
+		{
+			osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
+			osg::NodePath getNodePath = hitr->nodePath;
+			for (int i = getNodePath.size() - 1; i >= 0; --i)
+			{
+				osgManipulator::Selection* slt = dynamic_cast<osgManipulator::Selection*>(getNodePath[i]);
+				osg::PositionAttitudeTransform* mt = dynamic_cast<osg::PositionAttitudeTransform*>(getNodePath[i]);
+				if (slt == NULL && mt == NULL)
+					continue;
+				else
+				{
+					if (mt != NULL)
+						dragger->setMatrix(osg::Matrix::scale(0.5, 0.5, 0.5) * osg::Matrix::translate(mt->getBound().center()));
+					if (slt != NULL)
+						dragger->addTransformUpdating(slt);
+				}
+			}
+		}
+		dragger->setHandleEvents(true);
+		arrow->addChild(dragger);
+	}
+
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
 	{
 		//获取要响应的viewer
@@ -632,16 +666,24 @@ public:
 				float y = ea.getY();
 
 				startPoint = getSurfPoint(x, y, viewer);
-
 			}
 			break;
 
 		case osgGA::GUIEventAdapter::PUSH://单机鼠标选中拖动物体
 			if (ea.getButton() == 1)
 			{
-				float x = ea.getX();
-				float y = ea.getY();
-				pick(x, y, viewer);
+				if (m_ctrlKeyPressed)
+				{
+					float x = ea.getX();
+					float y = ea.getY();
+					addTraceBallTracker(x, y, viewer);
+				}
+				else
+				{
+					float x = ea.getX();
+					float y = ea.getY();
+					pick(x, y, viewer);
+				}
 			}
 			break;
 
@@ -654,14 +696,35 @@ public:
 				picked->setPosition(lastPoint);
 				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
 			}
+			else
+				break;
 
 		case osgGA::GUIEventAdapter::RELEASE:
 			PickedObject = false;
 			break;
 
+		case osgGA::GUIEventAdapter::KEYDOWN:
+			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
+				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被按下
+			{
+				m_ctrlKeyPressed = true;
+			}
+		break;
+
+		case osgGA::GUIEventAdapter::KEYUP:
+			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
+				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被释放
+			{
+				m_ctrlKeyPressed = false;
+			}
+		break;
+
 		default:
 			break;
 		}
+
+		////判断事件类型（new）
+		//if (ea.getEventType() == osgGA::GUIEventAdapter::PUSH&&ea.getEventType() == osgGA::GUIEventAdapter::KEYDOWN )
 
 		return false;
 	}
@@ -671,3 +734,4 @@ public:
 };
 
 
+ 
