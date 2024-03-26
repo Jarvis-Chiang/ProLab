@@ -499,11 +499,14 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	osg::ref_ptr<osg::Cylinder> cylinder = new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0.5 * height), radius, height);
 	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable = new osg::ShapeDrawable(cylinder.get());
 	cylinderDrawable->setColor(osg::Vec4(1, 0, 0, 1));
+	//添加组节点来保存拖拽器
+	osg::ref_ptr<osg::Group> group = new osg::Group;
 
 	//为添加球式拖拽器的节点
 	osg::ref_ptr<osgManipulator::Selection> selection = new osgManipulator::Selection;
 	// 创建变换节点，并将圆柱和圆锥的几何体添加到变换节点中
 	osg::ref_ptr<osg::PositionAttitudeTransform> arrowTransform = new osg::PositionAttitudeTransform;
+	group->addChild(selection);//0
 	selection->addChild(arrowTransform);
 	arrowTransform->addChild(coneDrawable.get());
 	arrowTransform->addChild(cylinderDrawable.get());
@@ -514,10 +517,11 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	normalizedDirection.normalize();
 	osg::Quat rotation;
 	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
+	rotation_Global = rotation;//初始姿态
 	arrowTransform->setAttitude(rotation);
 
 	// 将变换节点添加到箭头的根节点中
-	root_t->addChild(selection);
+	root_t->addChild(group);
 
 }
 

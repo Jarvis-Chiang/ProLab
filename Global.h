@@ -16,6 +16,9 @@ static osg::Vec3 center_1;
 static osg::Vec3 up;
 
 static osg::Vec3 startPoint;//保存添加的各个向量箭头的临时变量
+static osg::Quat rotation_Global;
+
 static osg::ref_ptr<osgManipulator::TrackballDragger> dragger = new osgManipulator::TrackballDragger;
+
 
 

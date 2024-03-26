@@ -524,14 +524,14 @@ class FindDelNodeVisitor : public osg::NodeVisitor
 	//节点访问器函数本身并完全完成，最终想要达到的效果是：
 	//根据节点名称和节点类型对根节点的不同子节点应用不同的apply()函数。
 public:
-	FindDelNodeVisitor() : osg::NodeVisitor(TRAVERSE_ALL_CHILDREN), searchForeName() {};
-	FindDelNodeVisitor(std::string& searchName) : osg::NodeVisitor(TRAVERSE_ACTIVE_CHILDREN), searchForeName(searchName) {};
-	virtual void apply(osg::MatrixTransform& searchNode)
+	FindDelNodeVisitor() : osg::NodeVisitor(TRAVERSE_PARENTS), searchForeName() {};
+	FindDelNodeVisitor(std::string& searchName) : osg::NodeVisitor(TRAVERSE_PARENTS), searchForeName(searchName) {};
+	virtual void apply(osgManipulator::Selection& searchNode)
 	{
-		if (searchNode.getName() == searchForeName)
-		{
-			searchNode.getParent(0)->removeChild(&searchNode);//注意：removeChild实际上移除的是子节点的地址！！！！！
-		}
+		osg::Quat rotation;
+		searchNode.getMatrix().get(rotation);
+		rotation_Global *= rotation;//传递出姿态信息
+		searchNode.setMatrix(osg::Matrix::identity());//注意：removeChild实际上移除的是子节点的地址！！！！！
 		traverse(searchNode);
 	}
 	//virtual void apply(osgManipulator::TrackballDragger& searchTrackballDragger)
@@ -632,7 +632,6 @@ public:
 					PickedObject = true;
 					picked = mt;
 					startPoint = mt->getPosition();
-					firstPoint = { float(hitr->getWorldIntersectPoint().x()), float(hitr->getWorldIntersectPoint().y()), float(hitr->getWorldIntersectPoint().z()) };
 				}
 
 			}
@@ -646,8 +645,8 @@ public:
 
 	void addTraceBallTracker(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer)
 	{
+
 		dragger->setupDefaultGeometry();
-		dragger->setName("dragger");//自动将姓名转化为std::string类型
 
 		osgUtil::LineSegmentIntersector::Intersections intersections;//创建交点判断器
 		if (viewer->computeIntersections(x, y, intersections))//如果成功选中了物体
@@ -664,12 +663,12 @@ public:
 				{
 					if (mt != NULL)
 					{
-						startPoint = mt->getPosition();
-						dragger->setMatrix(osg::Matrix::scale(1, 1, 1) * osg::Matrix::translate(startPoint));
+						
+						dragger->setMatrix(osg::Matrix::scale(1, 1, 1)  * osg::Matrix::rotate(picked->getAttitude()) * osg::Matrix::translate(mt->getPosition()));
 					}
 					if (slt != NULL)
 					{
-						dragger->addTransformUpdating(slt);
+						dragger->addTransformUpdating(slt);//获取的是dragger的姿态变化值，而不是姿态
 						dragger->setHandleEvents(true);
 					}
 				}
@@ -680,9 +679,9 @@ public:
 
 	void removeTraceBallTracker()
 	{
-		std::string str = "dragger";
-		FindDelNodeVisitor delVisitor(str);
-		arrow->accept(delVisitor);
+		FindDelNodeVisitor delVisitor;
+		picked->accept(delVisitor);
+		picked->setAttitude(rotation_Global);
 	}
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
@@ -722,8 +721,9 @@ public:
 				float x = ea.getX();
 				float y = ea.getY();
 				osg::Vec3 lastPoint = getSurfPoint(x, y, viewer);
-				startPoint = lastPoint;
 				picked->setPosition(lastPoint);
+				dragger->setMatrix(dragger->getMatrix() * osg::Matrix::translate(lastPoint - startPoint));//保持原有姿态进行偏移
+				startPoint = lastPoint;
 				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
 			}
 			else
@@ -744,7 +744,10 @@ public:
 					PickedObject = false;
 					addTraceBallTracker(x, y, viewer);
 				}
-				arrow->addChild(dragger);
+
+				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->addChild(dragger);
+				//arrow->getChild(0)->asGroup()->addChild(dragger);
+				picked->getParent(0)->addChild(dragger);
 				m_ctrlKeyPressed = true;
 			}
 		break;
@@ -753,7 +756,10 @@ public:
 			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
 				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被释放
 			{
-				arrow->removeChild(dragger);
+				removeTraceBallTracker();
+				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->removeChild(dragger);
+				//arrow->getChild(0)->asGroup()->removeChild(dragger);
+				picked->getParent(0)->removeChild(dragger);
 				m_ctrlKeyPressed = false;
 			}
 		break;
@@ -761,9 +767,6 @@ public:
 		default:
 			break;
 		}
-
-		////判断事件类型（new）
-		//if (ea.getEventType() == osgGA::GUIEventAdapter::PUSH&&ea.getEventType() == osgGA::GUIEventAdapter::KEYDOWN )
 
 		return false;
 	}
