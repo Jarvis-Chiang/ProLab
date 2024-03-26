@@ -65,9 +65,9 @@
 #include <osg/LightSource>
 #include <osg/LineWidth>
 #include <osg/PositionAttitudeTransform>
+#include <osg/NodeVisitor>
 
 #include <osgManipulator/Selection>
-#include <osgManipulator/TrackballDragger>
 
 #include <osgViewer/CompositeViewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -517,6 +517,31 @@ private slots:
 	//void del2DArrow();
 };
 
+/**************************以下为访问器函数********************************/
+
+class FindDelNodeVisitor : public osg::NodeVisitor
+{
+	//节点访问器函数本身并完全完成，最终想要达到的效果是：
+	//根据节点名称和节点类型对根节点的不同子节点应用不同的apply()函数。
+public:
+	FindDelNodeVisitor() : osg::NodeVisitor(TRAVERSE_ALL_CHILDREN), searchForeName() {};
+	FindDelNodeVisitor(std::string& searchName) : osg::NodeVisitor(TRAVERSE_ACTIVE_CHILDREN), searchForeName(searchName) {};
+	virtual void apply(osg::MatrixTransform& searchNode)
+	{
+		if (searchNode.getName() == searchForeName)
+		{
+			searchNode.getParent(0)->removeChild(&searchNode);//注意：removeChild实际上移除的是子节点的地址！！！！！
+		}
+		traverse(searchNode);
+	}
+	//virtual void apply(osgManipulator::TrackballDragger& searchTrackballDragger)
+	//{
+	//	arrow->removeChild(&searchTrackballDragger);//
+	//	traverse(searchTrackballDragger);
+	//}
+private:
+	std::string searchForeName;
+};
 
 /*******************以下为交互事件函数***********************/
 class AddLinePointHandler : public osgGA::GUIEventHandler
@@ -606,6 +631,7 @@ public:
 				{
 					PickedObject = true;
 					picked = mt;
+					startPoint = mt->getPosition();
 					firstPoint = { float(hitr->getWorldIntersectPoint().x()), float(hitr->getWorldIntersectPoint().y()), float(hitr->getWorldIntersectPoint().z()) };
 				}
 
@@ -620,8 +646,8 @@ public:
 
 	void addTraceBallTracker(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer)
 	{
-		osgManipulator::TrackballDragger* dragger = new osgManipulator::TrackballDragger;
 		dragger->setupDefaultGeometry();
+		dragger->setName("dragger");//自动将姓名转化为std::string类型
 
 		osgUtil::LineSegmentIntersector::Intersections intersections;//创建交点判断器
 		if (viewer->computeIntersections(x, y, intersections))//如果成功选中了物体
@@ -637,14 +663,26 @@ public:
 				else
 				{
 					if (mt != NULL)
-						dragger->setMatrix(osg::Matrix::scale(0.5, 0.5, 0.5) * osg::Matrix::translate(mt->getBound().center()));
+					{
+						startPoint = mt->getPosition();
+						dragger->setMatrix(osg::Matrix::scale(1, 1, 1) * osg::Matrix::translate(startPoint));
+					}
 					if (slt != NULL)
+					{
 						dragger->addTransformUpdating(slt);
+						dragger->setHandleEvents(true);
+					}
 				}
 			}
 		}
-		dragger->setHandleEvents(true);
-		arrow->addChild(dragger);
+
+	}
+
+	void removeTraceBallTracker()
+	{
+		std::string str = "dragger";
+		FindDelNodeVisitor delVisitor(str);
+		arrow->accept(delVisitor);
 	}
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
@@ -672,18 +710,9 @@ public:
 		case osgGA::GUIEventAdapter::PUSH://单机鼠标选中拖动物体
 			if (ea.getButton() == 1)
 			{
-				if (m_ctrlKeyPressed)
-				{
-					float x = ea.getX();
-					float y = ea.getY();
-					addTraceBallTracker(x, y, viewer);
-				}
-				else
-				{
 					float x = ea.getX();
 					float y = ea.getY();
 					pick(x, y, viewer);
-				}
 			}
 			break;
 
@@ -693,6 +722,7 @@ public:
 				float x = ea.getX();
 				float y = ea.getY();
 				osg::Vec3 lastPoint = getSurfPoint(x, y, viewer);
+				startPoint = lastPoint;
 				picked->setPosition(lastPoint);
 				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
 			}
@@ -707,6 +737,14 @@ public:
 			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
 				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被按下
 			{
+				if (PickedObject)
+				{
+					float x = ea.getX();
+					float y = ea.getY();
+					PickedObject = false;
+					addTraceBallTracker(x, y, viewer);
+				}
+				arrow->addChild(dragger);
 				m_ctrlKeyPressed = true;
 			}
 		break;
@@ -715,6 +753,7 @@ public:
 			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
 				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被释放
 			{
+				arrow->removeChild(dragger);
 				m_ctrlKeyPressed = false;
 			}
 		break;
