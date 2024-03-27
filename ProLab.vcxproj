@@ -248,6 +248,42 @@
     <QtUic Include="WidgetUi\DesignZoneWidget.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_BoundaryCondition.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_ComputePara.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_ImportModelGrid.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_LoadSet.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_MaterialProperties.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_ResultView.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_BoundaryCondition.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_ComputePara.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_ImportModelGrid.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_LoadSet.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_MaterialProperties.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_ResultView.ui">
+      <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
+    </QtUic>
     <QtUic Include="WidgetUi\GradientFilling_PathPara.ui">
       <QtUicDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/WidgetUi</QtUicDir>
     </QtUic>

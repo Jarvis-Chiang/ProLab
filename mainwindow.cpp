@@ -78,6 +78,9 @@ void MainWindow::creatConnect()
     QObject::connect(m_ReferenceSurfaceBased, &QAction::triggered, this, &MainWindow::on_ReferenceSurfaceBased_trigged);
     QObject::connect(m_VectorFieldBased, &QAction::triggered, this, &MainWindow::on_VectorFieldBased_trigged);
 
+    QObject::connect(m_Finite2D, &QAction::triggered, this, &MainWindow::on_m_Finite2D_trigged);
+    QObject::connect(m_Finite3D, &QAction::triggered, this, &MainWindow::on_m_Finite3D_trigged);
+
     //QObject::connect(m_addDock, &QAction::triggered, this, &MainWindow::creatPage);
     //QObject::connect(m_addDock, SIGNAL(button1->triggered()), this, SLOT(creatPage(oprDock)));
 
@@ -107,25 +110,32 @@ void MainWindow::creatStructureOptiButton(RibbonPage* page)
     m_Topo2D = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D拓扑优化", Qt::ToolButtonTextUnderIcon);
     m_Topo3D = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "3D拓扑优化", Qt::ToolButtonTextUnderIcon);
 
-    //m_Topo2D->setCheckable(true);
-    //m_Topo3D->setCheckable(true);//设置按下样式
+    RibbonGroup* groupFinite = page->addGroup("有限元分析");
+    RibbonToolBarControl* toolBar_Finite = new RibbonToolBarControl(groupFinite);
+    m_Finite2D = toolBar_Finite->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "2D有限元分析", Qt::ToolButtonTextUnderIcon);
+    m_Finite3D = toolBar_Finite->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "3D有限元分析", Qt::ToolButtonTextUnderIcon);
+
     groupCad->addControl(toolBar);
+    groupFinite->addControl(toolBar_Finite);
 }
 
 
 void MainWindow::creatprocessPlanButton(RibbonPage* page)
 {
-    RibbonGroup* groupCad = page->addGroup("规划选择");
+    RibbonGroup* groupCad = page->addGroup("路径规划");
     RibbonToolBarControl* toolBar = new RibbonToolBarControl(groupCad);
-
     m_VectorDriven = toolBar->addAction(QIcon(QStringLiteral(":/res/largeNewFile.png")), "方向场驱动路径", Qt::ToolButtonTextUnderIcon);
     m_OffsetPath = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "偏移路径", Qt::ToolButtonTextUnderIcon);
     m_GradientFilling = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "梯度填充路径", Qt::ToolButtonTextUnderIcon);
-    m_ReferenceSurfaceBased = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "基准面法曲面切片", Qt::ToolButtonTextUnderIcon);
-    m_VectorFieldBased = toolBar->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "方向场法曲面切片", Qt::ToolButtonTextUnderIcon);
+
+    RibbonGroup* groupFinite = page->addGroup("曲面切片");
+    RibbonToolBarControl* toolBar_Finite = new RibbonToolBarControl(groupFinite);
+    m_ReferenceSurfaceBased = toolBar_Finite->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "基准面法曲面切片", Qt::ToolButtonTextUnderIcon);
+    m_VectorFieldBased = toolBar_Finite->addAction(QIcon(QStringLiteral(":/res/MainWindow/companyLogo.png")), "方向场法曲面切片", Qt::ToolButtonTextUnderIcon);
     //m_Topo2D->setCheckable(true);
     //m_Topo3D->setCheckable(true);//设置按下样式
     groupCad->addControl(toolBar);
+    groupFinite->addControl(toolBar_Finite);
 }
 
 void MainWindow::creatCadButton(RibbonPage* page)
@@ -309,4 +319,18 @@ void MainWindow::on_VectorFieldBased_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至方向场法曲面模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(22);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(6);
+}
+
+void MainWindow::on_m_Finite2D_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至2D有限元分析模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(27);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(7);
+}
+
+void MainWindow::on_m_Finite3D_trigged()
+{
+    QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至3D有限元分析模块？"));
+    topoOptimizeWidget->oprStackWidget->setCurrentIndex(33);
+    topoOptimizeWidget->treeStackWidget->setCurrentIndex(8);
 }

@@ -170,6 +170,42 @@
     <QtUic Include="WidgetUi\VecFieldBasedSlice_PathPlan.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_BoundaryCondition.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_ComputePara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_ImportModelGrid.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_LoadSet.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_MaterialProperties.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite2D_ResultView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_BoundaryCondition.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_ComputePara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_ImportModelGrid.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_LoadSet.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_MaterialProperties.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\Finite3D_ResultView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.qrc">

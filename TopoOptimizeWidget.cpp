@@ -16,6 +16,8 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	treeWidget5(new QTreeWidget(this)),
 	treeWidget6(new QTreeWidget(this)),
 	treeWidget7(new QTreeWidget(this)),
+	treeWidget8(new QTreeWidget(this)),
+	treeWidget9(new QTreeWidget(this)),
 	designZone_3D(new DesignZone_3D),
 	treeStackWidget(new QStackedWidget),
 	boundaryCases_3D(new BoundaryCases_3D),
@@ -38,6 +40,18 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	vecFieldBasedSlice_PrinZone(new VecFieldBasedSlice_PrinZone),
 	vecFieldBasedSlice_SurfSlice(new VecFieldBasedSlice_SurfSlice),
 	vecFieldBasedSlice_VecField(new VecFieldBasedSlice_VecField),
+	finite2D_BoundaryCondition(new Finite2D_BoundaryCondition),
+	finite2D_ComputePara(new Finite2D_ComputePara),
+	finite2D_ImportModelGrid(new Finite2D_ImportModelGrid),
+	finite2D_LoadSet(new Finite2D_LoadSet),
+	finite2D_MaterialProperties(new Finite2D_MaterialProperties),
+	finite2D_ResultView(new Finite2D_ResultView),
+	finite3D_BoundaryCondition(new Finite3D_BoundaryCondition),
+	finite3D_ComputePara(new Finite3D_ComputePara),
+	finite3D_ImportModelGrid(new Finite3D_ImportModelGrid),
+	finite3D_LoadSet(new Finite3D_LoadSet),
+	finite3D_MaterialProperties(new Finite3D_MaterialProperties),
+	finite3D_ResultView(new Finite3D_ResultView),
 	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded))
 {
 	creatHUD();
@@ -87,6 +101,19 @@ void TopoOptimizeWidget :: init()
 	oprStackWidget->addWidget(vecFieldBasedSlice_SurfSlice);//25
 	oprStackWidget->addWidget(vecFieldBasedSlice_PathPlan);//26
 
+	oprStackWidget->addWidget(finite2D_ImportModelGrid);//27
+	oprStackWidget->addWidget(finite2D_MaterialProperties);//28
+	oprStackWidget->addWidget(finite2D_BoundaryCondition);//29
+	oprStackWidget->addWidget(finite2D_LoadSet);//30
+	oprStackWidget->addWidget(finite2D_ComputePara);//31
+	oprStackWidget->addWidget(finite2D_ResultView);//32
+
+	oprStackWidget->addWidget(finite3D_ImportModelGrid);//33
+	oprStackWidget->addWidget(finite3D_MaterialProperties);//34
+	oprStackWidget->addWidget(finite3D_BoundaryCondition);//35
+	oprStackWidget->addWidget(finite3D_LoadSet);//36
+	oprStackWidget->addWidget(finite3D_ComputePara);//37
+	oprStackWidget->addWidget(finite3D_ResultView);//38
 
 	//左侧树状结构窗口1
 	treeWidget1->setColumnCount(1); //设置列数
@@ -154,6 +181,30 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree7_4 = new QTreeWidgetItem(treeWidget7, QStringList(QString("路径规划(方向场法)")));
 	treeWidget7->expandAll();
 
+	//左侧树状结构窗口8(有限元2D分析)
+	treeWidget8->setColumnCount(1); //设置列数
+	treeWidget8->setHeaderLabel(QString("2D有限元分析"));
+
+	QTreeWidgetItem* tree8_0 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D模型网格")));
+	QTreeWidgetItem* tree8_1 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D材料属性")));
+	QTreeWidgetItem* tree8_2 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D边界条件（有限元）")));
+	QTreeWidgetItem* tree8_3 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D载荷设置（有限元）")));
+	QTreeWidgetItem* tree8_4 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D计算参数")));
+	QTreeWidgetItem* tree8_5 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D结果查看（有限元）")));
+	treeWidget8->expandAll();
+
+	//左侧树状结构窗口9（3D有限元分析）
+	treeWidget9->setColumnCount(1); //设置列数
+	treeWidget9->setHeaderLabel(QString("2D拓扑结构树"));
+
+	QTreeWidgetItem* tree9_0 = new QTreeWidgetItem(treeWidget9, QStringList(QString("3D模型网格")));
+	QTreeWidgetItem* tree9_1 = new QTreeWidgetItem(treeWidget9, QStringList(QString("3D材料属性")));
+	QTreeWidgetItem* tree9_2 = new QTreeWidgetItem(treeWidget9, QStringList(QString("3D边界条件（有限元）")));
+	QTreeWidgetItem* tree9_3 = new QTreeWidgetItem(treeWidget9, QStringList(QString("3D载荷设置（有限元）")));
+	QTreeWidgetItem* tree9_4 = new QTreeWidgetItem(treeWidget9, QStringList(QString("3D计算参数")));
+	QTreeWidgetItem* tree9_5 = new QTreeWidgetItem(treeWidget9, QStringList(QString("3D结果查看（有限元）")));
+	treeWidget9->expandAll();
+
 	//左侧树状结构堆栈窗口
 	treeStackWidget->addWidget(treeWidget1);
 	treeStackWidget->addWidget(treeWidget2);
@@ -162,6 +213,8 @@ void TopoOptimizeWidget :: init()
 	treeStackWidget->addWidget(treeWidget5);
 	treeStackWidget->addWidget(treeWidget6);
 	treeStackWidget->addWidget(treeWidget7);
+	treeStackWidget->addWidget(treeWidget8);
+	treeStackWidget->addWidget(treeWidget9);
 
 	//显示结构初始化
 	root->addChild(model.get());
@@ -182,6 +235,8 @@ void TopoOptimizeWidget::creatAction()
 	connect(treeWidget5, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
 	connect(treeWidget6, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
 	connect(treeWidget7, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget8, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
+	connect(treeWidget9, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(stackedWidgetPageChange(QTreeWidgetItem*, int)));
 
 	//文件读取对话框
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
@@ -701,6 +756,41 @@ void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int colu
 	if (item->text(column) == "路径规划(方向场法)")
 		oprStackWidget->setCurrentIndex(26);
 
+	if (item->text(column) == "2D模型网格")
+		oprStackWidget->setCurrentIndex(27);
+
+	if (item->text(column) == "2D材料属性")
+		oprStackWidget->setCurrentIndex(28);
+
+	if (item->text(column) == "2D边界条件（有限元）")
+		oprStackWidget->setCurrentIndex(29);
+
+	if (item->text(column) == "2D载荷设置（有限元）")
+		oprStackWidget->setCurrentIndex(30);
+
+	if (item->text(column) == "2D计算参数")
+		oprStackWidget->setCurrentIndex(31);
+
+	if (item->text(column) == "2D结果查看（有限元）")
+		oprStackWidget->setCurrentIndex(32);
+
+	if (item->text(column) == "3D模型网格")
+		oprStackWidget->setCurrentIndex(33);
+
+	if (item->text(column) == "3D材料属性")
+		oprStackWidget->setCurrentIndex(34);
+
+	if (item->text(column) == "3D边界条件（有限元）")
+		oprStackWidget->setCurrentIndex(35);
+
+	if (item->text(column) == "3D载荷设置（有限元）")
+		oprStackWidget->setCurrentIndex(36);
+
+	if (item->text(column) == "3D计算参数")
+		oprStackWidget->setCurrentIndex(37);
+
+	if (item->text(column) == "3D结果查看（有限元）")
+		oprStackWidget->setCurrentIndex(38);
 }
 
 //设计域中导入设计域网格文件对应的选择文件路径对话框

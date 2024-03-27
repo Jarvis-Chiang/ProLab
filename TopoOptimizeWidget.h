@@ -28,6 +28,18 @@
 #include "ui_VecFieldBasedSlice_PrinZone.h"
 #include "ui_VecFieldBasedSlice_SurfSlice.h"
 #include "ui_VecFieldBasedSlice_VecField.h"
+#include "ui_Finite2D_BoundaryCondition.h"
+#include "ui_Finite2D_ComputePara.h"
+#include "ui_Finite2D_ImportModelGrid.h"
+#include "ui_Finite2D_LoadSet.h"
+#include "ui_Finite2D_MaterialProperties.h"
+#include "ui_Finite2D_ResultView.h"
+#include "ui_Finite3D_BoundaryCondition.h"
+#include "ui_Finite3D_ComputePara.h"
+#include "ui_Finite3D_ImportModelGrid.h"
+#include "ui_Finite3D_LoadSet.h"
+#include "ui_Finite3D_MaterialProperties.h"
+#include "ui_Finite3D_ResultView.h"
 
 #include "Global.h"
 
@@ -248,6 +260,127 @@ public:
 
 };
 
+//2D有限元分析模块
+	//模型网格UI
+class Finite2D_ImportModelGrid : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite2D_ImportModelGrid() : uiImportModelGrid(new Ui::Finite2D_ImportModelGrid) { uiImportModelGrid->setupUi(this); };
+	~Finite2D_ImportModelGrid() { delete uiImportModelGrid; };
+	Ui::Finite2D_ImportModelGrid* uiImportModelGrid;
+};
+
+	//材料属性UI
+class Finite2D_MaterialProperties : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite2D_MaterialProperties() : uiMaterialProperties(new Ui::Finite2D_MaterialProperties) { uiMaterialProperties->setupUi(this); };
+	~Finite2D_MaterialProperties() { delete uiMaterialProperties; };
+	Ui::Finite2D_MaterialProperties* uiMaterialProperties;
+};
+
+	//边界条件UI
+class Finite2D_BoundaryCondition : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite2D_BoundaryCondition() : uiBoundaryCondition(new Ui::Finite2D_BoundaryCondition) { uiBoundaryCondition->setupUi(this); };
+	~Finite2D_BoundaryCondition() { delete uiBoundaryCondition; };
+	Ui::Finite2D_BoundaryCondition* uiBoundaryCondition;
+};
+
+	//载荷设置UI
+class Finite2D_LoadSet : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite2D_LoadSet() : uiLoadSet(new Ui::Finite2D_LoadSet) { uiLoadSet->setupUi(this); };
+	~Finite2D_LoadSet() { delete uiLoadSet; };
+	Ui::Finite2D_LoadSet* uiLoadSet;
+};
+
+	//计算参数UI
+class Finite2D_ComputePara : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite2D_ComputePara() : uiComputePara(new Ui::Finite2D_ComputePara) { uiComputePara->setupUi(this); };
+	~Finite2D_ComputePara() { delete uiComputePara; };
+	Ui::Finite2D_ComputePara* uiComputePara;
+};
+
+	//结果查看UI
+class Finite2D_ResultView : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite2D_ResultView() : uiResultView(new Ui::Finite2D_ResultView) { uiResultView->setupUi(this); };
+	~Finite2D_ResultView() { delete uiResultView; };
+	Ui::Finite2D_ResultView* uiResultView;
+};
+
+//3D有限元分析模块
+class Finite3D_ImportModelGrid : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite3D_ImportModelGrid() : uiImportModelGrid(new Ui::Finite3D_ImportModelGrid) { uiImportModelGrid->setupUi(this); };
+	~Finite3D_ImportModelGrid() { delete uiImportModelGrid; };
+	Ui::Finite3D_ImportModelGrid* uiImportModelGrid;
+};
+
+	//材料属性UI
+class Finite3D_MaterialProperties : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite3D_MaterialProperties() : uiMaterialProperties(new Ui::Finite3D_MaterialProperties) { uiMaterialProperties->setupUi(this); };
+	~Finite3D_MaterialProperties() { delete uiMaterialProperties; };
+	Ui::Finite3D_MaterialProperties* uiMaterialProperties;
+};
+
+	//边界条件UI
+class Finite3D_BoundaryCondition : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite3D_BoundaryCondition() : uiBoundaryCondition(new Ui::Finite3D_BoundaryCondition) { uiBoundaryCondition->setupUi(this); };
+	~Finite3D_BoundaryCondition() { delete uiBoundaryCondition; };
+	Ui::Finite3D_BoundaryCondition* uiBoundaryCondition;
+};
+
+	//载荷设置UI
+class Finite3D_LoadSet : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite3D_LoadSet() : uiLoadSet(new Ui::Finite3D_LoadSet) { uiLoadSet->setupUi(this); };
+	~Finite3D_LoadSet() { delete uiLoadSet; };
+	Ui::Finite3D_LoadSet* uiLoadSet;
+};
+
+	//计算参数UI
+class Finite3D_ComputePara : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite3D_ComputePara() : uiComputePara(new Ui::Finite3D_ComputePara) { uiComputePara->setupUi(this); };
+	~Finite3D_ComputePara() { delete uiComputePara; };
+	Ui::Finite3D_ComputePara* uiComputePara;
+};
+
+	//结果查看UI
+class Finite3D_ResultView : public QWidget
+{
+	Q_OBJECT
+public:
+	Finite3D_ResultView() : uiResultView(new Ui::Finite3D_ResultView) { uiResultView->setupUi(this); };
+	~Finite3D_ResultView() { delete uiResultView; };
+	Ui::Finite3D_ResultView* uiResultView;
+};
+
 /***************************************工艺规划操作窗口***********************************/
 
 //方向场驱动路径UI
@@ -426,6 +559,8 @@ public:
 };
 
 
+
+
 class TopoOptimizeWidget : public QWidget
 {
 
@@ -460,6 +595,8 @@ private:
 	QTreeWidget* treeWidget5; //左侧树状结构窗口5
 	QTreeWidget* treeWidget6; //左侧树状结构窗口6
 	QTreeWidget* treeWidget7; //左侧树状结构窗口7
+	QTreeWidget* treeWidget8; //左侧树状结构窗口8
+	QTreeWidget* treeWidget9; //左侧树状结构窗口9
 
 	DesignZoneWidget* designZoneWidget;
 	DesignZone_3D* designZone_3D;
@@ -488,6 +625,18 @@ private:
 	VecFieldBasedSlice_PrinZone* vecFieldBasedSlice_PrinZone;
 	VecFieldBasedSlice_SurfSlice* vecFieldBasedSlice_SurfSlice;
 	VecFieldBasedSlice_VecField* vecFieldBasedSlice_VecField;
+	Finite2D_BoundaryCondition* finite2D_BoundaryCondition;
+	Finite2D_ComputePara* finite2D_ComputePara;
+	Finite2D_ImportModelGrid* finite2D_ImportModelGrid;
+	Finite2D_LoadSet* finite2D_LoadSet;
+	Finite2D_MaterialProperties* finite2D_MaterialProperties;
+	Finite2D_ResultView* finite2D_ResultView;
+	Finite3D_BoundaryCondition* finite3D_BoundaryCondition;
+	Finite3D_ComputePara* finite3D_ComputePara;
+	Finite3D_ImportModelGrid* finite3D_ImportModelGrid;
+	Finite3D_LoadSet* finite3D_LoadSet;
+	Finite3D_MaterialProperties* finite3D_MaterialProperties;
+	Finite3D_ResultView* finite3D_ResultView;
 
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 	void aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells);

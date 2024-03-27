@@ -73,6 +73,9 @@ private slots:
     void on_ReferenceSurfaceBased_trigged();
     void on_VectorFieldBased_trigged();
 
+    void on_m_Finite2D_trigged();
+    void on_m_Finite3D_trigged();
+
 protected:
 
     // action
@@ -80,6 +83,8 @@ protected:
     QAction* m_addDock;
     QAction* m_Topo2D;
     QAction* m_Topo3D;
+    QAction* m_Finite2D;
+    QAction* m_Finite3D;
 
     QAction* m_VectorDriven;
     QAction* m_OffsetPath;
