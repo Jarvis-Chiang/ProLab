@@ -22,3 +22,5 @@ static osg::ref_ptr<osgManipulator::TrackballDragger> dragger = new osgManipulat
 
 
 
+
+

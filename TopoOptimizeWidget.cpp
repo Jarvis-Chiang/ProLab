@@ -242,6 +242,8 @@ void TopoOptimizeWidget::creatAction()
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 
+	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_ImportTriMesh, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()));
+
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
 	connect(loadSet_3D->uiLoadSet_3D->pushButton_add, SIGNAL(clicked()), this, SLOT(addArrow0()));
@@ -257,6 +259,7 @@ OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::
 	setKeyEventSetsDone(0);
 
 	QWidget* popupWidget = addViewWidget(createGraphicsWindow(900, 100, 800, 600, "Popup window", true));
+	popupWidget->setMouseTracking(true);
 	QGridLayout* grid = new QGridLayout;
 	grid->addWidget(popupWidget, 0, 0);
 	setLayout(grid);
@@ -1276,3 +1279,21 @@ void TopoOptimizeWidget::addArrow0()
 //		.arg(startPoint.x(), 0, 'f', 2).arg(startPoint.y(), 0, 'f', 2);
 //	loadSetWidget->uiLoadSet->listWidget->addItem(text);
 //}
+
+void TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()
+{
+	fileRoute = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*stl)"));
+	osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
+	osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile(fileRoute.toStdString(), option);
+	//osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile("./data/cow.osg");
+	// 创建材质对象
+	osg::Material* mat = new osg::Material();
+	mat->setColorMode(osg::Material::ColorMode::DIFFUSE);   // 设置绘制颜色的模式 
+	mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0,1,1,1));      // 设置此种模式下的颜色 
+	stl->getOrCreateStateSet()->setAttribute(mat);
+	osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
+	scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
+	scribe->addChild(stl);
+	model->addChild(scribe);
+	osgWidget->getBestView();
+}

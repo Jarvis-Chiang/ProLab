@@ -79,6 +79,8 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/NodeVisitor>
 
+#include<osgFX/Scribe>
+
 #include <osgManipulator/Selection>
 
 #include <osgViewer/CompositeViewer>
@@ -127,6 +129,13 @@ public:
 	virtual void paintEvent(QPaintEvent* event);
 
 	osgViewer::Viewer* view;
+
+	void getBestView()
+	{
+		//获得最佳的场景角度
+		view->getCameraManipulator()->computeHomePosition();
+		view->getCameraManipulator()->home(0.0);
+	}
 
 protected:
 	QTimer _timer;
@@ -638,6 +647,8 @@ private:
 	Finite3D_MaterialProperties* finite3D_MaterialProperties;
 	Finite3D_ResultView* finite3D_ResultView;
 
+
+
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 	void aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells);
 
@@ -654,6 +665,7 @@ private:
 public slots:
 	void stackedWidgetPageChange(QTreeWidgetItem* item, int column);
 	void importDesignGridFile();
+	void VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push();
 private slots:
 	void generate3dDesignZone();
 	void generate2dDesignZone();
