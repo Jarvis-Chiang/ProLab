@@ -243,6 +243,7 @@ void TopoOptimizeWidget::creatAction()
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 
 	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_ImportTriMesh, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()));
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ImportVectorField_push()));
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
@@ -545,10 +546,10 @@ void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, 
 
 void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction)
 {
-	double radius = 0.3;
+	double radius = 0.1;
 	double height = direction.length() * 2;
-	double coneRadius = 0.5;
-	double coneHeight = 2;
+	double coneRadius = 0.2;
+	double coneHeight = 0.5;
 
 	osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3(0.0f, 0.0f, height), coneRadius, coneHeight);
 	osg::ref_ptr<osg::ShapeDrawable> coneDrawable = new osg::ShapeDrawable(cone.get());
@@ -1189,7 +1190,6 @@ void TopoOptimizeWidget::generate3dDesignZone()
 		group->addChild(modelNode);
 		group->addChild(stripNode);
 
-
 		/****************************设置上下左右近远六个光源，但是没写阴影*********************************/
 		osg::ref_ptr<osg::StateSet> stateset = group->getOrCreateStateSet();
 		stateset->setMode(GL_LIGHTING, osg::StateAttribute::ON);
@@ -1282,18 +1282,59 @@ void TopoOptimizeWidget::addArrow0()
 
 void TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()
 {
-	fileRoute = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*stl)"));
-	osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
-	osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile(fileRoute.toStdString(), option);
-	//osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile("./data/cow.osg");
-	// 创建材质对象
-	osg::Material* mat = new osg::Material();
-	mat->setColorMode(osg::Material::ColorMode::DIFFUSE);   // 设置绘制颜色的模式 
-	mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0,1,1,1));      // 设置此种模式下的颜色 
-	stl->getOrCreateStateSet()->setAttribute(mat);
-	osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
-	scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
-	scribe->addChild(stl);
-	model->addChild(scribe);
-	osgWidget->getBestView();
+	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*stl)"));
+	if (!Route.isEmpty())
+	{
+		osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
+		osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile(Route.toStdString(), option);
+		// 创建材质对象
+		osg::Material* mat = new osg::Material();
+		mat->setColorMode(osg::Material::ColorMode::DIFFUSE);   // 设置绘制颜色的模式 
+		mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0, 1, 1, 1));      // 设置此种模式下的颜色 
+		stl->getOrCreateStateSet()->setAttribute(mat);
+		//添加线框
+		osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
+		scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
+		scribe->addChild(stl);
+		//加载到场景节点
+		model->addChild(scribe);
+		//调整摄像机到最合适角度和位置
+		osgWidget->getBestView();
+	}
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVectorField_push()
+{
+	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*txt)"));
+	if (!Route.isEmpty())
+	{
+		// 打开文本文件
+		std::ifstream inputFile(Route.toStdString());
+		if (!inputFile)
+		{
+			std::cerr << "Failed to open file." << std::endl;
+		}
+		// 确定文件行数
+		int numLines = 0;
+		std::string line;
+		while (std::getline(inputFile, line)) {
+			++numLines;
+		}
+		// 回到文件开始处
+		inputFile.clear();
+		inputFile.seekg(0, std::ios::beg);
+
+		Eigen::MatrixXd matrix(numLines, 6);
+		// 逐行读取数据并保存到矩阵中
+		for (int i = 0; i < numLines; ++i)
+		{
+			double x, y, z, roll, pitch, yaw;
+			inputFile >> x >> y >> z >> roll >> pitch >> yaw;
+			CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
+			matrix.row(i) << x, y, z, roll, pitch, yaw;
+		}
+		// 关闭文件
+		inputFile.close();
+		osgWidget->getBestView();
+	}
 }

@@ -6,6 +6,10 @@
 
 #include <vector>
 
+#include <Eigen/Dense>
+
+//typedef Eigen::Matrix<double, Eigen::Dynamic, 6> VectorField;
+
 static osg::ref_ptr<osg::Group> root = new osg::Group;//osg窗口显示的所有节点的根节点
 static osg::ref_ptr<osg::Group> arrow = new osg::Group;//osg窗口显示的所有箭头
 static osg::ref_ptr<osg::Group> slicePlane = new osg::Group;//osg窗口显示的所有切平面节点
@@ -20,6 +24,7 @@ static osg::Quat rotation_Global;
 
 static osg::ref_ptr<osgManipulator::TrackballDragger> dragger = new osgManipulator::TrackballDragger;
 
+static Eigen::MatrixXd VF;//保存读入向量场数据的n行6列行列式
 
 
 

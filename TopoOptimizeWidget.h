@@ -55,7 +55,6 @@
 #include <QGridLayout>
 #include <QFileDialog>
 #include <QButtonGroup>
-#include <Eigen/Dense>
 #include <QMessageBox>
 #include <QTimer>
 #include <QApplication>
@@ -418,7 +417,13 @@ class VectorDieldDriven_VecField : public QWidget
 {
 	Q_OBJECT
 public:
-	VectorDieldDriven_VecField() : uiVecField(new Ui::VectorDieldDriven_VecField) { uiVecField->setupUi(this); };
+	VectorDieldDriven_VecField() : uiVecField(new Ui::VectorDieldDriven_VecField) {
+		uiVecField->setupUi(this); 
+		QButtonGroup* buttonBox = new QButtonGroup;
+		buttonBox->setExclusive(true);
+		buttonBox->addButton(uiVecField->radioButton);
+		buttonBox->addButton(uiVecField->radioButton_2);
+	};
 	~VectorDieldDriven_VecField() { delete uiVecField; };
 	Ui::VectorDieldDriven_VecField* uiVecField;
 };
@@ -666,6 +671,7 @@ public slots:
 	void stackedWidgetPageChange(QTreeWidgetItem* item, int column);
 	void importDesignGridFile();
 	void VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push();
+	void VectorDieldDriven_VectorField_on_ImportVectorField_push();
 private slots:
 	void generate3dDesignZone();
 	void generate2dDesignZone();
@@ -712,6 +718,7 @@ public:
 	~AddLinePointHandler() { };
 
 	osg::ref_ptr<osg::PositionAttitudeTransform> picked;
+	osg::ref_ptr<osgManipulator::Selection> selection;
 
 	bool PickedObject = false;
 	bool isModel = false;
@@ -783,16 +790,21 @@ public:
 			osg::NodePath getNodePath = hitr->nodePath;
 			for (int i = getNodePath.size() - 1; i >= 0; --i)
 			{
+				osgManipulator::Selection* slt = dynamic_cast<osgManipulator::Selection*>(getNodePath[i]);
 				osg::PositionAttitudeTransform* mt = dynamic_cast<osg::PositionAttitudeTransform*>(getNodePath[i]);
-				if (mt == NULL)
-				{
+
+				if (slt == NULL && mt == NULL)
 					continue;
-				}
 				else
 				{
-					PickedObject = true;
-					picked = mt;
-					startPoint = mt->getPosition();
+					if (mt != NULL)
+					{
+						PickedObject = true;
+						picked = mt;
+						startPoint = mt->getPosition();
+					}
+					if (slt != NULL)
+						selection = slt;
 				}
 
 			}
@@ -808,33 +820,10 @@ public:
 	{
 
 		dragger->setupDefaultGeometry();
+		dragger->setMatrix(osg::Matrix::scale(1, 1, 1)  * osg::Matrix::rotate(picked->getAttitude()) * osg::Matrix::translate(picked->getPosition()));
+		dragger->addTransformUpdating(selection);//获取的是dragger的姿态变化值，而不是姿态
+		dragger->setHandleEvents(true);
 
-		osgUtil::LineSegmentIntersector::Intersections intersections;//创建交点判断器
-		if (viewer->computeIntersections(x, y, intersections))//如果成功选中了物体
-		{
-			osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
-			osg::NodePath getNodePath = hitr->nodePath;
-			for (int i = getNodePath.size() - 1; i >= 0; --i)
-			{
-				osgManipulator::Selection* slt = dynamic_cast<osgManipulator::Selection*>(getNodePath[i]);
-				osg::PositionAttitudeTransform* mt = dynamic_cast<osg::PositionAttitudeTransform*>(getNodePath[i]);
-				if (slt == NULL && mt == NULL)
-					continue;
-				else
-				{
-					if (mt != NULL)
-					{
-						
-						dragger->setMatrix(osg::Matrix::scale(1, 1, 1)  * osg::Matrix::rotate(picked->getAttitude()) * osg::Matrix::translate(mt->getPosition()));
-					}
-					if (slt != NULL)
-					{
-						dragger->addTransformUpdating(slt);//获取的是dragger的姿态变化值，而不是姿态
-						dragger->setHandleEvents(true);
-					}
-				}
-			}
-		}
 
 	}
 
@@ -870,9 +859,11 @@ public:
 		case osgGA::GUIEventAdapter::PUSH://单机鼠标选中拖动物体
 			if (ea.getButton() == 1)
 			{
-					float x = ea.getX();
-					float y = ea.getY();
-					pick(x, y, viewer);
+
+				float x = ea.getX();
+				float y = ea.getY();
+				pick(x, y, viewer);
+				dragger->removeTransformUpdating(selection);
 			}
 			break;
 
@@ -908,7 +899,7 @@ public:
 
 				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->addChild(dragger);
 				//arrow->getChild(0)->asGroup()->addChild(dragger);
-				picked->getParent(0)->addChild(dragger);
+				picked->getParentalNodePaths()[0][2]->asGroup()->addChild(dragger);
 				m_ctrlKeyPressed = true;
 			}
 		break;
@@ -920,7 +911,7 @@ public:
 				removeTraceBallTracker();
 				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->removeChild(dragger);
 				//arrow->getChild(0)->asGroup()->removeChild(dragger);
-				picked->getParent(0)->removeChild(dragger);
+				picked->getParentalNodePaths()[0][2]->asGroup()->removeChild(dragger);
 				m_ctrlKeyPressed = false;
 			}
 		break;
