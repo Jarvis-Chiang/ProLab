@@ -244,6 +244,8 @@ void TopoOptimizeWidget::creatAction()
 
 	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_ImportTriMesh, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()));
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ImportVectorField_push()));
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_AddCtrlPnt, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_AddCtrlPnt_push()));
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ExprtVecField_push()));
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
@@ -558,17 +560,13 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	osg::ref_ptr<osg::Cylinder> cylinder = new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0.5 * height), radius, height);
 	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable = new osg::ShapeDrawable(cylinder.get());
 	cylinderDrawable->setColor(osg::Vec4(1, 0, 0, 1));
-	//添加组节点来保存拖拽器
-	osg::ref_ptr<osg::Group> group = new osg::Group;
 
-	//为添加球式拖拽器的节点
-	osg::ref_ptr<osgManipulator::Selection> selection = new osgManipulator::Selection;
 	// 创建变换节点，并将圆柱和圆锥的几何体添加到变换节点中
 	osg::ref_ptr<osg::PositionAttitudeTransform> arrowTransform = new osg::PositionAttitudeTransform;
-	group->addChild(selection);//0
-	selection->addChild(arrowTransform);
-	arrowTransform->addChild(coneDrawable.get());
-	arrowTransform->addChild(cylinderDrawable.get());
+	osg::ref_ptr<osg::Group> group = new osg::Group;
+	group->addChild(coneDrawable.get());
+	group->addChild(cylinderDrawable.get());
+	arrowTransform->addChild(group);
 
 	// 设置变换节点的位置和方向
 	arrowTransform->setPosition(startPoint);
@@ -576,11 +574,12 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	normalizedDirection.normalize();
 	osg::Quat rotation;
 	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
-	rotation_Global = rotation;//初始姿态
 	arrowTransform->setAttitude(rotation);
 
+	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(arrowTransform, rotation, startPoint);
+
 	// 将变换节点添加到箭头的根节点中
-	root_t->addChild(group);
+	root_t->addChild(arrowShape);
 
 }
 
@@ -674,6 +673,39 @@ osg::ref_ptr<osg::Geode> TopoOptimizeWidget::makeCoordinate()
 	return geode.release();
 }
 
+
+
+ArrowShape::ArrowShape(osg::Node* shape, osg::Quat rotation, osg::Vec3 strtPnt) : mShape(shape),
+mDragger(new osgManipulator::TrackballDragger()),
+mSelection(new osgManipulator::Selection())
+{
+	float scale = shape->getBound().radius() * 0.8;
+	mDragger->setMatrix(osg::Matrix::scale(scale, scale, scale) * osg::Matrix::rotate(rotation) * osg::Matrix::translate(strtPnt));
+	mDragger->setupDefaultGeometry();
+	mSelection->addChild(shape);
+	addChild(mSelection);
+}
+ArrowShape::~ArrowShape(void) { }
+
+void ArrowShape::EnableDragger()
+{
+	addChild(mDragger);
+	mDragger->addTransformUpdating(mSelection);
+	mDragger->setHandleEvents(true);
+}
+
+void ArrowShape::DisableDragger()
+{
+	removeChild(mDragger);
+	mDragger->removeTransformUpdating(mSelection);
+	mDragger->setHandleEvents(false);
+}
+
+void ArrowShape::UpdateDragger(osg::Quat attitude, osg::Vec3 position)
+{
+	float scale = mShape->getBound().radius() * 0.8;
+	mDragger->setMatrix(osg::Matrix::scale(scale, scale, scale) * osg::Matrix::rotate(attitude) * osg::Matrix::translate(position));
+}
 
 //****************以下为槽函数*********************//
 
@@ -1324,17 +1356,77 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVectorField_push
 		inputFile.clear();
 		inputFile.seekg(0, std::ios::beg);
 
-		Eigen::MatrixXd matrix(numLines, 6);
 		// 逐行读取数据并保存到矩阵中
 		for (int i = 0; i < numLines; ++i)
 		{
 			double x, y, z, roll, pitch, yaw;
 			inputFile >> x >> y >> z >> roll >> pitch >> yaw;
 			CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
-			matrix.row(i) << x, y, z, roll, pitch, yaw;
+			vectorField.push_back({ x, y, z, roll, pitch, yaw});
 		}
 		// 关闭文件
 		inputFile.close();
 		osgWidget->getBestView();
+	}
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_AddCtrlPnt_push()
+{
+	QDialog dialog(this);
+	QFormLayout form(&dialog);
+	form.addRow(new QLabel("User input:"));
+	// Value1
+	QString value1 = QString("xCoor: ");
+	QLineEdit* xCoor = new QLineEdit(&dialog);
+	form.addRow(value1, xCoor);
+	// Value2
+	QString value2 = QString("yCoor: ");
+	QLineEdit* yCoor = new QLineEdit(&dialog);
+	form.addRow(value2, yCoor);
+
+	// Value3
+	QString value3 = QString("zCoor: ");
+	QLineEdit* zCoor = new QLineEdit(&dialog);
+	form.addRow(value3, zCoor);
+
+	// Add Cancel and OK button
+	QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+		Qt::Horizontal, &dialog);
+	form.addRow(&buttonBox);
+	QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+	QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+
+	// Process when OK button is clicked
+	if (dialog.exec() == QDialog::Accepted)
+	{
+		float x = xCoor->text().toFloat();
+		float y = yCoor->text().toFloat();
+		float z = zCoor->text().toFloat();
+
+		CreatArrow(arrow, startPoint, osg::Vec3(x, y, z));
+		vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
+	}
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push()
+{
+	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*txt)"));
+	if (!Route.isEmpty())
+	{
+		std::ofstream outputFile(Route.toStdString());
+		if (!outputFile) {
+			std::cerr << "Failed to open file." << std::endl;
+		}
+
+		// 将数据写入文件
+		for (const auto& array : vectorField) {
+			for (const auto& num : array) {
+				outputFile << num << " ";
+			}
+			outputFile << std::endl;
+		}
+
+		// 关闭文件
+		outputFile.close();
 	}
 }

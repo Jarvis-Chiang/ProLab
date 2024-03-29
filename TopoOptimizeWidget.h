@@ -59,6 +59,8 @@
 #include <QTimer>
 #include <QApplication>
 #include <QGridLayout>
+#include <QDialogButtonBox>
+#include <QFormLayout>
 
 #include <osg/Geometry>
 #include <osg/Geode>
@@ -78,8 +80,10 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/NodeVisitor>
 
-#include<osgFX/Scribe>
+#include <osgFX/Scribe>
+#include <osgFX/Outline>
 
+#include <osgManipulator/TrackballDragger>
 #include <osgManipulator/Selection>
 
 #include <osgViewer/CompositeViewer>
@@ -574,6 +578,19 @@ public:
 
 
 
+class ArrowShape : public osg::Group//保存箭头的基本数据结构（里边包含了拖拽器）!!!!!!!!!!!!!!!!!!!!!!!关联新方法
+{
+public:
+	ArrowShape(osg::Node* shape, osg::Quat rotation, osg::Vec3 strtPnt);
+	~ArrowShape(void);
+	void EnableDragger();
+	void DisableDragger();
+	void UpdateDragger(osg::Quat attitude, osg::Vec3 position);
+private:
+	osg::ref_ptr<osg::Node> mShape;
+	osg::ref_ptr<osgManipulator::Dragger> mDragger; osg::ref_ptr<osgManipulator::Selection> mSelection;
+};
+
 
 class TopoOptimizeWidget : public QWidget
 {
@@ -670,8 +687,11 @@ private:
 public slots:
 	void stackedWidgetPageChange(QTreeWidgetItem* item, int column);
 	void importDesignGridFile();
+
 	void VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push();
 	void VectorDieldDriven_VectorField_on_ImportVectorField_push();
+	void VectorDieldDriven_VectorField_on_AddCtrlPnt_push();
+	void VectorDieldDriven_VectorField_on_ExprtVecField_push();
 private slots:
 	void generate3dDesignZone();
 	void generate2dDesignZone();
@@ -683,6 +703,8 @@ private slots:
 	//void delArrow();
 	//void del2DArrow();
 };
+
+
 
 /**************************以下为访问器函数********************************/
 
@@ -719,6 +741,7 @@ public:
 
 	osg::ref_ptr<osg::PositionAttitudeTransform> picked;
 	osg::ref_ptr<osgManipulator::Selection> selection;
+	ArrowShape* arrowShape;
 
 	bool PickedObject = false;
 	bool isModel = false;
@@ -790,21 +813,34 @@ public:
 			osg::NodePath getNodePath = hitr->nodePath;
 			for (int i = getNodePath.size() - 1; i >= 0; --i)
 			{
-				osgManipulator::Selection* slt = dynamic_cast<osgManipulator::Selection*>(getNodePath[i]);
 				osg::PositionAttitudeTransform* mt = dynamic_cast<osg::PositionAttitudeTransform*>(getNodePath[i]);
 
-				if (slt == NULL && mt == NULL)
+				if ( mt == NULL)
 					continue;
 				else
 				{
-					if (mt != NULL)
-					{
-						PickedObject = true;
-						picked = mt;
-						startPoint = mt->getPosition();
-					}
-					if (slt != NULL)
-						selection = slt;
+					PickedObject = true;
+					picked = mt;
+					osg::Node* grandParent = picked->getParent(0)->getParent(0);
+					arrowShape = dynamic_cast<ArrowShape*> (grandParent);
+					startPoint = mt->getPosition();
+
+					//////////////////高亮操作//////////////////
+					//osg::ref_ptr<osg::Node> node = picked->getChild(0);
+					//osgFX::Outline* ot = dynamic_cast<osgFX::Outline*>(node.get());
+					//if (!ot) //若ot不存在（未高亮） (node->parent)=>(node->outline->parent)
+					//{
+					//	osg::ref_ptr<osgFX::Outline> outline = new osgFX::Outline();
+					//	outline->setColor(osg::Vec4(0, 1, 0, 1));
+					//	outline->setWidth(5);
+					//	outline->addChild(node);
+					//	picked->replaceChild(node, outline);
+					//}
+					////若ot存在（高亮）找出当前outline的父节点（node->outline->*itr）=>(node->*itr)
+					//else
+					//{
+					//	picked->replaceChild(ot, node);
+					//}
 				}
 
 			}
@@ -813,17 +849,6 @@ public:
 		{
 			PickedObject = false;
 		}
-
-	}
-
-	void addTraceBallTracker(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer)
-	{
-
-		dragger->setupDefaultGeometry();
-		dragger->setMatrix(osg::Matrix::scale(1, 1, 1)  * osg::Matrix::rotate(picked->getAttitude()) * osg::Matrix::translate(picked->getPosition()));
-		dragger->addTransformUpdating(selection);//获取的是dragger的姿态变化值，而不是姿态
-		dragger->setHandleEvents(true);
-
 
 	}
 
@@ -859,11 +884,9 @@ public:
 		case osgGA::GUIEventAdapter::PUSH://单机鼠标选中拖动物体
 			if (ea.getButton() == 1)
 			{
-
 				float x = ea.getX();
 				float y = ea.getY();
 				pick(x, y, viewer);
-				dragger->removeTransformUpdating(selection);
 			}
 			break;
 
@@ -874,8 +897,8 @@ public:
 				float y = ea.getY();
 				osg::Vec3 lastPoint = getSurfPoint(x, y, viewer);
 				picked->setPosition(lastPoint);
-				dragger->setMatrix(dragger->getMatrix() * osg::Matrix::translate(lastPoint - startPoint));//保持原有姿态进行偏移
 				startPoint = lastPoint;
+				arrowShape->UpdateDragger(picked->getAttitude(), lastPoint);
 				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
 			}
 			else
@@ -891,15 +914,13 @@ public:
 			{
 				if (PickedObject)
 				{
-					float x = ea.getX();
-					float y = ea.getY();
 					PickedObject = false;
-					addTraceBallTracker(x, y, viewer);
 				}
 
 				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->addChild(dragger);
 				//arrow->getChild(0)->asGroup()->addChild(dragger);
-				picked->getParentalNodePaths()[0][2]->asGroup()->addChild(dragger);
+				rotation_Global = picked->getAttitude();
+				arrowShape->EnableDragger();
 				m_ctrlKeyPressed = true;
 			}
 		break;
@@ -911,7 +932,7 @@ public:
 				removeTraceBallTracker();
 				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->removeChild(dragger);
 				//arrow->getChild(0)->asGroup()->removeChild(dragger);
-				picked->getParentalNodePaths()[0][2]->asGroup()->removeChild(dragger);
+				arrowShape->DisableDragger();
 				m_ctrlKeyPressed = false;
 			}
 		break;

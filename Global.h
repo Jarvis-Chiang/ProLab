@@ -2,7 +2,7 @@
 #include <osg/Group>
 #include <osg/Array>
 
-#include <osgManipulator/TrackballDragger>
+
 
 #include <vector>
 
@@ -21,10 +21,7 @@ static osg::Vec3 up;
 
 static osg::Vec3 startPoint;//保存添加的各个向量箭头的临时变量
 static osg::Quat rotation_Global;
-
-static osg::ref_ptr<osgManipulator::TrackballDragger> dragger = new osgManipulator::TrackballDragger;
-
-static Eigen::MatrixXd VF;//保存读入向量场数据的n行6列行列式
+static std::vector <std::array<double, 6>> vectorField;
 
 
 
