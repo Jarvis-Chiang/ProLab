@@ -21,7 +21,7 @@ static osg::Vec3 up;
 
 static osg::Vec3 startPoint;//保存添加的各个向量箭头的临时变量
 static osg::Quat rotation_Global;
-static std::vector <std::array<double, 6>> vectorField;
+static std::vector <std::array<double, 6> *> vectorField;//向量场数据
 
 
 

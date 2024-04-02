@@ -576,7 +576,9 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
 	arrowTransform->setAttitude(rotation);
 
-	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(arrowTransform, rotation, startPoint);
+	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(arrowTransform, direction, startPoint);
+
+	vectorField.push_back(&(arrowShape->vector_Data));
 
 	// 将变换节点添加到箭头的根节点中
 	root_t->addChild(arrowShape);
@@ -675,11 +677,17 @@ osg::ref_ptr<osg::Geode> TopoOptimizeWidget::makeCoordinate()
 
 
 
-ArrowShape::ArrowShape(osg::Node* shape, osg::Quat rotation, osg::Vec3 strtPnt) : mShape(shape),
+ArrowShape::ArrowShape(osg::Node* shape, osg::Vec3 direction, osg::Vec3 strtPnt) : mShape(shape),
 mDragger(new osgManipulator::TrackballDragger()),
+treeLabel(new QTreeWidgetItem),
+vector_Data({ strtPnt.x(), strtPnt.y(), strtPnt.z(), direction.x(), direction.y(), direction.z() }),
 mSelection(new osgManipulator::Selection())
 {
 	float scale = shape->getBound().radius() * 0.8;
+	osg::Vec3 normalizedDirection = direction;
+	normalizedDirection.normalize();
+	osg::Quat rotation;
+	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
 	mDragger->setMatrix(osg::Matrix::scale(scale, scale, scale) * osg::Matrix::rotate(rotation) * osg::Matrix::translate(strtPnt));
 	mDragger->setupDefaultGeometry();
 	mSelection->addChild(shape);
@@ -707,6 +715,13 @@ void ArrowShape::UpdateDragger(osg::Quat attitude, osg::Vec3 position)
 	mDragger->setMatrix(osg::Matrix::scale(scale, scale, scale) * osg::Matrix::rotate(attitude) * osg::Matrix::translate(position));
 }
 
+void ArrowShape::setData(osg::Vec3 position, osg::Quat rotation)
+{
+	osg::Matrix rotationMatrix;
+	rotationMatrix.makeRotate(rotation);
+	osg::Vec3 transformedZAxis = osg::Vec3(1, 0, 0) * rotationMatrix;
+	vector_Data = { position.x(), position.y(), position.z(), transformedZAxis.x(), transformedZAxis.y(), transformedZAxis.z() };
+}
 //****************以下为槽函数*********************//
 
 void TopoOptimizeWidget::stackedWidgetPageChange(QTreeWidgetItem* item, int column)
@@ -1362,7 +1377,7 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVectorField_push
 			double x, y, z, roll, pitch, yaw;
 			inputFile >> x >> y >> z >> roll >> pitch >> yaw;
 			CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
-			vectorField.push_back({ x, y, z, roll, pitch, yaw});
+			//vectorField.push_back({ x, y, z, roll, pitch, yaw});
 		}
 		// 关闭文件
 		inputFile.close();
@@ -1404,7 +1419,7 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_AddCtrlPnt_push()
 		float z = zCoor->text().toFloat();
 
 		CreatArrow(arrow, startPoint, osg::Vec3(x, y, z));
-		vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
+		//vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
 	}
 }
 
@@ -1420,7 +1435,7 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push()
 
 		// 将数据写入文件
 		for (const auto& array : vectorField) {
-			for (const auto& num : array) {
+			for (const auto& num : *array) {
 				outputFile << num << " ";
 			}
 			outputFile << std::endl;

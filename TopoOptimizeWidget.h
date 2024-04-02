@@ -581,14 +581,18 @@ public:
 class ArrowShape : public osg::Group//保存箭头的基本数据结构（里边包含了拖拽器）!!!!!!!!!!!!!!!!!!!!!!!关联新方法
 {
 public:
-	ArrowShape(osg::Node* shape, osg::Quat rotation, osg::Vec3 strtPnt);
+	ArrowShape(osg::Node* shape, osg::Vec3 direction, osg::Vec3 strtPnt);
 	~ArrowShape(void);
 	void EnableDragger();
 	void DisableDragger();
 	void UpdateDragger(osg::Quat attitude, osg::Vec3 position);
+	void setData(osg::Vec3 position, osg::Quat rotation);
+
+	std::array <double, 6> vector_Data;
 private:
 	osg::ref_ptr<osg::Node> mShape;
 	osg::ref_ptr<osgManipulator::Dragger> mDragger; osg::ref_ptr<osgManipulator::Selection> mSelection;
+	QTreeWidgetItem* treeLabel;
 };
 
 
@@ -735,6 +739,7 @@ private:
 /*******************以下为交互事件函数***********************/
 class AddLinePointHandler : public osgGA::GUIEventHandler
 {
+
 public:
 	AddLinePointHandler() { };
 	~AddLinePointHandler() { };
@@ -857,6 +862,7 @@ public:
 		FindDelNodeVisitor delVisitor;
 		picked->accept(delVisitor);
 		picked->setAttitude(rotation_Global);
+		arrowShape->setData(picked->getPosition(), rotation_Global);
 	}
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
@@ -873,10 +879,11 @@ public:
 		case osgGA::GUIEventAdapter::DOUBLECLICK://双击鼠标添加顶点
 			if (ea.getButton() == 1)
 			{
+				
 				//创建一个线段交集检测对象
 				float x = ea.getX();
 				float y = ea.getY();
-
+				pick(x, y, viewer);
 				startPoint = getSurfPoint(x, y, viewer);
 			}
 			break;
@@ -897,8 +904,8 @@ public:
 				float y = ea.getY();
 				osg::Vec3 lastPoint = getSurfPoint(x, y, viewer);
 				picked->setPosition(lastPoint);
-				startPoint = lastPoint;
 				arrowShape->UpdateDragger(picked->getAttitude(), lastPoint);
+				arrowShape->setData(lastPoint, picked->getAttitude());
 				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
 			}
 			else
@@ -912,15 +919,11 @@ public:
 			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
 				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被按下
 			{
-				if (PickedObject)
+				if (arrowShape != NULL)
 				{
-					PickedObject = false;
+					rotation_Global = picked->getAttitude();
+					arrowShape->EnableDragger();
 				}
-
-				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->addChild(dragger);
-				//arrow->getChild(0)->asGroup()->addChild(dragger);
-				rotation_Global = picked->getAttitude();
-				arrowShape->EnableDragger();
 				m_ctrlKeyPressed = true;
 			}
 		break;
@@ -929,10 +932,11 @@ public:
 			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
 				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被释放
 			{
-				removeTraceBallTracker();
-				//arrow->getChild(arrow->getNumChildren() - 1)->asGroup()->removeChild(dragger);
-				//arrow->getChild(0)->asGroup()->removeChild(dragger);
-				arrowShape->DisableDragger();
+				if (arrowShape != NULL)
+				{
+					removeTraceBallTracker();
+					arrowShape->DisableDragger();
+				}
 				m_ctrlKeyPressed = false;
 			}
 		break;
