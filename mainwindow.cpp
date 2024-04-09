@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget* parent)
     defautFont.setPointSize(defautFont.pointSize() + 2);
     ribbonBar()->setFont(defautFont);
 
+    creatDockWindows();
 
     RibbonPage* homePage = ribbonBar()->addPage("&开始");
     RibbonPage* structureOptiPage = ribbonBar()->addPage("&结构优化");
@@ -46,7 +47,6 @@ MainWindow::MainWindow(QWidget* parent)
     creatCaeButton(caePage);
     creatCamButton(camPage);
 
-    creatDockWindows();
     creatConnect();
 
 /*    selectedIndex = treeView->currentIndex();     */                  // selected row
@@ -171,16 +171,9 @@ void MainWindow::creatDockWindows()
     logDock->setFeatures(QDockWidget::DockWidgetVerticalTitleBar);
     //resizeDocks({ logDock }, { 400 }, Qt::Vertical);
     logDock->setWidget(logWidget);
-    LogText = new QPlainTextEdit();
     //LogText->setStyleSheet(QString("background-color: #E7EEF6;"));
-    LogText->setReadOnly(true);                                             // set read only
-    for (int i = 0; i < 100; i++) {
-        addLog(LogText, "hello ProLab", MainWindow::INFO);
-        addLog(LogText, "hello ProLab", MainWindow::WARNNING);
-        addLog(LogText, "hello ProLab", MainWindow::WRONG);
-    }
-
-    logDock->setWidget(LogText);
+    //LogText->setReadOnly(true);                                             // set read only
+    logDock->setWidget(topoOptimizeWidget->LogText);
     addDockWidget(Qt::BottomDockWidgetArea, logDock);
 
     // creat operate Dock
@@ -198,36 +191,6 @@ void MainWindow::creatDockWindows()
     //OsgWidget* osgWidget = new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded);
     setCentralWidget(topoOptimizeWidget->osgWidget);
 
-}
-
-
-void MainWindow::addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL level)
-{
-    QString log;
-    // set text format
-    QTextCharFormat fmt;
-    fmt.setFontPointSize(9);
-    logtext->document()->setMaximumBlockCount(200);                     // set maximum display rows 
-
-    switch (level)
-    {
-    case MainWindow::INFO:
-        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [   INFO\t") + QString("]\t") + message;
-        logtext->appendPlainText(log);
-        break;
-    case MainWindow::WARNNING:
-        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [  WARNNING\t") + QString("]\t") + message;
-        logtext->appendPlainText(log);
-        break;
-    case MainWindow::WRONG:
-        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [   ERROR\t") + QString("]\t") + message;
-        fmt.setForeground(QColor("red"));
-        logtext->mergeCurrentCharFormat(fmt);
-        logtext->appendPlainText(log);
-        fmt.setForeground(QColor("black"));
-        logtext->mergeCurrentCharFormat(fmt);
-        break;
-    }
 }
 
 void MainWindow::creatOprPage(QDockWidget* dock)
@@ -275,6 +238,7 @@ void MainWindow::topo2D()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至2D拓扑优化模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(0);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(0);
+    addLog(topoOptimizeWidget->LogText, "切换至2D拓扑优化模块", LOGLEVAL::INFO);
     return;
 }
 
@@ -283,6 +247,7 @@ void MainWindow::topo3D()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至3D拓扑优化模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(6);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(1);
+    addLog(topoOptimizeWidget->LogText, "切换至3D拓扑优化模块", LOGLEVAL::INFO);
     return;
 }
 
@@ -291,6 +256,7 @@ void MainWindow::on_vectorFieldDriven_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至方向场驱动路径模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(11);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(2);
+    addLog(topoOptimizeWidget->LogText, "切换至方向场驱动路径模块", LOGLEVAL::INFO);
 }
 
 void MainWindow::on_offset_trigged()
@@ -298,6 +264,8 @@ void MainWindow::on_offset_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至偏移路径模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(13);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(3);
+    addLog(topoOptimizeWidget->LogText, "切换至偏移路径路径模块", LOGLEVAL::INFO);
+
 }
 
 void MainWindow::on_GradientFilling_trigged()
@@ -305,6 +273,7 @@ void MainWindow::on_GradientFilling_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至梯度填充路径模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(15);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(4);
+    addLog(topoOptimizeWidget->LogText, "切换至梯度填充路径路径模块", LOGLEVAL::INFO);
 }
 
 void MainWindow::on_ReferenceSurfaceBased_trigged()
@@ -312,6 +281,7 @@ void MainWindow::on_ReferenceSurfaceBased_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至基准面法曲面模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(17);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(5);
+    addLog(topoOptimizeWidget->LogText, "切换至基准面法曲面路径模块", LOGLEVAL::INFO);
 }
 
 void MainWindow::on_VectorFieldBased_trigged()
@@ -319,6 +289,7 @@ void MainWindow::on_VectorFieldBased_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至方向场法曲面模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(22);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(6);
+    addLog(topoOptimizeWidget->LogText, "切换至方向场法曲面路径模块", LOGLEVAL::INFO);
 }
 
 void MainWindow::on_m_Finite2D_trigged()
@@ -326,6 +297,7 @@ void MainWindow::on_m_Finite2D_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至2D有限元分析模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(27);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(7);
+    addLog(topoOptimizeWidget->LogText, "切换至2D有限元分析模块", LOGLEVAL::INFO);
 }
 
 void MainWindow::on_m_Finite3D_trigged()
@@ -333,4 +305,5 @@ void MainWindow::on_m_Finite3D_trigged()
     QMessageBox::information(NULL, QString("模块切换"), QString("确定切换至3D有限元分析模块？"));
     topoOptimizeWidget->oprStackWidget->setCurrentIndex(33);
     topoOptimizeWidget->treeStackWidget->setCurrentIndex(8);
+    addLog(topoOptimizeWidget->LogText, "切换至3D有限元分析模块", LOGLEVAL::INFO);
 }

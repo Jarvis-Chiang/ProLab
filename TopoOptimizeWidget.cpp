@@ -66,6 +66,9 @@ TopoOptimizeWidget :: ~TopoOptimizeWidget()
 
 void TopoOptimizeWidget :: init()
 {
+	//初始化日志窗口
+	LogText->setReadOnly(true);
+
 	//右侧操作栏堆栈窗口
 	/********************************结构优化右侧操作************************************/
 	oprStackWidget->addWidget(designZoneWidget);//QStackedWidget类适addWidget函数适只适用于标准指针，Qt智能指针不行//0
@@ -242,7 +245,7 @@ void TopoOptimizeWidget::creatAction()
 	connect(designZoneWidget->uiDesignZone->importDesignGridButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 
-	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_ImportTriMesh, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()));
+	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_ImportTriMesh, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push);
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ImportVectorField_push()));
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_AddCtrlPnt, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_AddCtrlPnt_push()));
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ExprtVecField_push()));
@@ -251,10 +254,13 @@ void TopoOptimizeWidget::creatAction()
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
 	connect(loadSet_3D->uiLoadSet_3D->pushButton_add, SIGNAL(clicked()), this, SLOT(addArrow0()));
 
+	//测试qt和osg联动
+	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::Topicked, this, &TopoOptimizeWidget::on_Picked);
 }
 //osgwidget
 OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::ThreadingModel threadingModel) :
-	view(new osgViewer::Viewer)
+	view(new osgViewer::Viewer),
+	addLinePointHandler(new AddLinePointHandler)
 {
 	setThreadingModel(threadingModel);
 
@@ -287,7 +293,7 @@ QWidget* OsgWidget::addViewWidget(osgQt::GraphicsWindowQt* gw)
 	view->setSceneData(root);
 	view->addEventHandler(new osgViewer::StatsHandler);
 	//view->addEventHandler(new osgGA::StateSetManipulator(view->getCamera()->getOrCreateStateSet()));
-	view->addEventHandler(new AddLinePointHandler);
+	view->addEventHandler(addLinePointHandler);
 	view->setCameraManipulator(new osgGA::MultiTouchTrackballManipulator);
 	gw->setTouchEventsEnabled(true);
 	return gw->getGLWidget();
@@ -548,35 +554,8 @@ void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, 
 
 void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction)
 {
-	double radius = 0.1;
-	double height = direction.length() * 2;
-	double coneRadius = 0.2;
-	double coneHeight = 0.5;
 
-	osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3(0.0f, 0.0f, height), coneRadius, coneHeight);
-	osg::ref_ptr<osg::ShapeDrawable> coneDrawable = new osg::ShapeDrawable(cone.get());
-	coneDrawable->setColor(osg::Vec4(1, 0, 0, 1));
-
-	osg::ref_ptr<osg::Cylinder> cylinder = new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0.5 * height), radius, height);
-	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable = new osg::ShapeDrawable(cylinder.get());
-	cylinderDrawable->setColor(osg::Vec4(1, 0, 0, 1));
-
-	// 创建变换节点，并将圆柱和圆锥的几何体添加到变换节点中
-	osg::ref_ptr<osg::PositionAttitudeTransform> arrowTransform = new osg::PositionAttitudeTransform;
-	osg::ref_ptr<osg::Group> group = new osg::Group;
-	group->addChild(coneDrawable.get());
-	group->addChild(cylinderDrawable.get());
-	arrowTransform->addChild(group);
-
-	// 设置变换节点的位置和方向
-	arrowTransform->setPosition(startPoint);
-	osg::Vec3 normalizedDirection = direction;
-	normalizedDirection.normalize();
-	osg::Quat rotation;
-	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
-	arrowTransform->setAttitude(rotation);
-
-	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(arrowTransform, direction, startPoint);
+	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(direction, startPoint);
 
 	vectorField.push_back(&(arrowShape->vector_Data));
 
@@ -677,21 +656,52 @@ osg::ref_ptr<osg::Geode> TopoOptimizeWidget::makeCoordinate()
 
 
 
-ArrowShape::ArrowShape(osg::Node* shape, osg::Vec3 direction, osg::Vec3 strtPnt) : mShape(shape),
+ArrowShape::ArrowShape( osg::Vec3 direction, osg::Vec3 strtPnt) : ot(new osgFX::Outline),
 mDragger(new osgManipulator::TrackballDragger()),
 treeLabel(new QTreeWidgetItem),
 vector_Data({ strtPnt.x(), strtPnt.y(), strtPnt.z(), direction.x(), direction.y(), direction.z() }),
 mSelection(new osgManipulator::Selection())
 {
-	float scale = shape->getBound().radius() * 0.8;
+	double radius = 0.1;
+	double height = direction.length() * 2;
+	double coneRadius = 0.2;
+	double coneHeight = 0.5;
+
+	osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3(0.0f, 0.0f, height), coneRadius, coneHeight);
+	osg::ref_ptr<osg::ShapeDrawable> coneDrawable = new osg::ShapeDrawable(cone.get());
+	coneDrawable->setColor(osg::Vec4(1, 0, 0, 1));
+
+	osg::ref_ptr<osg::Cylinder> cylinder = new osg::Cylinder(osg::Vec3(0.0f, 0.0f, 0.5 * height), radius, height);
+	osg::ref_ptr<osg::ShapeDrawable> cylinderDrawable = new osg::ShapeDrawable(cylinder.get());
+	cylinderDrawable->setColor(osg::Vec4(1, 0, 0, 1));
+
+	// 创建变换节点，并将圆柱和圆锥的几何体添加到变换节点中
+	osg::ref_ptr<osg::PositionAttitudeTransform> arrowTransform = new osg::PositionAttitudeTransform;
+	osg::ref_ptr<osg::Geode> geo = new osg::Geode;
+	geo->addChild(coneDrawable.get());
+	geo->addChild(cylinderDrawable.get());
+	arrowTransform->addChild(geo);
+	mSelection->addChild(arrowTransform);
+	addChild(mSelection);
+
+	// 设置变换节点的位置和方向
+	arrowTransform->setPosition(startPoint);
 	osg::Vec3 normalizedDirection = direction;
 	normalizedDirection.normalize();
 	osg::Quat rotation;
 	rotation.makeRotate(osg::Vec3(0, 0, 1), normalizedDirection);
+	arrowTransform->setAttitude(rotation);
+
+	//拖拽器基本参数设置
+	float scale = arrowTransform->getBound().radius() * 0.8;
 	mDragger->setMatrix(osg::Matrix::scale(scale, scale, scale) * osg::Matrix::rotate(rotation) * osg::Matrix::translate(strtPnt));
 	mDragger->setupDefaultGeometry();
-	mSelection->addChild(shape);
-	addChild(mSelection);
+
+	mShape = geo;
+	mTrans = arrowTransform;
+
+	ot->setColor(osg::Vec4(0.0, 1.0, 0.0, 1.0));
+	ot->setWidth(1.0);
 }
 ArrowShape::~ArrowShape(void) { }
 
@@ -721,6 +731,27 @@ void ArrowShape::setData(osg::Vec3 position, osg::Quat rotation)
 	rotationMatrix.makeRotate(rotation);
 	osg::Vec3 transformedZAxis = osg::Vec3(1, 0, 0) * rotationMatrix;
 	vector_Data = { position.x(), position.y(), position.z(), transformedZAxis.x(), transformedZAxis.y(), transformedZAxis.z() };
+}
+
+void ArrowShape::EnableHighLight()
+{
+	if (!isHighLighted)
+	{
+		ot->addChild(mShape);
+		mTrans->removeChild(mShape);
+		mTrans->addChild(ot);
+		isHighLighted = true;
+	}
+}
+
+void ArrowShape::DisableHighLight()
+{
+	if (isHighLighted)
+	{
+		mTrans->removeChild(ot);
+		mTrans->addChild(mShape);
+		isHighLighted = false;
+	}
 }
 //****************以下为槽函数*********************//
 
@@ -1127,6 +1158,8 @@ void TopoOptimizeWidget::generate2dDesignZone()
 		//显示自适应模型大小
 		osgWidget->view->getCameraManipulator()->computeHomePosition();
 		osgWidget->view->getCameraManipulator()->home(0.0);
+
+		addLog(LogText,"1111", LOGLEVAL::INFO);//QString("生成 1% X 2% 的设计域网格,分辨率为 3%").arg(len).arg(wid).arg(re)
 	}
 	else
 	{
@@ -1444,4 +1477,9 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push()
 		// 关闭文件
 		outputFile.close();
 	}
+}
+
+void TopoOptimizeWidget::on_Picked()
+{
+	addLog(LogText, "123156", LOGLEVAL::ATTENION);
 }
