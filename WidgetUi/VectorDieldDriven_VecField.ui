@@ -109,6 +109,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton_clear">
+        <property name="text">
+         <string>清空方向场</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>

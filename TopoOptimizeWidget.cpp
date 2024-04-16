@@ -222,7 +222,7 @@ void TopoOptimizeWidget :: init()
 	//显示结构初始化
 	root->addChild(model.get());
 	root->addChild(arrow.get());
-	root->addChild(slicePlane.get());
+	root->addChild(gridVec.get());
 
 	model->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
 
@@ -249,13 +249,17 @@ void TopoOptimizeWidget::creatAction()
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ImportVectorField_push()));
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_AddCtrlPnt, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_AddCtrlPnt_push()));
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ExprtVecField_push()));
+	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push);
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push);
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
 	connect(loadSet_3D->uiLoadSet_3D->pushButton_add, SIGNAL(clicked()), this, SLOT(addArrow0()));
 
 	//测试qt和osg联动
-	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::Topicked, this, &TopoOptimizeWidget::on_Picked);
+	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::HavePicked, this, &TopoOptimizeWidget::on_HavePicked);
+	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::DragEnd, this, &TopoOptimizeWidget::on_DragEnd);
+	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::SurfPicked, this, &TopoOptimizeWidget::on_SurfPicked);
 }
 //osgwidget
 OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::ThreadingModel threadingModel) :
@@ -552,10 +556,10 @@ void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, 
 }
 
 
-void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction)
+void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint_1, const osg::Vec3& direction)
 {
 
-	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(direction, startPoint);
+	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(direction, startPoint_1);
 
 	vectorField.push_back(&(arrowShape->vector_Data));
 
@@ -662,6 +666,8 @@ treeLabel(new QTreeWidgetItem),
 vector_Data({ strtPnt.x(), strtPnt.y(), strtPnt.z(), direction.x(), direction.y(), direction.z() }),
 mSelection(new osgManipulator::Selection())
 {
+	length = direction.length();
+
 	double radius = 0.1;
 	double height = direction.length() * 2;
 	double coneRadius = 0.2;
@@ -685,7 +691,7 @@ mSelection(new osgManipulator::Selection())
 	addChild(mSelection);
 
 	// 设置变换节点的位置和方向
-	arrowTransform->setPosition(startPoint);
+	arrowTransform->setPosition(strtPnt);
 	osg::Vec3 normalizedDirection = direction;
 	normalizedDirection.normalize();
 	osg::Quat rotation;
@@ -729,7 +735,7 @@ void ArrowShape::setData(osg::Vec3 position, osg::Quat rotation)
 {
 	osg::Matrix rotationMatrix;
 	rotationMatrix.makeRotate(rotation);
-	osg::Vec3 transformedZAxis = osg::Vec3(1, 0, 0) * rotationMatrix;
+	osg::Vec3 transformedZAxis = osg::Vec3(0, 0, 1) * rotationMatrix * length;
 	vector_Data = { position.x(), position.y(), position.z(), transformedZAxis.x(), transformedZAxis.y(), transformedZAxis.z() };
 }
 
@@ -1159,7 +1165,7 @@ void TopoOptimizeWidget::generate2dDesignZone()
 		osgWidget->view->getCameraManipulator()->computeHomePosition();
 		osgWidget->view->getCameraManipulator()->home(0.0);
 
-		addLog(LogText,"1111", LOGLEVAL::INFO);//QString("生成 1% X 2% 的设计域网格,分辨率为 3%").arg(len).arg(wid).arg(re)
+		addLog(LogText, QString("生成 %1 X %2 的设计域网格,分辨率为 %3").arg(len).arg(wid).arg(re), LOGLEVAL::INFO);
 	}
 	else
 	{
@@ -1291,6 +1297,8 @@ void TopoOptimizeWidget::generate3dDesignZone()
 		//显示自适应模型大小
 		osgWidget->view->getCameraManipulator()->computeHomePosition();
 		osgWidget->view->getCameraManipulator()->home(0.0);
+
+		addLog(LogText, QString("生成 %1 X %2 X %3 的设计域网格,分辨率为 %4").arg(len).arg(wid).arg(hei).arg(re), LOGLEVAL::INFO);
 	}
 	else
 	{
@@ -1479,7 +1487,36 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push()
 	}
 }
 
-void TopoOptimizeWidget::on_Picked()
+void TopoOptimizeWidget::on_HavePicked()
 {
-	addLog(LogText, "123156", LOGLEVAL::ATTENION);
+	addLog(LogText, "选中向量", LOGLEVAL::ATTEN);
+}
+
+void TopoOptimizeWidget::on_DragEnd(double x, double y, double z)
+{
+	addLog(LogText, QString("更新起点（%1, %2, %3）").arg(x).arg(y).arg(z), LOGLEVAL::ATTEN);
+}
+
+void TopoOptimizeWidget::on_SurfPicked(double x, double y, double z)
+{
+	addLog(LogText, QString("插入向量表面点（%1, %2, %3）").arg(x).arg(y).arg(z), LOGLEVAL::ATTEN);
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push()
+{
+	if (model->getNumChildren() == 0)
+		addLog(LogText, "没有导入三角网格", LOGLEVAL::WARNNING);
+	else
+		model->removeChildren(0, model->getNumChildren());
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push()
+{
+	if (arrow->getNumChildren() == 0)
+		addLog(LogText, "没有向量场", LOGLEVAL::WARNNING);
+	else
+	{
+		arrow->removeChildren(0, arrow->getNumChildren());
+		vectorField.clear();
+	}
 }

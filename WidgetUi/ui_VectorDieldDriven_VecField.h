@@ -38,6 +38,7 @@ public:
     QPushButton *pushButton_AddCtrlPnt;
     QPushButton *pushButton_GeneFromCtrlPnt;
     QPushButton *pushButton_ExprtVecField;
+    QPushButton *pushButton_clear;
     QSpacerItem *verticalSpacer;
     QSpacerItem *horizontalSpacer_2;
 
@@ -106,6 +107,11 @@ public:
 
         verticalLayout_3->addWidget(groupBox);
 
+        pushButton_clear = new QPushButton(widget);
+        pushButton_clear->setObjectName(QString::fromUtf8("pushButton_clear"));
+
+        verticalLayout_3->addWidget(pushButton_clear);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_3->addItem(verticalSpacer);
@@ -142,6 +148,7 @@ public:
         pushButton_AddCtrlPnt->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\346\267\273\345\212\240\346\216\247\345\210\266\347\202\271", nullptr));
         pushButton_GeneFromCtrlPnt->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\347\224\261\346\216\247\345\210\266\347\202\271\347\224\237\346\210\220", nullptr));
         pushButton_ExprtVecField->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\345\257\274\345\207\272\346\226\271\345\220\221\345\234\272", nullptr));
+        pushButton_clear->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\346\270\205\347\251\272\346\226\271\345\220\221\345\234\272", nullptr));
     } // retranslateUi
 
 };

@@ -13,15 +13,16 @@ enum LOGLEVAL {
     INFO,
     WARNNING,
     WRONG,
-    ATTENION
+    ATTEN
 };
 
 //typedef Eigen::Matrix<double, Eigen::Dynamic, 6> VectorField;
 
 static osg::ref_ptr<osg::Group> root = new osg::Group;//osg窗口显示的所有节点的根节点
-static osg::ref_ptr<osg::Group> arrow = new osg::Group;//osg窗口显示的所有箭头
-static osg::ref_ptr<osg::Group> slicePlane = new osg::Group;//osg窗口显示的所有切平面节点
+static osg::ref_ptr<osg::Group> arrow = new osg::Group;//osg窗口显示的所有锚点箭头
+static osg::ref_ptr<osg::Group> gridVec = new osg::Group;//osg窗口显示的所有向量场
 static osg::ref_ptr<osg::Group> model = new osg::Group;//osg窗口显示的所有模型节点
+
 
 static osg::Vec3 position;//视点坐标
 static osg::Vec3 center_1;
@@ -51,7 +52,7 @@ static void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL lev
         break;
     case LOGLEVAL::WARNNING:
         log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [  WARNNING\t") + QString("]\t") + message;
-        fmt.setForeground(QColor("black"));
+        fmt.setForeground(QColor("blue"));
         logtext->mergeCurrentCharFormat(fmt);
         logtext->appendPlainText(log);
         break;
@@ -61,8 +62,8 @@ static void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL lev
         logtext->mergeCurrentCharFormat(fmt);
         logtext->appendPlainText(log);
         break;
-    case LOGLEVAL::ATTENION:
-        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [   ATTENTION\t") + QString("]\t") + message;
+    case LOGLEVAL::ATTEN:
+        log = QTime::currentTime().toString("hh:mm:ss:zzz ") + QString(" [   ATTEN\t") + QString("]\t") + message;
         fmt.setForeground(QColor("green"));
         logtext->mergeCurrentCharFormat(fmt);
         logtext->appendPlainText(log);

@@ -135,6 +135,8 @@ public:
 	void EnableDragger();
 	void DisableDragger();
 
+	double length;
+
 	std::array <double, 6> vector_Data;
 
 	bool isHighLighted = false;
@@ -245,10 +247,6 @@ public:
 			return osg::Vec3(0, 0, 0);
 	}
 
-	void sendPicked()
-	{
-		emit Topicked();
-	}
 
 	void pick(float x, float y, osg::ref_ptr<osgViewer::Viewer> view)
 	{
@@ -273,7 +271,7 @@ public:
 					arrowShape = dynamic_cast<ArrowShape*> (grandParent);
 					arrowShape->EnableHighLight();
 					startPoint = mt->getPosition();
-					sendPicked();
+					emit HavePicked();
 				}
 
 			}
@@ -313,6 +311,7 @@ public:
 				float y = ea.getY();
 				pick(x, y, viewer);
 				startPoint = getSurfPoint(x, y, viewer);
+				emit SurfPicked(startPoint.x(), startPoint.y(), startPoint.z());
 			}
 			break;
 
@@ -334,6 +333,7 @@ public:
 				picked->setPosition(lastPoint);
 				arrowShape->UpdateDragger(picked->getAttitude(), lastPoint);
 				arrowShape->setData(lastPoint, picked->getAttitude());
+				emit DragEnd(lastPoint.x(), lastPoint.y(), lastPoint.z());
 				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
 			}
 			else
@@ -341,6 +341,7 @@ public:
 
 		case osgGA::GUIEventAdapter::RELEASE:
 			PickedObject = false;
+			
 			break;
 
 		case osgGA::GUIEventAdapter::KEYDOWN:
@@ -377,7 +378,9 @@ public:
 	}
 
 signals:
-	void Topicked();
+	void HavePicked();
+	void DragEnd(double x, double y, double z);
+	void SurfPicked(double x, double y, double z);
 };
 
 class OsgWidget : public QWidget, public osgViewer::CompositeViewer
@@ -945,8 +948,11 @@ public slots:
 	void VectorDieldDriven_VectorField_on_ImportVectorField_push();
 	void VectorDieldDriven_VectorField_on_AddCtrlPnt_push();
 	void VectorDieldDriven_VectorField_on_ExprtVecField_push();
-
-	void on_Picked();
+	void VectorDieldDriven_VectorField_on_ClearMesh_push();
+	void VectorDieldDriven_VectorField_on_ClearVec_push();
+	void on_HavePicked();
+	void on_DragEnd(double x, double y, double z);
+	void on_SurfPicked(double x, double y, double z);
 private slots:
 	void generate3dDesignZone();
 	void generate2dDesignZone();

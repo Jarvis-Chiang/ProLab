@@ -28,6 +28,11 @@ public:
     QSpacerItem *horizontalSpacer;
     QPushButton *pushButton_ImportTriMesh;
     QSpacerItem *horizontalSpacer_2;
+    QWidget *widget_2;
+    QHBoxLayout *horizontalLayout_2;
+    QSpacerItem *horizontalSpacer_3;
+    QPushButton *pushButton_clear;
+    QSpacerItem *horizontalSpacer_4;
     QSpacerItem *verticalSpacer;
 
     void setupUi(QWidget *VectorFieldDriven_SurfaceMesh)
@@ -57,6 +62,26 @@ public:
 
         verticalLayout->addWidget(widget);
 
+        widget_2 = new QWidget(VectorFieldDriven_SurfaceMesh);
+        widget_2->setObjectName(QString::fromUtf8("widget_2"));
+        horizontalLayout_2 = new QHBoxLayout(widget_2);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_3);
+
+        pushButton_clear = new QPushButton(widget_2);
+        pushButton_clear->setObjectName(QString::fromUtf8("pushButton_clear"));
+
+        horizontalLayout_2->addWidget(pushButton_clear);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_4);
+
+
+        verticalLayout->addWidget(widget_2);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
@@ -71,6 +96,7 @@ public:
     {
         VectorFieldDriven_SurfaceMesh->setWindowTitle(QCoreApplication::translate("VectorFieldDriven_SurfaceMesh", "Form", nullptr));
         pushButton_ImportTriMesh->setText(QCoreApplication::translate("VectorFieldDriven_SurfaceMesh", "\345\257\274\345\205\245\344\270\211\350\247\222\347\275\221\346\240\274", nullptr));
+        pushButton_clear->setText(QCoreApplication::translate("VectorFieldDriven_SurfaceMesh", "\346\270\205\347\251\272\347\275\221\346\240\274", nullptr));
     } // retranslateUi
 
 };
