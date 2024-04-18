@@ -134,9 +134,9 @@ public:
 	void DisableHighLight();
 	void EnableDragger();
 	void DisableDragger();
-
+	QTreeWidgetItem* GetTreeItem() { return treeLabel; }
+	osg::ref_ptr<osg::PositionAttitudeTransform> GetTrans() { return mTrans; }
 	double length;
-
 	std::array <double, 6> vector_Data;
 
 	bool isHighLighted = false;
@@ -861,7 +861,7 @@ public:
 	void creatHUD();
 
 
-	void CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);
+	osg::ref_ptr<ArrowShape> CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);
 
 public:
 	QStackedWidget* oprStackWidget; //右侧操作栏堆栈窗口
@@ -875,15 +875,15 @@ public:
 	osg::ref_ptr<osg::Node> createLightSource(unsigned int num, const osg::Vec3d& trans, const osg::Vec3d& vecDir);
 
 private:
-	QTreeWidget* treeWidget1; //左侧树状结构窗口1
-	QTreeWidget* treeWidget2; //左侧树状结构窗口2
-	QTreeWidget* treeWidget3; //左侧树状结构窗口3
-	QTreeWidget* treeWidget4; //左侧树状结构窗口4
-	QTreeWidget* treeWidget5; //左侧树状结构窗口5
-	QTreeWidget* treeWidget6; //左侧树状结构窗口6
-	QTreeWidget* treeWidget7; //左侧树状结构窗口7
-	QTreeWidget* treeWidget8; //左侧树状结构窗口8
-	QTreeWidget* treeWidget9; //左侧树状结构窗口9
+	QTreeWidget* treeWidget1; //左侧树状结构窗口0
+	QTreeWidget* treeWidget2; //左侧树状结构窗口1
+	QTreeWidget* treeWidget3; //左侧树状结构窗口2
+	QTreeWidget* treeWidget4; //左侧树状结构窗口3
+	QTreeWidget* treeWidget5; //左侧树状结构窗口4
+	QTreeWidget* treeWidget6; //左侧树状结构窗口5
+	QTreeWidget* treeWidget7; //左侧树状结构窗口6
+	QTreeWidget* treeWidget8; //左侧树状结构窗口7
+	QTreeWidget* treeWidget9; //左侧树状结构窗口8
 
 	DesignZoneWidget* designZoneWidget;
 	DesignZone_3D* designZone_3D;
@@ -950,6 +950,7 @@ public slots:
 	void VectorDieldDriven_VectorField_on_ExprtVecField_push();
 	void VectorDieldDriven_VectorField_on_ClearMesh_push();
 	void VectorDieldDriven_VectorField_on_ClearVec_push();
+	void VectorDieldDriven_VectorField_on_VecItem_clicked(QTreeWidgetItem* item, int col);
 	void on_HavePicked();
 	void on_DragEnd(double x, double y, double z);
 	void on_SurfPicked(double x, double y, double z);

@@ -118,7 +118,7 @@ void TopoOptimizeWidget :: init()
 	oprStackWidget->addWidget(finite3D_ComputePara);//37
 	oprStackWidget->addWidget(finite3D_ResultView);//38
 
-	//左侧树状结构窗口1
+	//左侧树状结构窗口0
 	treeWidget1->setColumnCount(1); //设置列数
 	treeWidget1->setHeaderLabel(QString("2D拓扑结构树"));
 
@@ -130,7 +130,7 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree1_5 = new QTreeWidgetItem(treeWidget1, QStringList(QString("结果查看")));
 	treeWidget1->expandAll();
 
-	//左侧树状结构窗口2
+	//左侧树状结构窗口1
 	treeWidget2->setColumnCount(1); //设置列数
 	treeWidget2->setHeaderLabel(QString("3D拓扑结构树"));
 
@@ -142,7 +142,7 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree2_5 = new QTreeWidgetItem(treeWidget2, QStringList(QString("结果查看")));
 	treeWidget2->expandAll();
 
-	//左侧树状结构窗口3（方向场驱动路径）
+	//左侧树状结构窗口2（方向场驱动路径）
 	treeWidget3->setColumnCount(1); //设置列数
 	treeWidget3->setHeaderLabel(QString("方向场驱动路径结构树"));
 	QTreeWidgetItem* tree3_0 = new QTreeWidgetItem(treeWidget3, QStringList(QString("曲面网格(方向场驱动路径)")));
@@ -150,21 +150,21 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree3_2 = new QTreeWidgetItem(treeWidget3, QStringList(QString("路径参数(方向场驱动路径)")));
 	treeWidget3->expandAll();
 
-	//树状结构窗口4（偏移路径）
+	//树状结构窗口3（偏移路径）
 	treeWidget4->setColumnCount(1); //设置列数
 	treeWidget4->setHeaderLabel(QString("偏移路径结构树"));
 	QTreeWidgetItem* tree4_0 = new QTreeWidgetItem(treeWidget4, QStringList(QString("曲面网格(偏移路径)")));
 	QTreeWidgetItem* tree4_1 = new QTreeWidgetItem(treeWidget4, QStringList(QString("路径参数(偏移路径)")));
 	treeWidget4->expandAll();
 
-	//树状结构窗口5（梯度填充路径）
+	//树状结构窗口4（梯度填充路径）
 	treeWidget5->setColumnCount(1); //设置列数
 	treeWidget5->setHeaderLabel(QString("梯度填充路径结构树"));
 	QTreeWidgetItem* tree5_0 = new QTreeWidgetItem(treeWidget5, QStringList(QString("曲面网格(梯度填充路径)")));
 	QTreeWidgetItem* tree5_1 = new QTreeWidgetItem(treeWidget5, QStringList(QString("路径参数(梯度填充路径)")));
 	treeWidget5->expandAll();
 
-	//树状结构窗口6（基准面法曲面切片）
+	//树状结构窗口5（基准面法曲面切片）
 	treeWidget6->setColumnCount(1); //设置列数
 	treeWidget6->setHeaderLabel(QString("基准面法曲面切片结构树"));
 	QTreeWidgetItem* tree6_0 = new QTreeWidgetItem(treeWidget6, QStringList(QString("模型网格(基准面法)")));
@@ -174,7 +174,7 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree6_4 = new QTreeWidgetItem(treeWidget6, QStringList(QString("路径规划(基准面法)")));
 	treeWidget6->expandAll();
 
-	//树状结构窗口7（方向场法曲面切片）
+	//树状结构窗口6（方向场法曲面切片）
 	treeWidget7->setColumnCount(1); //设置列数
 	treeWidget7->setHeaderLabel(QString("方向场法曲面切片结构树"));
 	QTreeWidgetItem* tree7_0 = new QTreeWidgetItem(treeWidget7, QStringList(QString("模型网格(方向场法)")));
@@ -184,7 +184,7 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree7_4 = new QTreeWidgetItem(treeWidget7, QStringList(QString("路径规划(方向场法)")));
 	treeWidget7->expandAll();
 
-	//左侧树状结构窗口8(有限元2D分析)
+	//左侧树状结构窗口7(有限元2D分析)
 	treeWidget8->setColumnCount(1); //设置列数
 	treeWidget8->setHeaderLabel(QString("2D有限元分析"));
 
@@ -196,7 +196,7 @@ void TopoOptimizeWidget :: init()
 	QTreeWidgetItem* tree8_5 = new QTreeWidgetItem(treeWidget8, QStringList(QString("2D结果查看（有限元）")));
 	treeWidget8->expandAll();
 
-	//左侧树状结构窗口9（3D有限元分析）
+	//左侧树状结构窗口8（3D有限元分析）
 	treeWidget9->setColumnCount(1); //设置列数
 	treeWidget9->setHeaderLabel(QString("2D拓扑结构树"));
 
@@ -251,6 +251,7 @@ void TopoOptimizeWidget::creatAction()
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ExprtVecField_push()));
 	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push);
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push);
+	connect(treeWidget3, &QTreeWidget::itemClicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_VecItem_clicked);
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
@@ -556,7 +557,7 @@ void TopoOptimizeWidget::aabbSplit3D(const Point3D& left, const Point3D& right, 
 }
 
 
-void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint_1, const osg::Vec3& direction)
+osg::ref_ptr<ArrowShape> TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint_1, const osg::Vec3& direction)
 {
 
 	osg::ref_ptr<ArrowShape> arrowShape = new ArrowShape(direction, startPoint_1);
@@ -566,6 +567,7 @@ void TopoOptimizeWidget::CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::
 	// 将变换节点添加到箭头的根节点中
 	root_t->addChild(arrowShape);
 
+	return arrowShape;
 }
 
 HUDAxis::HUDAxis()
@@ -662,11 +664,12 @@ osg::ref_ptr<osg::Geode> TopoOptimizeWidget::makeCoordinate()
 
 ArrowShape::ArrowShape( osg::Vec3 direction, osg::Vec3 strtPnt) : ot(new osgFX::Outline),
 mDragger(new osgManipulator::TrackballDragger()),
-treeLabel(new QTreeWidgetItem),
+treeLabel(new QTreeWidgetItem(QString("锚点向量%1").arg(arrow->getNumChildren()).split(","))),
 vector_Data({ strtPnt.x(), strtPnt.y(), strtPnt.z(), direction.x(), direction.y(), direction.z() }),
 mSelection(new osgManipulator::Selection())
 {
 	length = direction.length();
+	QTtoOSG_Link[treeLabel] = this;
 
 	double radius = 0.1;
 	double height = direction.length() * 2;
@@ -1459,7 +1462,7 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_AddCtrlPnt_push()
 		float y = yCoor->text().toFloat();
 		float z = zCoor->text().toFloat();
 
-		CreatArrow(arrow, startPoint, osg::Vec3(x, y, z));
+		treeWidget3->topLevelItem(1)->addChild(CreatArrow(arrow, startPoint, osg::Vec3(x, y, z))->GetTreeItem());
 		//vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
 	}
 }
@@ -1518,5 +1521,25 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push()
 	{
 		arrow->removeChildren(0, arrow->getNumChildren());
 		vectorField.clear();
+		QTtoOSG_Link.clear();
+		int itemChildrenCounts = treeWidget3->topLevelItem(1)->childCount();
+		while (itemChildrenCounts--)
+		{
+			QTreeWidgetItem* child = treeWidget3->topLevelItem(1)->child(itemChildrenCounts); //index从大到小区做删除处理
+			treeWidget3->topLevelItem(1)->removeChild(child);
+			delete child;
+			child = nullptr;
+		}
+	}
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_VecItem_clicked(QTreeWidgetItem* item, int col)
+{
+	if (item->parent() != NULL)
+	{
+		//Qt界面场景树和OSG
+		ArrowShape* arrowShape_temp = dynamic_cast<ArrowShape*>(QTtoOSG_Link.find(item)->second);
+		osgWidget->addLinePointHandler->arrowShape = arrowShape_temp;
+		osgWidget->addLinePointHandler->picked = arrowShape_temp->GetTrans();
 	}
 }

@@ -4,8 +4,10 @@
 
 #include <QPlainTextEdit>
 #include <QTime>
+#include <QTreeWidgetItem>
 
 #include <vector>
+#include <map>
 
 #include <Eigen/Dense>
 
@@ -31,6 +33,7 @@ static osg::Vec3 up;
 static osg::Vec3 startPoint;//保存添加的各个向量箭头的临时变量
 static osg::Quat rotation_Global;
 static std::vector <std::array<double, 6> *> vectorField;//向量场数据
+static std::map <QTreeWidgetItem*, osg::Group*> QTtoOSG_Link;
 
 // log textbrowser 
 
