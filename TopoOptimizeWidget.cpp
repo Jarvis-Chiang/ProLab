@@ -143,8 +143,12 @@ void TopoOptimizeWidget :: init()
 	treeWidget2->expandAll();
 
 	//左侧树状结构窗口2（方向场驱动路径）
-	treeWidget3->setColumnCount(1); //设置列数
-	treeWidget3->setHeaderLabel(QString("方向场驱动路径结构树"));
+	treeWidget3->setColumnCount(3); //设置列数
+	QStringList strlist;
+	strlist << "项目"  << "位置数据" << "姿态数据";
+	treeWidget3->setHeaderLabels(strlist);
+	treeWidget3->header()->setSectionResizeMode(QHeaderView::Stretch);
+	treeWidget3->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 	QTreeWidgetItem* tree3_0 = new QTreeWidgetItem(treeWidget3, QStringList(QString("曲面网格(方向场驱动路径)")));
 	QTreeWidgetItem* tree3_1 = new QTreeWidgetItem(treeWidget3, QStringList(QString("方向场(方向场驱动路径)")));
 	QTreeWidgetItem* tree3_2 = new QTreeWidgetItem(treeWidget3, QStringList(QString("路径参数(方向场驱动路径)")));
@@ -224,8 +228,8 @@ void TopoOptimizeWidget :: init()
 	root->addChild(arrow.get());
 	root->addChild(gridVec.get());
 
-	model->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
-
+	//model->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
+	gridVec->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
 }
 
 void TopoOptimizeWidget::creatAction()
@@ -261,6 +265,8 @@ void TopoOptimizeWidget::creatAction()
 	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::HavePicked, this, &TopoOptimizeWidget::on_HavePicked);
 	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::DragEnd, this, &TopoOptimizeWidget::on_DragEnd);
 	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::SurfPicked, this, &TopoOptimizeWidget::on_SurfPicked);
+
+	//TreWidgetItem信号槽
 }
 //osgwidget
 OsgWidget::OsgWidget(QWidget* parent, Qt::WindowFlags f, osgViewer::ViewerBase::ThreadingModel threadingModel) :
@@ -297,6 +303,7 @@ QWidget* OsgWidget::addViewWidget(osgQt::GraphicsWindowQt* gw)
 
 	view->setSceneData(root);
 	view->addEventHandler(new osgViewer::StatsHandler);
+	view->addEventHandler(new osgGA::StateSetManipulator(camera->getOrCreateStateSet()));
 	//view->addEventHandler(new osgGA::StateSetManipulator(view->getCamera()->getOrCreateStateSet()));
 	view->addEventHandler(addLinePointHandler);
 	view->setCameraManipulator(new osgGA::MultiTouchTrackballManipulator);
@@ -662,14 +669,20 @@ osg::ref_ptr<osg::Geode> TopoOptimizeWidget::makeCoordinate()
 
 
 
-ArrowShape::ArrowShape( osg::Vec3 direction, osg::Vec3 strtPnt) : ot(new osgFX::Outline),
+ArrowShape::ArrowShape( osg::Vec3 direction, osg::Vec3 strtPnt) : 
+ot(new osgFX::Outline),
 mDragger(new osgManipulator::TrackballDragger()),
 treeLabel(new QTreeWidgetItem(QString("锚点向量%1").arg(arrow->getNumChildren()).split(","))),
 vector_Data({ strtPnt.x(), strtPnt.y(), strtPnt.z(), direction.x(), direction.y(), direction.z() }),
-mSelection(new osgManipulator::Selection())
+mSelection(new osgManipulator::Selection()),
+Pos(new QLineEdit)
 {
 	length = direction.length();
 	QTtoOSG_Link[treeLabel] = this;
+	Pos->setReadOnly(true);
+	Pos->setStyleSheet("background-color:Qt::RGB(230,230,0);");
+	Pos->setText(QString("(%1, %2, %3)")
+		.arg(strtPnt.x()).arg(strtPnt.y()).arg(strtPnt.z()));
 
 	double radius = 0.1;
 	double height = direction.length() * 2;
@@ -1384,11 +1397,31 @@ void TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()
 		mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0, 1, 1, 1));      // 设置此种模式下的颜色 
 		stl->getOrCreateStateSet()->setAttribute(mat);
 		//添加线框
-		osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
-		scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
-		scribe->addChild(stl);
-		//加载到场景节点
-		model->addChild(scribe);
+		//osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
+		//scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
+		//scribe->addChild(stl);
+		////加载到场景节点
+		//model->addChild(scribe);
+		model->addChild(stl);
+		//绘制STL节点
+		osg::ref_ptr<osg::Vec3Array> vertices = readSTL(Route.toStdString());
+		CreatPoints(vertices);
+		//数据存入kdTree
+		cloud->width = vertices->size();  //此处点云数量
+		cloud->height = 1;                //表示点云为无序点云
+		cloud->points.resize(cloud->width * cloud->height);
+
+		int i = 0;
+
+		for (auto it = vertices->begin(); it != vertices->end(); ++it)
+		{
+			cloud->points[i].x = it->x();
+			cloud->points[i].y = it->y();
+			cloud->points[i].z = it->z();
+			i++;
+		}
+		kdtree.setInputCloud(cloud);
+
 		//调整摄像机到最合适角度和位置
 		osgWidget->getBestView();
 	}
@@ -1420,8 +1453,11 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVectorField_push
 		{
 			double x, y, z, roll, pitch, yaw;
 			inputFile >> x >> y >> z >> roll >> pitch >> yaw;
-			CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
-			//vectorField.push_back({ x, y, z, roll, pitch, yaw});
+			osg::ref_ptr<ArrowShape> arrow_temp = CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
+			QTreeWidgetItem* treeItem_temp = arrow_temp->GetTreeItem();
+			QLineEdit* lineEdit_temp = arrow_temp->GetPos();
+			treeWidget3->topLevelItem(1)->addChild(treeItem_temp);
+			treeWidget3->setItemWidget(treeItem_temp, 1, lineEdit_temp);
 		}
 		// 关闭文件
 		inputFile.close();
@@ -1462,7 +1498,11 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_AddCtrlPnt_push()
 		float y = yCoor->text().toFloat();
 		float z = zCoor->text().toFloat();
 
-		treeWidget3->topLevelItem(1)->addChild(CreatArrow(arrow, startPoint, osg::Vec3(x, y, z))->GetTreeItem());
+		osg::ref_ptr<ArrowShape> arrow_temp = CreatArrow(arrow, startPoint, osg::Vec3(x, y, z));
+		QTreeWidgetItem* treeItem_temp = arrow_temp->GetTreeItem();
+		QLineEdit* lineEdit_temp = arrow_temp->GetPos();
+		treeWidget3->topLevelItem(1)->addChild(treeItem_temp);
+		treeWidget3->setItemWidget(treeItem_temp, 1, lineEdit_temp);
 		//vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
 	}
 }
@@ -1497,7 +1537,11 @@ void TopoOptimizeWidget::on_HavePicked()
 
 void TopoOptimizeWidget::on_DragEnd(double x, double y, double z)
 {
-	addLog(LogText, QString("更新起点（%1, %2, %3）").arg(x).arg(y).arg(z), LOGLEVAL::ATTEN);
+	ArrowShape* arrow_temp = osgWidget->addLinePointHandler->arrowShape;
+	if (arrow_temp != NULL)
+	{
+		arrow_temp->GetPos()->setText(QString("(%1, %2, %3)").arg(x).arg(y).arg(z));
+	}
 }
 
 void TopoOptimizeWidget::on_SurfPicked(double x, double y, double z)
@@ -1542,4 +1586,144 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_VecItem_clicked(QTreeW
 		osgWidget->addLinePointHandler->arrowShape = arrowShape_temp;
 		osgWidget->addLinePointHandler->picked = arrowShape_temp->GetTrans();
 	}
+}
+
+void TopoOptimizeWidget::CreatPoints(const osg::ref_ptr<osg::Vec3Array>& vertices)
+{
+	osg::ref_ptr<osg::Geometry> PointsGeometry = new osg::Geometry;
+	osg::ref_ptr<osg::Vec4Array> PntsColors = new osg::Vec4Array;
+	osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+
+	PointsGeometry->setVertexArray(vertices.get());
+	PntsColors->push_back(osg::Vec4(1., 1., 0., 1.));
+	PointsGeometry->setColorArray(PntsColors);
+	PointsGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+	PointsGeometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, vertices->size()));
+
+	geode->addDrawable(PointsGeometry.get());
+	// 创建点的渲染属性 osg::Points
+	osg::ref_ptr<osg::Point> Points = new osg::Point;
+	Points->setSize(2.0f); // 设置点的大小
+	// 将点的渲染属性应用到点对象
+	geode->getOrCreateStateSet()->setAttributeAndModes(Points, osg::StateAttribute::ON);
+	gridVec->addChild(geode);
+}
+
+void TopoOptimizeWidget::CreatVects()
+{
+
+}
+
+osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readASCIISTL(const std::string& filename)
+{
+	std::ifstream file(filename);
+	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file: " << filename << std::endl;
+		return vertices;
+	}
+
+	std::set<osg::Vec3> uniqueVertices; // 使用 set 确保唯一性
+
+	std::string line;
+	while (std::getline(file, line)) {
+		std::istringstream iss(line);
+		std::string keyword;
+		iss >> keyword;
+
+		if (keyword == "vertex") {
+			osg::Vec3 vertex;
+			iss >> vertex.x() >> vertex.y() >> vertex.z();
+			uniqueVertices.insert(vertex);
+		}
+	}
+
+	file.close();
+
+	// 将 set 转换为 vector
+	vertices->assign(uniqueVertices.begin(), uniqueVertices.end());
+	return vertices;
+}
+
+osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readBinarySTL(const std::string& filename)
+{
+	std::ifstream file(filename, std::ios::binary);
+	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file: " << filename << std::endl;
+		return vertices;
+	}
+
+	// 跳过头部信息
+	file.seekg(80, std::ios::beg);
+
+	// 读取三角面片数量
+	uint32_t numTriangles;
+	file.read(reinterpret_cast<char*>(&numTriangles), sizeof(numTriangles));
+
+	// 使用 set 确保唯一性
+	std::set<osg::Vec3> uniqueVertices;
+
+	// 读取三角面片
+	for (uint32_t i = 0; i < numTriangles; ++i) {
+		// 跳过法向量（12个字节）
+		file.seekg(12, std::ios::cur);
+
+		// 读取三个顶点（9个浮点数，12个字节每个顶点）
+		for (int j = 0; j < 3; ++j) {
+			osg::Vec3 vertex;
+			file.read(reinterpret_cast<char*>(&vertex), sizeof(float) * 3);
+			uniqueVertices.insert(vertex);
+		}
+
+		// 跳过属性字节计数器（2个字节）
+		file.seekg(2, std::ios::cur);
+	}
+
+	file.close();
+
+	// 将 set 转换为 vector
+	vertices->assign(uniqueVertices.begin(), uniqueVertices.end());
+	return vertices;
+}
+
+osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readSTL(const std::string& filename)
+{
+	std::ifstream file(filename, std::ios::binary);
+	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file: " << filename << std::endl;
+		return vertices;
+	}
+
+	// 读取前 80 个字节以判断文件类型
+	std::array<char, 80> header;
+	file.read(header.data(), header.size());
+
+	// 判断文件类型
+	bool isBinary = true;
+	for (char ch : header) {
+		if (ch == '\0') {
+			continue;
+		}
+		if (!std::isprint(ch)) {
+			isBinary = true;
+			break;
+		}
+	}
+
+	file.close();
+
+	// 根据判断的文件类型读取文件
+	if (isBinary) {
+		vertices = readBinarySTL(filename);
+	}
+	else {
+		vertices = readASCIISTL(filename);
+	}
+
+	return vertices;
 }

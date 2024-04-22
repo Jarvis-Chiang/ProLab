@@ -61,6 +61,7 @@
 #include <QGridLayout>
 #include <QDialogButtonBox>
 #include <QFormLayout>
+#include <QHeaderView>
 
 #include <osg/Geometry>
 #include <osg/Geode>
@@ -79,6 +80,7 @@
 #include <osg/LineWidth>
 #include <osg/PositionAttitudeTransform>
 #include <osg/NodeVisitor>
+#include <osg/Point>
 
 #include <osgFX/Scribe>
 #include <osgFX/Outline>
@@ -136,6 +138,8 @@ public:
 	void DisableDragger();
 	QTreeWidgetItem* GetTreeItem() { return treeLabel; }
 	osg::ref_ptr<osg::PositionAttitudeTransform> GetTrans() { return mTrans; }
+	QLineEdit* GetPos() { return Pos; }
+	osg::ref_ptr<osgManipulator::Dragger> GetDragger() { return mDragger; }
 	double length;
 	std::array <double, 6> vector_Data;
 
@@ -146,7 +150,8 @@ private:
 	osg::ref_ptr<osg::PositionAttitudeTransform> mTrans;
 	osg::ref_ptr<osgManipulator::Selection> mSelection;//拖拽器
 	osg::ref_ptr<osgFX::Outline> ot;
-	QTreeWidgetItem* treeLabel;
+	QTreeWidgetItem* treeLabel;//锚向量编号
+	QLineEdit* Pos;//实时展示锚向量坐标
 };
 
 /**************************以下为访问器函数********************************/
@@ -240,7 +245,19 @@ public:
 			else
 			{
 				std::sort(pointsToChoose.begin(), pointsToChoose.end(), cmp);
-				return pointsToChoose[0];
+				/*return pointsToChoose[0];*/
+				pcl::PointXYZ searchPoint;
+				searchPoint.x = pointsToChoose[0].x();
+				searchPoint.y = pointsToChoose[0].y();
+				searchPoint.z = pointsToChoose[0].z();
+				std::vector<int> pointIdxNKNSearch(1);      //存储查询点近邻索引
+				std::vector<float> pointNKNSquaredDistance(1); //存储近邻点对应距离平方
+				if (kdtree.nearestKSearch(searchPoint, 1, pointIdxNKNSearch, pointNKNSquaredDistance) > 0)  //执行K近邻搜索
+				{
+					return osg::Vec3(cloud->points[pointIdxNKNSearch[0]].x,
+						cloud->points[pointIdxNKNSearch[0]].y,
+						cloud->points[pointIdxNKNSearch[0]].z);
+				}
 			}
 		}
 		else
@@ -850,6 +867,7 @@ class TopoOptimizeWidget : public QWidget
 
 	Q_OBJECT
 public:
+
 	friend class AddLinePointHandler;
 
     explicit TopoOptimizeWidget(QWidget* parent = 0);
@@ -861,7 +879,14 @@ public:
 	void creatHUD();
 
 
-	osg::ref_ptr<ArrowShape> CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);
+	osg::ref_ptr<ArrowShape> CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);//创建锚向量可视化
+	void CreatPoints(const osg::ref_ptr<osg::Vec3Array>& vertices);//创建节点
+	void CreatVects();//创建向量场向量
+
+	osg::ref_ptr<osg::Vec3Array> readASCIISTL(const std::string& filename);//读取ASII的stl文件顶点
+	osg::ref_ptr<osg::Vec3Array> readBinarySTL(const std::string& filename);//读取二进制stl文件顶点
+	osg::ref_ptr<osg::Vec3Array> readSTL(const std::string& filename);// 自动判断文件类型并读取对应类型的 STL 文件
+
 
 public:
 	QStackedWidget* oprStackWidget; //右侧操作栏堆栈窗口

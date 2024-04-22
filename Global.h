@@ -11,12 +11,37 @@
 
 #include <Eigen/Dense>
 
+#include <pcl/point_cloud.h>        //点类型定义头文件
+#include <pcl/kdtree/kdtree_flann.h> //kdtree类定义头文件
+
 enum LOGLEVAL {
     INFO,
     WARNNING,
     WRONG,
     ATTEN
 };
+
+//向量场插值指定数据结构
+struct Points {
+    double x;
+    double y;
+    double z;
+    double X;
+    double Y;
+    double Z;
+    int p;
+
+    Points(double _x, double _y, double _z, double _X, double _Y, double _Z, int _p) : x(_x), y(_y), z(_z), X(_X), Y(_Y), Z(_Z), p(_p) {}
+};
+static std::vector <std::array<double, 6>*> vectorField;//锚向量场数据
+static pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);//kdtree点云
+static pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;//kdTree结构
+
+
+
+static std::vector<Points> points;
+static std::vector<Points> anchor;
+
 
 //typedef Eigen::Matrix<double, Eigen::Dynamic, 6> VectorField;
 
@@ -32,7 +57,6 @@ static osg::Vec3 up;
 
 static osg::Vec3 startPoint;//保存添加的各个向量箭头的临时变量
 static osg::Quat rotation_Global;
-static std::vector <std::array<double, 6> *> vectorField;//向量场数据
 static std::map <QTreeWidgetItem*, osg::Group*> QTtoOSG_Link;
 
 // log textbrowser 
@@ -72,5 +96,3 @@ static void addLog(QPlainTextEdit* logtext, const QString& message, LOGLEVAL lev
         logtext->appendPlainText(log);
     }
 }
-
-
