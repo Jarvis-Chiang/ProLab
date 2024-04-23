@@ -251,13 +251,19 @@ void TopoOptimizeWidget::creatAction()
 	connect(materialSetWidget->uiMaterialSet->importElasticityMatrixButton, SIGNAL(clicked()), this, SLOT(importDesignGridFile()));
 
 	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_ImportTriMesh, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push);
-	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ImportVectorField_push()));
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportCtrlPntsField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ImportCtrlPntsField_push()));
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_AddCtrlPnt, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_AddCtrlPnt_push()));
-	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtVecField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ExprtVecField_push()));
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtAnchorField, SIGNAL(clicked()), this, SLOT(VectorDieldDriven_VectorField_on_ExprtAnchorField_push()));
 	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push);
-	connect(vectorDieldDriven_VecField->uiVecField->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push);
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ClearCtrlPnts, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearCtrlPnts_push);
 	connect(treeWidget3, &QTreeWidget::itemClicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_VecItem_clicked);
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_GeneFromCtrlPnt, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked);
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ImportVecField, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVecField_push);
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ExprtVecField, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push);
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_ClearVecField, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVecField_push);
+	connect(vectorDieldDriven_VecField->uiVecField->checkBox_AnF, &QCheckBox::stateChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxAnF_push);
+	connect(vectorDieldDriven_VecField->uiVecField->checkBox_VecF, &QCheckBox::stateChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxVecF_push);
+	connect(vectorDieldDriven_VecField->uiVecField->checkBox_TriModel, &QCheckBox::stateChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxTriModel_push);
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
@@ -727,7 +733,6 @@ Pos(new QLineEdit)
 	ot->setColor(osg::Vec4(0.0, 1.0, 0.0, 1.0));
 	ot->setWidth(1.0);
 }
-ArrowShape::~ArrowShape(void) { }
 
 void ArrowShape::EnableDragger()
 {
@@ -1426,110 +1431,138 @@ void TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()
 
 		//调整摄像机到最合适角度和位置
 		osgWidget->getBestView();
+		addLog(LogText, "成功导入三角网格模型", LOGLEVAL::INFO);
+		vectorDieldDriven_VecField->uiVecField->checkBox_TriModel->setEnabled(true);
 	}
 }
 
-void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVectorField_push()
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportCtrlPntsField_push()
 {
-	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*txt)"));
-	if (!Route.isEmpty())
+	if (model->getNumChildren() != 0)
 	{
-		// 打开文本文件
-		std::ifstream inputFile(Route.toStdString());
-		if (!inputFile)
+		if (vectorField.size() != 0)
 		{
-			std::cerr << "Failed to open file." << std::endl;
+			vectorField.clear();
+			arrow->removeChildren(0, arrow->getNumChildren() - 1);
 		}
-		// 确定文件行数
-		int numLines = 0;
-		std::string line;
-		while (std::getline(inputFile, line)) {
-			++numLines;
-		}
-		// 回到文件开始处
-		inputFile.clear();
-		inputFile.seekg(0, std::ios::beg);
+		QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*anf)"));
+		if (!Route.isEmpty())
+		{
+			// 打开文本文件
+			std::ifstream inputFile(Route.toStdString());
+			if (!inputFile)
+			{
+				std::cerr << "Failed to open file." << std::endl;
+			}
+			// 确定文件行数
+			int numLines = 0;
+			std::string line;
+			while (std::getline(inputFile, line)) {
+				++numLines;
+			}
+			// 回到文件开始处
+			inputFile.clear();
+			inputFile.seekg(0, std::ios::beg);
 
-		// 逐行读取数据并保存到矩阵中
-		for (int i = 0; i < numLines; ++i)
-		{
-			double x, y, z, roll, pitch, yaw;
-			inputFile >> x >> y >> z >> roll >> pitch >> yaw;
-			osg::ref_ptr<ArrowShape> arrow_temp = CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
-			QTreeWidgetItem* treeItem_temp = arrow_temp->GetTreeItem();
-			QLineEdit* lineEdit_temp = arrow_temp->GetPos();
-			treeWidget3->topLevelItem(1)->addChild(treeItem_temp);
-			treeWidget3->setItemWidget(treeItem_temp, 1, lineEdit_temp);
+			// 逐行读取数据并保存到矩阵中
+			for (int i = 0; i < numLines; ++i)
+			{
+				double x, y, z, roll, pitch, yaw;
+				inputFile >> x >> y >> z >> roll >> pitch >> yaw;
+				osg::ref_ptr<ArrowShape> arrow_temp = CreatArrow(arrow, osg::Vec3(x, y, z), osg::Vec3(roll, pitch, yaw));
+				QTreeWidgetItem* treeItem_temp = arrow_temp->GetTreeItem();
+				QLineEdit* lineEdit_temp = arrow_temp->GetPos();
+				treeWidget3->topLevelItem(1)->addChild(treeItem_temp);
+				treeWidget3->setItemWidget(treeItem_temp, 1, lineEdit_temp);
+			}
+			// 关闭文件
+			inputFile.close();
+			osgWidget->getBestView();
+			addLog(LogText, "成功导入锚向量场", LOGLEVAL::ATTEN);
+			vectorDieldDriven_VecField->uiVecField->checkBox_AnF->setEnabled(true);
 		}
-		// 关闭文件
-		inputFile.close();
-		osgWidget->getBestView();
 	}
+	else
+		addLog(LogText, "请先导入三角网格模型", LOGLEVAL::WRONG);
+
+	
 }
 
 void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_AddCtrlPnt_push()
 {
-	QDialog dialog(this);
-	QFormLayout form(&dialog);
-	form.addRow(new QLabel("User input:"));
-	// Value1
-	QString value1 = QString("xCoor: ");
-	QLineEdit* xCoor = new QLineEdit(&dialog);
-	form.addRow(value1, xCoor);
-	// Value2
-	QString value2 = QString("yCoor: ");
-	QLineEdit* yCoor = new QLineEdit(&dialog);
-	form.addRow(value2, yCoor);
-
-	// Value3
-	QString value3 = QString("zCoor: ");
-	QLineEdit* zCoor = new QLineEdit(&dialog);
-	form.addRow(value3, zCoor);
-
-	// Add Cancel and OK button
-	QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-		Qt::Horizontal, &dialog);
-	form.addRow(&buttonBox);
-	QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-	QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
-
-	// Process when OK button is clicked
-	if (dialog.exec() == QDialog::Accepted)
+	if (model->getNumChildren() != 0)
 	{
-		float x = xCoor->text().toFloat();
-		float y = yCoor->text().toFloat();
-		float z = zCoor->text().toFloat();
+		QDialog dialog(this);
+		QFormLayout form(&dialog);
+		form.addRow(new QLabel("User input:"));
+		// Value1
+		QString value1 = QString("xCoor: ");
+		QLineEdit* xCoor = new QLineEdit(&dialog);
+		form.addRow(value1, xCoor);
+		// Value2
+		QString value2 = QString("yCoor: ");
+		QLineEdit* yCoor = new QLineEdit(&dialog);
+		form.addRow(value2, yCoor);
 
-		osg::ref_ptr<ArrowShape> arrow_temp = CreatArrow(arrow, startPoint, osg::Vec3(x, y, z));
-		QTreeWidgetItem* treeItem_temp = arrow_temp->GetTreeItem();
-		QLineEdit* lineEdit_temp = arrow_temp->GetPos();
-		treeWidget3->topLevelItem(1)->addChild(treeItem_temp);
-		treeWidget3->setItemWidget(treeItem_temp, 1, lineEdit_temp);
-		//vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
+		// Value3
+		QString value3 = QString("zCoor: ");
+		QLineEdit* zCoor = new QLineEdit(&dialog);
+		form.addRow(value3, zCoor);
+
+		// Add Cancel and OK button
+		QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+			Qt::Horizontal, &dialog);
+		form.addRow(&buttonBox);
+		QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+		QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+
+		// Process when OK button is clicked
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			float x = xCoor->text().toFloat();
+			float y = yCoor->text().toFloat();
+			float z = zCoor->text().toFloat();
+
+			osg::ref_ptr<ArrowShape> arrow_temp = CreatArrow(arrow, startPoint, osg::Vec3(x, y, z));
+			QTreeWidgetItem* treeItem_temp = arrow_temp->GetTreeItem();
+			QLineEdit* lineEdit_temp = arrow_temp->GetPos();
+			treeWidget3->topLevelItem(1)->addChild(treeItem_temp);
+			treeWidget3->setItemWidget(treeItem_temp, 1, lineEdit_temp);
+			//vectorField.push_back({ startPoint.x(), startPoint.y(), startPoint.z(), x, y, z });
+			vectorDieldDriven_VecField->uiVecField->checkBox_AnF->setEnabled(true);
+		}
 	}
+	else
+		addLog(LogText, "请先导入三角网格模型", LOGLEVAL::WRONG);
 }
 
-void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push()
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtAnchorField_push()
 {
-	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*txt)"));
-	if (!Route.isEmpty())
+	if (vectorField.size() != 0)
 	{
-		std::ofstream outputFile(Route.toStdString());
-		if (!outputFile) {
-			std::cerr << "Failed to open file." << std::endl;
-		}
-
-		// 将数据写入文件
-		for (const auto& array : vectorField) {
-			for (const auto& num : *array) {
-				outputFile << num << " ";
+		QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*anf)"));
+		if (!Route.isEmpty())
+		{
+			std::ofstream outputFile(Route.toStdString());
+			if (!outputFile) {
+				std::cerr << "Failed to open file." << std::endl;
 			}
-			outputFile << std::endl;
-		}
 
-		// 关闭文件
-		outputFile.close();
+			// 将数据写入文件
+			for (const auto& array : vectorField) {
+				for (const auto& num : *array) {
+					outputFile << num << " ";
+				}
+				outputFile << std::endl;
+			}
+
+			// 关闭文件
+			outputFile.close();
+			addLog(LogText, "导出锚向量场", LOGLEVAL::INFO);
+		}
 	}
+	else
+		addLog(LogText, "没有可供导出锚向量场", LOGLEVAL::WRONG);
 }
 
 void TopoOptimizeWidget::on_HavePicked()
@@ -1556,13 +1589,17 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push()
 	if (model->getNumChildren() == 0)
 		addLog(LogText, "没有导入三角网格", LOGLEVAL::WARNNING);
 	else
+	{
+		addLog(LogText, "清空三角网格", LOGLEVAL::INFO);
 		model->removeChildren(0, model->getNumChildren());
+		vectorDieldDriven_VecField->uiVecField->checkBox_TriModel->setEnabled(false);
+	}
 }
 
-void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push()
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearCtrlPnts_push()
 {
 	if (arrow->getNumChildren() == 0)
-		addLog(LogText, "没有向量场", LOGLEVAL::WARNNING);
+		addLog(LogText, "没有生成锚向量场", LOGLEVAL::WARNNING);
 	else
 	{
 		arrow->removeChildren(0, arrow->getNumChildren());
@@ -1576,6 +1613,8 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push()
 			delete child;
 			child = nullptr;
 		}
+		addLog(LogText, "清空锚向量场", LOGLEVAL::INFO);
+		vectorDieldDriven_VecField->uiVecField->checkBox_AnF->setEnabled(false);
 	}
 }
 
@@ -1608,7 +1647,8 @@ void TopoOptimizeWidget::CreatPoints(const osg::ref_ptr<osg::Vec3Array>& vertice
 	Points->setSize(2.0f); // 设置点的大小
 	// 将点的渲染属性应用到点对象
 	geode->getOrCreateStateSet()->setAttributeAndModes(Points, osg::StateAttribute::ON);
-	gridVec->addChild(geode);
+	geode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);//模型始终发亮，故关闭模型节点的光照设置
+	model->addChild(geode);
 }
 
 void TopoOptimizeWidget::CreatVects(const std::vector<Points>& Vecs)
@@ -1758,8 +1798,12 @@ osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readSTL(const std::string& file
 
 void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked()
 {
+	if (grids.size() != 0)
+	{
+		grids.clear();
+		gridVec->removeChild(0, 1U);
+	}
 	std::vector<Points> anchors;
-	std::vector<Points> grids;
 
 	if (vectorField.size() != 0 && cloud != NULL)
 	{
@@ -1777,15 +1821,144 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_c
 		}
 
 		interpolation->diffusionInterpolation(grids, anchors);
-		addLog(LogText, "成功压入", LOGLEVAL::WRONG);
 		CreatVects(grids);
+		addLog(LogText, "成功生成向量场", LOGLEVAL::ATTEN);
+		vectorDieldDriven_VecField->uiVecField->checkBox_VecF->setEnabled(true);
 	}
 	else
 	{
 		addLog(LogText, "数据不足", LOGLEVAL::WRONG);
 	}
+}
 
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ImportVecField_push()
+{
+	if (model->getNumChildren() != 0)
+	{
+		if (grids.size() != 0)
+		{
+			grids.clear();
+			gridVec->removeChild(0, 1U);
+		}
+		QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*vecf)"));
+		if (!Route.isEmpty())
+		{
+			// 打开文本文件
+			std::ifstream inputFile(Route.toStdString());
+			if (!inputFile)
+			{
+				std::cerr << "Failed to open file." << std::endl;
+			}
+			// 确定文件行数
+			int numLines = 0;
+			std::string line;
+			while (std::getline(inputFile, line)) {
+				++numLines;
+			}
+			// 回到文件开始处
+			inputFile.clear();
+			inputFile.seekg(0, std::ios::beg);
 
+			// 逐行读取数据并保存到矩阵中
+			for (int i = 0; i < numLines; ++i)
+			{
+				double x, y, z, roll, pitch, yaw;
+				inputFile >> x >> y >> z >> roll >> pitch >> yaw;
+				Points points_temp(x, y, z, roll, pitch, yaw, 0);
+				grids.push_back(points_temp);
+			}
+			// 关闭文件
+			inputFile.close();
 
+			CreatVects(grids);
+			osgWidget->getBestView();
+			addLog(LogText, "成功读入向量场", LOGLEVAL::ATTEN);
+			vectorDieldDriven_VecField->uiVecField->checkBox_VecF->setEnabled(true);
+		}
+	}
+	else
+		addLog(LogText, "请先导入三角网格模型", LOGLEVAL::WRONG);
+}
 
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ExprtVecField_push()
+{
+	if (grids.size() != 0)
+	{
+		QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*vecf)"));
+		if (!Route.isEmpty())
+		{
+			std::ofstream outputFile(Route.toStdString());
+			if (!outputFile) {
+				std::cerr << "Failed to open file." << std::endl;
+			}
+
+			// 将数据写入文件
+			for (const auto& array : grids) {
+				outputFile << array.x << " " << array.y << " " << array.z << " "
+					<< array.X << " " << array.Y << " " << array.Z;
+				outputFile << std::endl;
+			}
+
+			// 关闭文件
+			outputFile.close();
+			addLog(LogText, "成功导出向量场", LOGLEVAL::INFO);
+		}
+	}
+	else
+		addLog(LogText, "没有可供导出的向量场", LOGLEVAL::WRONG);
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVecField_push()
+{
+	if (grids.size() != 0)
+	{
+		grids.clear();
+		gridVec->removeChild(0, 1U);
+		addLog(LogText, "清空向量场", LOGLEVAL::INFO);
+		vectorDieldDriven_VecField->uiVecField->checkBox_VecF->setEnabled(false);
+	}
+	else
+		addLog(LogText, "没有生成向量场", LOGLEVAL::WARNNING);
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxAnF_push(int state)
+{
+	if (state == Qt::Checked)
+	{
+		arrow->setNodeMask(1);
+		addLog(LogText, "显示锚向量场", LOGLEVAL::INFO);
+	}
+	if (state == Qt::Unchecked)
+	{
+		arrow->setNodeMask(0);
+		addLog(LogText, "隐藏锚向量场", LOGLEVAL::INFO);
+	}
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxVecF_push(int state)
+{
+	if (state == Qt::Checked)
+	{
+		gridVec->setNodeMask(1);
+		addLog(LogText, "显示向量场", LOGLEVAL::INFO);
+	}
+	if (state == Qt::Unchecked)
+	{
+		gridVec->setNodeMask(0);
+		addLog(LogText, "隐藏向量场", LOGLEVAL::INFO);
+	}
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxTriModel_push(int state)
+{
+	if (state == Qt::Checked)
+	{
+		model->setNodeMask(1);
+		addLog(LogText, "显示三角网格模型", LOGLEVAL::INFO);
+	}
+	if (state == Qt::Unchecked)
+	{
+		model->setNodeMask(0);
+		addLog(LogText, "隐藏三角网格模型", LOGLEVAL::INFO);
+	}
 }

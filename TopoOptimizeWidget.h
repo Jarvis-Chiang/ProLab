@@ -127,7 +127,7 @@ class ArrowShape : public osg::Group//保存箭头的基本数据结构（里边包含了拖拽器）
 {
 public:
 	ArrowShape(osg::Vec3 direction, osg::Vec3 strtPnt);
-	~ArrowShape(void);
+	~ArrowShape(void) {}
 
 	void UpdateDragger(osg::Quat attitude, osg::Vec3 position);
 	void setData(osg::Vec3 position, osg::Quat rotation);
@@ -969,13 +969,19 @@ public slots:
 	void importDesignGridFile();
 
 	void VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push();
-	void VectorDieldDriven_VectorField_on_ImportVectorField_push();
+	void VectorDieldDriven_VectorField_on_ImportCtrlPntsField_push();
 	void VectorDieldDriven_VectorField_on_AddCtrlPnt_push();
-	void VectorDieldDriven_VectorField_on_ExprtVecField_push();
+	void VectorDieldDriven_VectorField_on_ExprtAnchorField_push();
 	void VectorDieldDriven_VectorField_on_ClearMesh_push();
-	void VectorDieldDriven_VectorField_on_ClearVec_push();
+	void VectorDieldDriven_VectorField_on_ClearCtrlPnts_push();
 	void VectorDieldDriven_VectorField_on_VecItem_clicked(QTreeWidgetItem* item, int col);
 	void VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked();
+	void VectorDieldDriven_VectorField_on_ImportVecField_push();
+	void VectorDieldDriven_VectorField_on_ExprtVecField_push();
+	void VectorDieldDriven_VectorField_on_ClearVecField_push();
+	void VectorDieldDriven_VectorField_on_CHeckBoxAnF_push(int state);
+	void VectorDieldDriven_VectorField_on_CHeckBoxVecF_push(int state);
+	void VectorDieldDriven_VectorField_on_CHeckBoxTriModel_push(int state);
 	void on_HavePicked();
 	void on_DragEnd(double x, double y, double z);
 	void on_SurfPicked(double x, double y, double z);
