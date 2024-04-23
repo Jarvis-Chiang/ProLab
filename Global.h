@@ -33,17 +33,12 @@ struct Points {
 
     Points(double _x, double _y, double _z, double _X, double _Y, double _Z, int _p) : x(_x), y(_y), z(_z), X(_X), Y(_Y), Z(_Z), p(_p) {}
 };
+
+static std::vector<Points> grids;//保存向量场数据
 static std::vector <std::array<double, 6>*> vectorField;//锚向量场数据
 static pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);//kdtree点云
 static pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;//kdTree结构
 
-
-
-static std::vector<Points> points;
-static std::vector<Points> anchor;
-
-
-//typedef Eigen::Matrix<double, Eigen::Dynamic, 6> VectorField;
 
 static osg::ref_ptr<osg::Group> root = new osg::Group;//osg窗口显示的所有节点的根节点
 static osg::ref_ptr<osg::Group> arrow = new osg::Group;//osg窗口显示的所有锚点箭头

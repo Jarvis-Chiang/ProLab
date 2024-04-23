@@ -41,7 +41,7 @@
 #include "ui_Finite3D_MaterialProperties.h"
 #include "ui_Finite3D_ResultView.h"
 
-#include "Global.h"
+#include "Interpolation.h"
 
 #include <set>
 #include <vector>
@@ -881,7 +881,7 @@ public:
 
 	osg::ref_ptr<ArrowShape> CreatArrow(osg::ref_ptr<osg::Group> root_t, const osg::Vec3& startPoint, const osg::Vec3& direction);//创建锚向量可视化
 	void CreatPoints(const osg::ref_ptr<osg::Vec3Array>& vertices);//创建节点
-	void CreatVects();//创建向量场向量
+	void CreatVects(const std::vector<Points>& Vecs);//创建向量场向量
 
 	osg::ref_ptr<osg::Vec3Array> readASCIISTL(const std::string& filename);//读取ASII的stl文件顶点
 	osg::ref_ptr<osg::Vec3Array> readBinarySTL(const std::string& filename);//读取二进制stl文件顶点
@@ -949,8 +949,7 @@ private:
 	Finite3D_LoadSet* finite3D_LoadSet;
 	Finite3D_MaterialProperties* finite3D_MaterialProperties;
 	Finite3D_ResultView* finite3D_ResultView;
-
-
+	Interpolation* interpolation;
 
 	void aabbSplit3D(const Point3D& left, const Point3D& right, float resolution, V& vers, C& cells);
 	void aabbSplit2D(const Point2D& left, const Point2D& right, float resolution, V& vers, C& cells);
@@ -976,6 +975,7 @@ public slots:
 	void VectorDieldDriven_VectorField_on_ClearMesh_push();
 	void VectorDieldDriven_VectorField_on_ClearVec_push();
 	void VectorDieldDriven_VectorField_on_VecItem_clicked(QTreeWidgetItem* item, int col);
+	void VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked();
 	void on_HavePicked();
 	void on_DragEnd(double x, double y, double z);
 	void on_SurfPicked(double x, double y, double z);

@@ -205,6 +205,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Interpolation.cpp" />
     <ClCompile Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.cpp" />
     <ClCompile Include="TopoOptimizeWidget.cpp" />
     <ClCompile Include="third_part\ribbon\aboutdialog\aboutdialog.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="mainwindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Interpolation.h" />
     <QtMoc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h" />
     <ClInclude Include="Global.h" />
     <QtMoc Include="TopoOptimizeWidget.h" />

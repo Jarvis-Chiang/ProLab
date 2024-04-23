@@ -52,6 +52,7 @@ TopoOptimizeWidget::TopoOptimizeWidget(QWidget* parent) :
 	finite3D_LoadSet(new Finite3D_LoadSet),
 	finite3D_MaterialProperties(new Finite3D_MaterialProperties),
 	finite3D_ResultView(new Finite3D_ResultView),
+	interpolation(new Interpolation),
 	osgWidget(new OsgWidget(0, Qt::Widget, osgViewer::ViewerBase::SingleThreaded))
 {
 	creatHUD();
@@ -256,6 +257,7 @@ void TopoOptimizeWidget::creatAction()
 	connect(vectorDieldDriven_SurfaceMesh->uiSurfaceMesh->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push);
 	connect(vectorDieldDriven_VecField->uiVecField->pushButton_clear, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVec_push);
 	connect(treeWidget3, &QTreeWidget::itemClicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_VecItem_clicked);
+	connect(vectorDieldDriven_VecField->uiVecField->pushButton_GeneFromCtrlPnt, &QPushButton::clicked, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked);
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
@@ -1609,9 +1611,35 @@ void TopoOptimizeWidget::CreatPoints(const osg::ref_ptr<osg::Vec3Array>& vertice
 	gridVec->addChild(geode);
 }
 
-void TopoOptimizeWidget::CreatVects()
+void TopoOptimizeWidget::CreatVects(const std::vector<Points>& Vecs)
 {
+	osg::ref_ptr<osg::Geometry> vectorGeometry = new osg::Geometry;
+	osg::ref_ptr<osg::Vec3Array> vectors = new osg::Vec3Array();
+	osg::ref_ptr<osg::Vec4Array> vectorColors = new osg::Vec4Array;
+	osg::ref_ptr<osg::Geode> geode = new osg::Geode;
 
+	// 添加点和向量的坐标
+	for (const auto& Vec : Vecs)
+	{
+		// 添加向量的坐标
+		vectors->push_back(osg::Vec3(Vec.x, Vec.y, Vec.z));
+		vectors->push_back(osg::Vec3(Vec.x + Vec.X, Vec.y + Vec.Y, Vec.z + Vec.Z));
+	}
+	vectorGeometry->setVertexArray(vectors);
+	vectorColors->push_back(osg::Vec4(1.0f, 1.0f, 0.0f, 1.0f));
+	vectorGeometry->setColorArray(vectorColors);
+	vectorGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	osg::ref_ptr<osg::DrawArrays> drawArrays = new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vectors->size());
+	// 将DrawArrays对象添加到几何体的绘制列表中
+	vectorGeometry->addPrimitiveSet(drawArrays.get());
+
+	// 设置边的宽度
+	osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth(1.5f);
+	vectorGeometry->getOrCreateStateSet()->setAttributeAndModes(lineWidth.get(), osg::StateAttribute::ON);
+	
+	geode->addDrawable(vectorGeometry);
+	gridVec->addChild(geode);
 }
 
 osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readASCIISTL(const std::string& filename)
@@ -1726,4 +1754,38 @@ osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readSTL(const std::string& file
 	}
 
 	return vertices;
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked()
+{
+	std::vector<Points> anchors;
+	std::vector<Points> grids;
+
+	if (vectorField.size() != 0 && cloud != NULL)
+	{
+		//已知数据存入指定数据结构
+		for (auto vector : vectorField)
+		{
+			Points anchor((*vector)[0], (*vector)[1], (*vector)[2],
+				(*vector)[3], (*vector)[4], (*vector)[5], 1);
+			anchors.push_back(anchor);
+		}
+		for (int i = 0; i < cloud->size(); ++i)
+		{
+			Points grid(cloud->points[i].x, cloud->points[i].y, cloud->points[i].z, 0, 0, 0, 0);
+			grids.push_back(grid);
+		}
+
+		interpolation->diffusionInterpolation(grids, anchors);
+		addLog(LogText, "成功压入", LOGLEVAL::WRONG);
+		CreatVects(grids);
+	}
+	else
+	{
+		addLog(LogText, "数据不足", LOGLEVAL::WRONG);
+	}
+
+
+
+
 }
