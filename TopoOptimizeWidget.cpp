@@ -305,7 +305,7 @@ QWidget* OsgWidget::addViewWidget(osgQt::GraphicsWindowQt* gw)
 
 	const osg::GraphicsContext::Traits* traits = gw->getTraits();
 
-	camera->setClearColor(osg::Vec4(1, 1, 1, 1));
+	camera->setClearColor(osg::Vec4(0.2, 0.2, 0.6, 1));
 	camera->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
 	camera->setProjectionMatrixAsPerspective(30.0f, static_cast<double>(traits->width) / static_cast<double>(traits->height), 1.0f, 10000.0f);
 
@@ -692,10 +692,10 @@ Pos(new QLineEdit)
 	Pos->setText(QString("(%1, %2, %3)")
 		.arg(strtPnt.x()).arg(strtPnt.y()).arg(strtPnt.z()));
 
-	double radius = 0.1;
+	double radius = direction.length()/15;
 	double height = direction.length() * 2;
-	double coneRadius = 0.2;
-	double coneHeight = 0.5;
+	double coneRadius = direction.length()/10;
+	double coneHeight = direction.length()/5;
 
 	osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3(0.0f, 0.0f, height), coneRadius, coneHeight);
 	osg::ref_ptr<osg::ShapeDrawable> coneDrawable = new osg::ShapeDrawable(cone.get());
@@ -1393,41 +1393,64 @@ void TopoOptimizeWidget::addArrow0()
 
 void TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()
 {
-	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", QStringLiteral("textfile(*stl)"));
+	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", tr("inputfiles(*.stl *.inp)"));
 	if (!Route.isEmpty())
 	{
-		osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
-		osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile(Route.toStdString(), option);
-		// 创建材质对象
-		osg::Material* mat = new osg::Material();
-		mat->setColorMode(osg::Material::ColorMode::DIFFUSE);   // 设置绘制颜色的模式 
-		mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0, 1, 1, 1));      // 设置此种模式下的颜色 
-		stl->getOrCreateStateSet()->setAttribute(mat);
-		//添加线框
-		//osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
-		//scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
-		//scribe->addChild(stl);
-		////加载到场景节点
-		//model->addChild(scribe);
-		model->addChild(stl);
-		//绘制STL节点
-		osg::ref_ptr<osg::Vec3Array> vertices = readSTL(Route.toStdString());
-		CreatPoints(vertices);
-		//数据存入kdTree
-		cloud->width = vertices->size();  //此处点云数量
-		cloud->height = 1;                //表示点云为无序点云
-		cloud->points.resize(cloud->width * cloud->height);
-
-		int i = 0;
-
-		for (auto it = vertices->begin(); it != vertices->end(); ++it)
+		if (Route.right(4) == ".stl")
 		{
-			cloud->points[i].x = it->x();
-			cloud->points[i].y = it->y();
-			cloud->points[i].z = it->z();
-			i++;
+			osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
+			osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile(Route.toStdString(), option);
+			// 创建材质对象
+			osg::Material* mat = new osg::Material();
+			mat->setColorMode(osg::Material::ColorMode::DIFFUSE);   // 设置绘制颜色的模式 
+			mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0, 1, 1, 1));      // 设置此种模式下的颜色 
+			stl->getOrCreateStateSet()->setAttribute(mat);
+			//添加线框
+			//osg::ref_ptr<osgFX::Scribe> scribe = new osgFX::Scribe;
+			//scribe->setWireframeColor(osg::Vec4f(0, 0, 0, 1.0));
+			//scribe->addChild(stl);
+			////加载到场景节点
+			//model->addChild(scribe);
+			model->addChild(stl);
+			//绘制STL节点
+			osg::ref_ptr<osg::Vec3Array> vertices = readSTL(Route.toStdString());
+			CreatPoints(vertices);
+			//数据存入kdTree
+			cloud->width = vertices->size();  //此处点云数量
+			cloud->height = 1;                //表示点云为无序点云
+			cloud->points.resize(cloud->width * cloud->height);
+
+			int i = 0;
+
+			for (auto it = vertices->begin(); it != vertices->end(); ++it)
+			{
+				cloud->points[i].x = it->x();
+				cloud->points[i].y = it->y();
+				cloud->points[i].z = it->z();
+				i++;
+			}
+			kdtree.setInputCloud(cloud);
+
+			if (grids.size() != 0)
+				grids.clear();
+			for (int i = 0; i < cloud->size(); ++i)
+			{
+				Points grid(cloud->points[i].x, cloud->points[i].y, cloud->points[i].z, 0, 0, 0, 0);
+				grids.push_back(grid);
+			}
 		}
-		kdtree.setInputCloud(cloud);
+		if (Route.right(4) == ".inp")
+		{
+			addLog(LogText, "开始渲染", LOGLEVAL::INFO);
+			osg::ref_ptr<osg::Node> inp = readINP_C3D4(Route.toStdString());
+			osg::Material* mat = new osg::Material();
+			mat->setColorMode(osg::Material::ColorMode::DIFFUSE);   // 设置绘制颜色的模式 
+			mat->setDiffuse(osg::Material::FRONT, osg::Vec4(0, 1, 1, 1));      // 设置此种模式下的颜色 
+			inp->getOrCreateStateSet()->setAttribute(mat);
+
+			model->addChild(inp);
+		}
+
 
 		//调整摄像机到最合适角度和位置
 		osgWidget->getBestView();
@@ -1663,7 +1686,7 @@ void TopoOptimizeWidget::CreatVects(const std::vector<Points>& Vecs)
 	{
 		// 添加向量的坐标
 		vectors->push_back(osg::Vec3(Vec.x, Vec.y, Vec.z));
-		vectors->push_back(osg::Vec3(Vec.x + Vec.X, Vec.y + Vec.Y, Vec.z + Vec.Z));
+		vectors->push_back(osg::Vec3(Vec.x + Vec.X * 5, Vec.y + Vec.Y * 5, Vec.z + Vec.Z * 5));
 	}
 	vectorGeometry->setVertexArray(vectors);
 	vectorColors->push_back(osg::Vec4(1.0f, 1.0f, 0.0f, 1.0f));
@@ -1798,14 +1821,11 @@ osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readSTL(const std::string& file
 
 void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_clicked()
 {
-	if (grids.size() != 0)
-	{
-		grids.clear();
+	if (gridVec->getNumChildren() != 0)
 		gridVec->removeChild(0, 1U);
-	}
 	std::vector<Points> anchors;
 
-	if (vectorField.size() != 0 && cloud != NULL)
+	if (vectorField.size() != 0 && grids.size() != 0)
 	{
 		//已知数据存入指定数据结构
 		for (auto vector : vectorField)
@@ -1813,11 +1833,6 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_GenerateFromCtrlPnts_c
 			Points anchor((*vector)[0], (*vector)[1], (*vector)[2],
 				(*vector)[3], (*vector)[4], (*vector)[5], 1);
 			anchors.push_back(anchor);
-		}
-		for (int i = 0; i < cloud->size(); ++i)
-		{
-			Points grid(cloud->points[i].x, cloud->points[i].y, cloud->points[i].z, 0, 0, 0, 0);
-			grids.push_back(grid);
 		}
 
 		interpolation->diffusionInterpolation(grids, anchors);
@@ -1961,4 +1976,179 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxTriModel_push(
 		model->setNodeMask(0);
 		addLog(LogText, "隐藏三角网格模型", LOGLEVAL::INFO);
 	}
+}
+
+osg::ref_ptr<osg::Node> TopoOptimizeWidget::readINP_C3D4(const std::string& filename)
+{
+	std::ifstream inputFile(filename);
+	std::string line;
+	std::vector<osg::Vec3> vertexPoints;// 存储顶点信息
+
+	int a = 0;
+	int b = 0;
+
+	std::vector<Eigen::Vector4i> tetrahedraIndices;
+
+	while (getline(inputFile, line))
+	{
+		std::istringstream iss(line);
+		std::string keyword;
+
+		iss >> keyword;
+
+		for (auto it = line.begin(); it != line.end(); ++it)
+		{
+			if (*it == ',')
+			{
+				line.erase(it);
+				--it;
+			}
+		}
+		if (keyword == "*NODE")
+			a = 1;
+		if (keyword == "**HWCOLOR")
+			b = 1;
+		if (keyword == "*ELEMENT,")
+			a = 2;
+
+		if (a == 1 && b != 1 && keyword != "*NODE")
+		{
+			std::istringstream issVertex(line);
+			int vertexId;
+			double x, y, z;
+			issVertex >> vertexId >> x >> y >> z;
+			if (vertexId >= vertexPoints.size())
+			{
+				vertexPoints.resize(vertexId + 1);
+				//vertices.resize(vertexId + 1);
+			}
+			vertexPoints[vertexId] = osg::Vec3(x, y, z);
+		}
+		else if (a == 2 && line != "*****" && keyword != "*ELEMENT,")
+		{
+			std::istringstream issElement(line);
+			int elementId;
+			int node1, node2, node3, node4;
+			issElement >> elementId >> node1 >> node2 >> node3 >> node4;
+			Eigen::Vector4i indices;
+			indices << node1, node2, node3, node4;
+			tetrahedraIndices.push_back(indices);
+
+
+		}
+	}
+
+	//Libigl生成外表面索引F
+	Eigen::MatrixXi T(tetrahedraIndices.size(), 4);
+	Eigen::MatrixXi F; // 输出的边界面
+	for (int i = 0; i < tetrahedraIndices.size(); i++)
+	{
+		T.row(i) = tetrahedraIndices[i];
+	}
+	igl::boundary_facets(T, F);
+	//std::cout << "Number of extracted all tetrahedrons: " << T.rows() << std::endl;
+	//std::cout << "Number of extracted outer faces: " << F.rows() << std::endl;
+
+	//获取V
+	Eigen::MatrixXd V(vertexPoints.size(), 3);
+	for (int i = 0; i < vertexPoints.size(); i++)
+	{
+		auto point = vertexPoints[i];
+		V(i, 0) = point.x();
+		V(i, 1) = point.y();
+		V(i, 2) = point.z();
+	}
+
+	// 3. 提取外表面的顶点坐标V_boundary和更新面索引F_boundary
+	Eigen::MatrixXd V_boundary(V.rows(), 3);
+	Eigen::MatrixXi F_boundary(F.rows(), 3);
+	std::vector<int> boundary_vertex_indices(V.rows(), -1); // 初始化为-1，用于标记未被提取的顶点
+	int vertex_count = 0;
+	for (int i = 0; i < F.rows(); i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			int vertex_index = F(i, j);
+			if (boundary_vertex_indices[vertex_index] == -1)
+			{
+				boundary_vertex_indices[vertex_index] = vertex_count;
+				V_boundary.row(vertex_count) = V.row(vertex_index);
+				vertex_count++;
+			}
+			F_boundary(i, j) = boundary_vertex_indices[vertex_index];
+		}
+	}
+	V_boundary.conservativeResize(vertex_count, 3); // 调整V_boundary的大小
+
+	Eigen::MatrixXd N_faces;
+	igl::per_face_normals(V_boundary, F_boundary, N_faces);
+
+	//存入点云便于鼠标点最近邻搜索
+	cloud->width = V_boundary.rows();  //此处点云数量
+	cloud->height = 1;                //表示点云为无序点云
+	cloud->points.resize(cloud->width * cloud->height);
+
+	int i = 0;
+
+	for (int i = 0; i < V_boundary.rows(); ++i)
+	{
+		cloud->points[i].x = V_boundary(i, 0);
+		cloud->points[i].y = V_boundary(i, 1);
+		cloud->points[i].z = V_boundary(i, 2);
+	}
+	kdtree.setInputCloud(cloud);
+
+	//输出2进制stl文件
+	std::ofstream fout;
+	fout.open("./temp/inp2stlbinary_temp.stl", std::ios::out | std::ios::binary);
+	char buf[80];
+	for (int i = 0; i < 80; i++)
+		buf[i] = '\0';
+	fout.write((char*)&buf, sizeof(buf));
+	int num = F_boundary.rows();
+	fout.write((char*)&num, sizeof(num));
+	for (int i = 0; i < F_boundary.rows(); ++i)
+	{
+		float x_n, y_n, z_n;
+		x_n = N_faces(i, 0);
+		y_n = N_faces(i, 1);
+		z_n = N_faces(i, 2);
+		fout.write((char*)&x_n, sizeof(x_n));
+		fout.write((char*)&y_n, sizeof(y_n));
+		fout.write((char*)&z_n, sizeof(z_n));
+
+		for (int j = 2; j >= 0; --j)
+		{
+			float x, y, z;
+			x = V_boundary(F_boundary(i, j), 0);
+			y = V_boundary(F_boundary(i, j), 1);
+			z = V_boundary(F_boundary(i, j), 2);
+			fout.write((char*)&x, sizeof(x));
+			fout.write((char*)&y, sizeof(y));
+			fout.write((char*)&z, sizeof(z));
+		}
+
+		char tem[2];
+		tem[0] = '\0'; tem[1] = '\0';
+		fout.write((char*)&tem, sizeof(tem));
+	}
+	fout.close();
+
+	//读取二进制stl
+	osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
+	osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile("./temp/inp2stlbinary_temp.stl", option);
+
+	//显示内部所有点
+	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+	for (auto it = vertexPoints.begin() + 1; it != vertexPoints.end(); ++it)
+		vertices->push_back(*it);
+	CreatPoints(vertices);
+
+	for (int i = 0; i < vertices->size(); ++i)
+	{
+		Points grid((*vertices)[i].x(), (*vertices)[i].y(), (*vertices)[i].z(), 0, 0, 0, 0);
+		grids.push_back(grid);
+	}
+
+	return stl;
 }

@@ -46,6 +46,11 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+
+#include <igl/boundary_facets.h>
+#include <igl/per_vertex_normals.h>
 
 #include <QWidget>
 #include <QStackedWidget>
@@ -99,7 +104,6 @@
 
 #include <osgQt/GraphicsWindowQt>
 
-#include <iostream>
 
 #include "Global.h"
 
@@ -887,6 +891,7 @@ public:
 	osg::ref_ptr<osg::Vec3Array> readBinarySTL(const std::string& filename);//读取二进制stl文件顶点
 	osg::ref_ptr<osg::Vec3Array> readSTL(const std::string& filename);// 自动判断文件类型并读取对应类型的 STL 文件
 
+	osg::ref_ptr<osg::Node> readINP_C3D4(const std::string& filename);
 
 public:
 	QStackedWidget* oprStackWidget; //右侧操作栏堆栈窗口

@@ -17,7 +17,7 @@
 // Instead of:
 //     #include <OpenGL/gl3.h>
 // or
-//     #include <GL/gl.h>
+     //#include <GL/gl.h>
 //
 
 #include <glad/gl.h>

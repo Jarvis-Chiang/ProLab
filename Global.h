@@ -36,8 +36,8 @@ struct Points {
 
 static std::vector<Points> grids;//保存向量场数据
 static std::vector <std::array<double, 6>*> vectorField;//锚向量场数据
-static pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);//kdtree点云
-static pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;//kdTree结构
+static pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);//表面kdtree点云
+static pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;//表面kdTree结构
 
 
 static osg::ref_ptr<osg::Group> root = new osg::Group;//osg窗口显示的所有节点的根节点
