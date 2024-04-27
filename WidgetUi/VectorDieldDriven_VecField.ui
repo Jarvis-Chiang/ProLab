@@ -29,7 +29,7 @@
    </item>
    <item>
     <widget class="QWidget" name="widget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
@@ -208,6 +208,28 @@
            </property>
            <property name="checked">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="title">
+         <string>向量场粗细调整</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QSlider" name="horizontalSlider">
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="sliderPosition">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>

@@ -376,6 +376,9 @@ public:
 				}
 				m_ctrlKeyPressed = true;
 			}
+
+			if ((ea.getKey() == 'B') || ea.getKey() == 'b')
+				emit getBestView();
 			break;
 
 		case osgGA::GUIEventAdapter::KEYUP:
@@ -402,6 +405,7 @@ signals:
 	void HavePicked();
 	void DragEnd(double x, double y, double z);
 	void SurfPicked(double x, double y, double z);
+	void getBestView();
 };
 
 class OsgWidget : public QWidget, public osgViewer::CompositeViewer
@@ -987,6 +991,7 @@ public slots:
 	void VectorDieldDriven_VectorField_on_CHeckBoxAnF_push(int state);
 	void VectorDieldDriven_VectorField_on_CHeckBoxVecF_push(int state);
 	void VectorDieldDriven_VectorField_on_CHeckBoxTriModel_push(int state);
+	void VectorDieldDriven_VectorField_on_Slider_changed(int val);
 	void on_HavePicked();
 	void on_DragEnd(double x, double y, double z);
 	void on_SurfPicked(double x, double y, double z);

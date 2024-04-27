@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -28,7 +29,7 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
     QWidget *widget;
-    QVBoxLayout *verticalLayout_5;
+    QVBoxLayout *verticalLayout_6;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout;
     QRadioButton *radioButton;
@@ -52,6 +53,9 @@ public:
     QCheckBox *checkBox_TriModel;
     QCheckBox *checkBox_AnF;
     QCheckBox *checkBox_VecF;
+    QGroupBox *groupBox_6;
+    QVBoxLayout *verticalLayout_5;
+    QSlider *horizontalSlider;
     QSpacerItem *verticalSpacer;
     QSpacerItem *horizontalSpacer_2;
 
@@ -68,8 +72,8 @@ public:
 
         widget = new QWidget(VectorDieldDriven_VecField);
         widget->setObjectName(QString::fromUtf8("widget"));
-        verticalLayout_5 = new QVBoxLayout(widget);
-        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        verticalLayout_6 = new QVBoxLayout(widget);
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
         groupBox_2 = new QGroupBox(widget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         verticalLayout = new QVBoxLayout(groupBox_2);
@@ -87,7 +91,7 @@ public:
         verticalLayout->addWidget(pushButton_ImportVecField);
 
 
-        verticalLayout_5->addWidget(groupBox_2);
+        verticalLayout_6->addWidget(groupBox_2);
 
         groupBox = new QGroupBox(widget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
@@ -144,7 +148,7 @@ public:
         verticalLayout_3->addWidget(pushButton_ExprtVecField);
 
 
-        verticalLayout_5->addWidget(groupBox);
+        verticalLayout_6->addWidget(groupBox);
 
         groupBox_4 = new QGroupBox(widget);
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
@@ -156,7 +160,7 @@ public:
         horizontalLayout->addWidget(pushButton_ClearVecField);
 
 
-        verticalLayout_5->addWidget(groupBox_4);
+        verticalLayout_6->addWidget(groupBox_4);
 
         groupBox_5 = new QGroupBox(widget);
         groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
@@ -184,11 +188,26 @@ public:
         verticalLayout_4->addWidget(checkBox_VecF);
 
 
-        verticalLayout_5->addWidget(groupBox_5);
+        verticalLayout_6->addWidget(groupBox_5);
+
+        groupBox_6 = new QGroupBox(widget);
+        groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
+        verticalLayout_5 = new QVBoxLayout(groupBox_6);
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        horizontalSlider = new QSlider(groupBox_6);
+        horizontalSlider->setObjectName(QString::fromUtf8("horizontalSlider"));
+        horizontalSlider->setMaximum(100);
+        horizontalSlider->setSliderPosition(0);
+        horizontalSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout_5->addWidget(horizontalSlider);
+
+
+        verticalLayout_6->addWidget(groupBox_6);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout_5->addItem(verticalSpacer);
+        verticalLayout_6->addItem(verticalSpacer);
 
 
         horizontalLayout_2->addWidget(widget);
@@ -238,6 +257,7 @@ public:
         checkBox_TriModel->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\344\270\211\350\247\222\347\275\221\346\240\274\346\250\241\345\236\213", nullptr));
         checkBox_AnF->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\351\224\232\345\220\221\351\207\217\345\234\272", nullptr));
         checkBox_VecF->setText(QCoreApplication::translate("VectorDieldDriven_VecField", "\345\220\221\351\207\217\345\234\272", nullptr));
+        groupBox_6->setTitle(QCoreApplication::translate("VectorDieldDriven_VecField", "\345\220\221\351\207\217\345\234\272\347\262\227\347\273\206\350\260\203\346\225\264", nullptr));
     } // retranslateUi
 
 };

@@ -264,15 +264,17 @@ void TopoOptimizeWidget::creatAction()
 	connect(vectorDieldDriven_VecField->uiVecField->checkBox_AnF, &QCheckBox::stateChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxAnF_push);
 	connect(vectorDieldDriven_VecField->uiVecField->checkBox_VecF, &QCheckBox::stateChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxVecF_push);
 	connect(vectorDieldDriven_VecField->uiVecField->checkBox_TriModel, &QCheckBox::stateChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_CHeckBoxTriModel_push);
+	connect(vectorDieldDriven_VecField->uiVecField->horizontalSlider, &QSlider::valueChanged, this, &TopoOptimizeWidget::VectorDieldDriven_VectorField_on_Slider_changed);
 
 	connect(designZone_3D->uiDesignZone_3d->generateButton, SIGNAL(clicked()), this, SLOT(generate3dDesignZone()));
 	connect(designZoneWidget->uiDesignZone->generateButton, SIGNAL(clicked()), this, SLOT(generate2dDesignZone()));
 	connect(loadSet_3D->uiLoadSet_3D->pushButton_add, SIGNAL(clicked()), this, SLOT(addArrow0()));
 
-	//测试qt和osg联动
+	//qt和osg联动
 	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::HavePicked, this, &TopoOptimizeWidget::on_HavePicked);
 	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::DragEnd, this, &TopoOptimizeWidget::on_DragEnd);
 	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::SurfPicked, this, &TopoOptimizeWidget::on_SurfPicked);
+	connect(osgWidget->addLinePointHandler, &AddLinePointHandler::getBestView, [=]() { osgWidget->getBestView(); });
 
 	//TreWidgetItem信号槽
 }
@@ -1614,6 +1616,7 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearMesh_push()
 	else
 	{
 		addLog(LogText, "清空三角网格", LOGLEVAL::INFO);
+		grids.clear();
 		model->removeChildren(0, model->getNumChildren());
 		vectorDieldDriven_VecField->uiVecField->checkBox_TriModel->setEnabled(false);
 	}
@@ -1686,7 +1689,7 @@ void TopoOptimizeWidget::CreatVects(const std::vector<Points>& Vecs)
 	{
 		// 添加向量的坐标
 		vectors->push_back(osg::Vec3(Vec.x, Vec.y, Vec.z));
-		vectors->push_back(osg::Vec3(Vec.x + Vec.X * 5, Vec.y + Vec.Y * 5, Vec.z + Vec.Z * 5));
+		vectors->push_back(osg::Vec3(Vec.x + Vec.X * 3, Vec.y + Vec.Y * 3, Vec.z + Vec.Z * 3));
 	}
 	vectorGeometry->setVertexArray(vectors);
 	vectorColors->push_back(osg::Vec4(1.0f, 1.0f, 0.0f, 1.0f));
@@ -1698,8 +1701,10 @@ void TopoOptimizeWidget::CreatVects(const std::vector<Points>& Vecs)
 	vectorGeometry->addPrimitiveSet(drawArrays.get());
 
 	// 设置边的宽度
-	osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth(1.5f);
+	osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth(0.05f);
+	
 	vectorGeometry->getOrCreateStateSet()->setAttributeAndModes(lineWidth.get(), osg::StateAttribute::ON);
+	//vectorDieldDriven_VecField->uiVecField->horizontalSlider->setValue(4);
 	
 	geode->addDrawable(vectorGeometry);
 	gridVec->addChild(geode);
@@ -1927,7 +1932,6 @@ void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_ClearVecField_push()
 {
 	if (grids.size() != 0)
 	{
-		grids.clear();
 		gridVec->removeChild(0, 1U);
 		addLog(LogText, "清空向量场", LOGLEVAL::INFO);
 		vectorDieldDriven_VecField->uiVecField->checkBox_VecF->setEnabled(false);
@@ -2144,6 +2148,9 @@ osg::ref_ptr<osg::Node> TopoOptimizeWidget::readINP_C3D4(const std::string& file
 		vertices->push_back(*it);
 	CreatPoints(vertices);
 
+	if (grids.size() != 0)
+		grids.clear();
+
 	for (int i = 0; i < vertices->size(); ++i)
 	{
 		Points grid((*vertices)[i].x(), (*vertices)[i].y(), (*vertices)[i].z(), 0, 0, 0, 0);
@@ -2151,4 +2158,11 @@ osg::ref_ptr<osg::Node> TopoOptimizeWidget::readINP_C3D4(const std::string& file
 	}
 
 	return stl;
+}
+
+void TopoOptimizeWidget::VectorDieldDriven_VectorField_on_Slider_changed(int val)
+{
+	float step = 0.05;
+	osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth(val * step);
+	gridVec->getChild(0)->getOrCreateStateSet()->setAttributeAndModes(lineWidth.get(), osg::StateAttribute::ON);
 }
