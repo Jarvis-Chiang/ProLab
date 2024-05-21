@@ -144,9 +144,9 @@ void TopoOptimizeWidget :: init()
 	treeWidget2->expandAll();
 
 	//左侧树状结构窗口2（方向场驱动路径）
-	treeWidget3->setColumnCount(3); //设置列数
+	treeWidget3->setColumnCount(2); //设置列数
 	QStringList strlist;
-	strlist << "项目"  << "位置数据" << "姿态数据";
+	strlist << "项目"  << "位置数据" /*<< "姿态数据"*/;
 	treeWidget3->setHeaderLabels(strlist);
 	treeWidget3->header()->setSectionResizeMode(QHeaderView::Stretch);
 	treeWidget3->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
@@ -1319,6 +1319,7 @@ void TopoOptimizeWidget::generate3dDesignZone()
 		osg::ref_ptr<osg::LineWidth> lineWid = new osg::LineWidth(4.0f);
 		state->setAttribute(lineWid.get());
 		model->addChild(group);
+
 		//显示自适应模型大小
 		osgWidget->view->getCameraManipulator()->computeHomePosition();
 		osgWidget->view->getCameraManipulator()->home(0.0);
@@ -1398,7 +1399,7 @@ void TopoOptimizeWidget::VectorDieldDriven_SurfaceMesh_on_ImportTriMesh_push()
 	QString Route = QFileDialog::getOpenFileName(this, QStringLiteral("Please Select File"), "D:", tr("inputfiles(*.stl *.inp)"));
 	if (!Route.isEmpty())
 	{
-		if (Route.right(4) == ".stl")
+		if (Route.right(4) == ".stl" || Route.right(4) == ".STL")
 		{
 			osgDB::Options* option = new osgDB::Options(std::string("noTriStripPolygons"));
 			osg::ref_ptr<osg::Node> stl = osgDB::readNodeFile(Route.toStdString(), option);
@@ -1799,27 +1800,29 @@ osg::ref_ptr<osg::Vec3Array> TopoOptimizeWidget::readSTL(const std::string& file
 	std::array<char, 80> header;
 	file.read(header.data(), header.size());
 
-	// 判断文件类型
-	bool isBinary = true;
-	for (char ch : header) {
-		if (ch == '\0') {
-			continue;
-		}
-		if (!std::isprint(ch)) {
-			isBinary = true;
-			break;
-		}
-	}
+	//// 判断文件类型
+	//bool isBinary = true;
+	//for (char ch : header) {
+	//	if (ch == '\0') {
+	//		continue;
+	//	}
+	//	if (!std::isprint(ch)) {
+	//		isBinary = true;
+	//		break;
+	//	}
+	//}
 
 	file.close();
 
 	// 根据判断的文件类型读取文件
-	if (isBinary) {
-		vertices = readBinarySTL(filename);
-	}
-	else {
-		vertices = readASCIISTL(filename);
-	}
+	//if (isBinary) {
+	//	vertices = readBinarySTL(filename);
+	//}
+	//else {
+	//	vertices = readASCIISTL(filename);
+	//}
+	//vertices = readBinarySTL(filename);
+	vertices = readASCIISTL(filename);
 
 	return vertices;
 }
