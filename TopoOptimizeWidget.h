@@ -211,195 +211,14 @@ public:
 		return distance_v1 < distance_v2;
 	}
 
-	osg::Vec3 getSurfPoint(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer)
-	{
-		//获得model节点下的模型表面点
-		osgUtil::LineSegmentIntersector::Intersections intersections;
-		std::vector<osg::Vec3> pointsToChoose;//用来保存model上的所有点
-		viewer->getCamera()->getViewMatrixAsLookAt(position, center_1, up);
+	osg::Vec3 getSurfPoint(float x, float y, osg::ref_ptr<osgViewer::Viewer> viewer);
 
-		if (viewer->computeIntersections(x, y, intersections))//有选中物体
-		{
-			for (osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
-				hitr != intersections.end();
-				++hitr)//遍历和所有节点的所有交点
-			{
-				osg::NodePath getNodePath = hitr->nodePath;
-				for (int i = getNodePath.size() - 1; i >= 0; --i)//遍历节点路径，当是model上点 isModel = true 否则 isModel = false；
-				{
-					if (getNodePath[i] == model)
-					{
-						isModel = true;
-						break;
-					}
-				}
-				if (isModel)
-				{
-					float x_Point = float(hitr->getWorldIntersectPoint().x());
-					float y_Point = float(hitr->getWorldIntersectPoint().y());
-					float z_Point = float(hitr->getWorldIntersectPoint().z());
+	void pick(float x, float y, osg::ref_ptr<osgViewer::Viewer> view);
 
-					pointsToChoose.push_back(osg::Vec3(x_Point, y_Point, z_Point));
+	void removeTraceBallTracker();
 
-				}
-				isModel = false;
-			}
-			if (pointsToChoose.empty())//如果所有的交点全不是model上的
-				return osg::Vec3(0, 0, 0);
-			else
-			{
-				std::sort(pointsToChoose.begin(), pointsToChoose.end(), cmp);
-				/*return pointsToChoose[0];*/
-				pcl::PointXYZ searchPoint;
-				searchPoint.x = pointsToChoose[0].x();
-				searchPoint.y = pointsToChoose[0].y();
-				searchPoint.z = pointsToChoose[0].z();
-				std::vector<int> pointIdxNKNSearch(1);      //存储查询点近邻索引
-				std::vector<float> pointNKNSquaredDistance(1); //存储近邻点对应距离平方
-				if (kdtree.nearestKSearch(searchPoint, 1, pointIdxNKNSearch, pointNKNSquaredDistance) > 0)  //执行K近邻搜索
-				{
-					return osg::Vec3(cloud->points[pointIdxNKNSearch[0]].x,
-						cloud->points[pointIdxNKNSearch[0]].y,
-						cloud->points[pointIdxNKNSearch[0]].z);
-				}
-			}
-		}
-		else
-			return osg::Vec3(0, 0, 0);
-	}
+	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 
-
-	void pick(float x, float y, osg::ref_ptr<osgViewer::Viewer> view)
-	{
-
-		osgUtil::LineSegmentIntersector::Intersections intersections;
-
-		if (view->computeIntersections(x, y, intersections))
-		{
-			osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
-			osg::NodePath getNodePath = hitr->nodePath;
-			for (int i = getNodePath.size() - 1; i >= 0; --i)
-			{
-				osg::PositionAttitudeTransform* mt = dynamic_cast<osg::PositionAttitudeTransform*>(getNodePath[i]);
-
-				if (mt == NULL)
-					continue;
-				else
-				{
-					PickedObject = true;
-					picked = mt;
-					osg::Node* grandParent = picked->getParent(0)->getParent(0);
-					arrowShape = dynamic_cast<ArrowShape*> (grandParent);
-					arrowShape->EnableHighLight();
-					startPoint = mt->getPosition();
-					emit HavePicked();
-				}
-
-			}
-		}
-		else
-		{
-			PickedObject = false;
-		}
-
-	}
-
-	void removeTraceBallTracker()
-	{
-		FindDelNodeVisitor delVisitor;
-		picked->accept(delVisitor);
-		picked->setAttitude(rotation_Global);
-		arrowShape->setData(picked->getPosition(), rotation_Global);
-	}
-
-	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
-	{
-		//获取要响应的viewer
-		osg::ref_ptr<osgViewer::Viewer> viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
-
-		if (viewer == NULL)
-			return false;
-
-		//判断事件类型
-		switch (ea.getEventType())
-		{
-		case osgGA::GUIEventAdapter::DOUBLECLICK://双击鼠标添加顶点
-			if (ea.getButton() == 1)
-			{
-
-				//创建一个线段交集检测对象
-				float x = ea.getX();
-				float y = ea.getY();
-				pick(x, y, viewer);
-				startPoint = getSurfPoint(x, y, viewer);
-				emit SurfPicked(startPoint.x(), startPoint.y(), startPoint.z());
-			}
-			break;
-
-		case osgGA::GUIEventAdapter::PUSH://单机鼠标选中拖动物体
-			if (ea.getButton() == 1)
-			{
-				float x = ea.getX();
-				float y = ea.getY();
-				pick(x, y, viewer);
-			}
-			break;
-
-		case osgGA::GUIEventAdapter::DRAG://拖动物体移动
-			if (PickedObject)//如果选中物体进行了拖动
-			{
-				float x = ea.getX();
-				float y = ea.getY();
-				osg::Vec3 lastPoint = getSurfPoint(x, y, viewer);
-				picked->setPosition(lastPoint);
-				arrowShape->UpdateDragger(picked->getAttitude(), lastPoint);
-				arrowShape->setData(lastPoint, picked->getAttitude());
-				emit DragEnd(lastPoint.x(), lastPoint.y(), lastPoint.z());
-				return true;//表示使用自定的事件处理器进行了处理，无需使用默认事件处理器进行处理了
-			}
-			else
-				break;
-
-		case osgGA::GUIEventAdapter::RELEASE:
-			PickedObject = false;
-			
-			break;
-
-		case osgGA::GUIEventAdapter::KEYDOWN:
-			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
-				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被按下
-			{
-				if (arrowShape != NULL)
-				{
-					rotation_Global = picked->getAttitude();
-					arrowShape->EnableDragger();
-				}
-				m_ctrlKeyPressed = true;
-			}
-
-			if ((ea.getKey() == 'B') || ea.getKey() == 'b')
-				emit getBestView();
-			break;
-
-		case osgGA::GUIEventAdapter::KEYUP:
-			if ((osgGA::GUIEventAdapter::KEY_Control_L == ea.getKey())
-				|| (osgGA::GUIEventAdapter::KEY_Control_R == ea.getKey())) // Ctrl键被释放
-			{
-				if (arrowShape != NULL)
-				{
-					removeTraceBallTracker();
-					arrowShape->DisableDragger();
-				}
-				m_ctrlKeyPressed = false;
-			}
-			break;
-
-		default:
-			break;
-		}
-
-		return false;
-	}
 
 signals:
 	void HavePicked();
@@ -883,7 +702,7 @@ public:
 
 	void init();
 	void creatAction();
-	osg::ref_ptr<osg::Geode> makeCoordinate();
+	osg::ref_ptr<osg::Node> makeCoordinate();
 	void creatHUD();
 
 
