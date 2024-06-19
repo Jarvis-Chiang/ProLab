@@ -14,7 +14,17 @@ include($$QTITANDIR\src\shared\qtitanribbon.pri)
 #Osg库的路径
 OSGDIR = $$PWD\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug
 
-INCLUDEPATH += $$OSGDIR/include
+#PCL库的路径
+PCLDIR = $$PWD\third_part\PCL
+
+#FORM文件的路径
+FORMDIR = $$PWD\WidgetUi
+
+INCLUDEPATH += $$PWD\third_part\OpenSceneGraph-3.6.5-VC2019-64-Debug\include
+INCLUDEPATH += $$PWD\third_part\libigl\libigl-src
+INCLUDEPATH +=  $$PWD\third_part\eigen3
+INCLUDEPATH += $$PWD\third_part\PCL\include
+
 LIBS += -L$$OSGDIR/lib \ 
     -losgd \
     -losgDBd \
@@ -22,31 +32,28 @@ LIBS += -L$$OSGDIR/lib \
     -losgQt5d \
     -losgViewerd \
     -losgUtild\
+    -losgManipulatord\
+    -losgFXd
+
+LIBS += -L$$PCLDIR/lib \
+	-lpcl_kdtreed
 
 DESTDIR = $$quote($$PWD\build\Debug)
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    TopoOptimizeWidget.cpp
+    TopoOptimizeWidget.cpp\
+    Interpolation.cpp
 
 HEADERS += \
     mainwindow.h \
     TopoOptimizeWidget.h\
-    Global.h 
+    Global.h \
+    Interpolation.h
 
-FORMS += \
-    mainwindow.ui \
-    BoundaryCasesWidget.ui \
-    BoundaryCasesWidget_3D.ui \
-    DesignZoneWidget _3D.ui \
-    DesignZoneWidget.ui \
-    LoadSetWidget.ui \
-    LoadSetWidget_3D.ui \
-    MaterialSetWidget.ui \
-    OptimizeParaWidget.ui \
-    OptimizeParaWidget_3D.ui \
-    ResultCheckWidget.ui 
+FORMS += $$files($$FORMDIR/*.ui)
+
 
 #RESOURCES += res.qrc
 

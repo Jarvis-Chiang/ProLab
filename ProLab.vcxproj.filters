@@ -50,6 +50,9 @@
     <ClCompile Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interpolation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="TopoOptimizeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,14 +65,17 @@
     <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Interpolation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="third_part\ribbon\DemoRibbonWindow\DemoRibbonWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpolation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <QtMoc Include="TopoOptimizeWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -89,9 +95,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="mainwindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="WidgetUi\BoundaryCasesWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -102,75 +105,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="WidgetUi\DesignZoneWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\LoadSetWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\LoadSetWidget_3D.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\MaterialSetWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\OptimizeParaWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\OptimizeParaWidget_3D.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\ResultCheckWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VectorDieldDriven_SurfaceMesh.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VectorDieldDriven_VecField.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VectorDieldDriven_PathPara.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\OffsetPath_SurfaceMesh.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\OffsetPath_PathPara.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\GradientFilling_SurfaceMesh.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\GradientFilling_PathPara.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\RefSurfBasedSlice_ModMesh.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\RefSurfBasedSlice_PrinZone.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\RefSurfBasedSlice_RefPlane.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\RefSurfBasedSlice_SurfSlice.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\RefSurfBasedSlice_PathPlan.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VecFieldBasedSlice_ModMesh.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VecFieldBasedSlice_PrinZone.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VecFieldBasedSlice_VecField.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VecFieldBasedSlice_SurfSlice.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="WidgetUi\VecFieldBasedSlice_PathPlan.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="WidgetUi\Finite2D_BoundaryCondition.ui">
@@ -207,6 +141,75 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="WidgetUi\Finite3D_ResultView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\GradientFilling_PathPara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\GradientFilling_SurfaceMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\LoadSetWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\LoadSetWidget_3D.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\MaterialSetWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OffsetPath_PathPara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OffsetPath_SurfaceMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OptimizeParaWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\OptimizeParaWidget_3D.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_ModMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_PathPlan.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_PrinZone.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_RefPlane.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\RefSurfBasedSlice_SurfSlice.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\ResultCheckWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_ModMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_PathPlan.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_PrinZone.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_SurfSlice.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VecFieldBasedSlice_VecField.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_PathPara.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_SurfaceMesh.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="WidgetUi\VectorDieldDriven_VecField.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -295,13 +298,5 @@
     <None Include="third_part\ribbon\DemoRibbonWindow\res\your_company_logo.png">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Interpolation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
